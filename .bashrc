@@ -196,5 +196,3 @@
 # }
 # 
 # alias cd=cd_func
-PATH=${PATH}:/usr/local/bin ; export PATH
-MANPATH=${MANPATH:-}:/usr/local/man ; export MANPATH
