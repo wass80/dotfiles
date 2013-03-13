@@ -37,6 +37,13 @@ NeoBundle "thinca/vim-quickrun"
                 \}
     map <F5> <Plug>(quickrun)
 NeoBundle "osyo-manga/shabadou.vim"
+"RSpec
+let g:quickrun_config['ruby.rspec'] = { 'command': 'rspec' }
+augroup UjihisaRSpec
+    autocmd!
+    autocmd BufWinEnter,BufNewFile *_rspec.rb set filetype=ruby.rspec
+    autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
+augroup END
 
 "run at ideone
 NeoBundle "mattn/webapi-vim"
