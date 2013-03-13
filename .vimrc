@@ -89,7 +89,6 @@ NeoBundle 'taichouchou2/vim-endwise.git'
 NeoBundle 'tpope/vim-fugitive'
 "unite git
 NeoBundle 'kmnk/vim-unite-giti'
-    let g:gist_private = "-a"
 
 "file buffer ...etc
 NeoBundle "Shougo/unite.vim"
