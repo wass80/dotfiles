@@ -188,7 +188,8 @@ set viminfo+=n~/.tmp
 """"display
 "use desert
 colorscheme hybrid
-
+"lisp rainbow parents
+let lisp_rainbow=1
 "line number
 set number
 "slash of pass
