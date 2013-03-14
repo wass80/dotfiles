@@ -180,6 +180,10 @@ set nrformats-=octal
 set helplang=ja,en
 "edit many buffer
 set hidden
+"backup directory
+set directory=~/.tmp
+set backupdir=~/.tmp
+set viminfo+=n~/.tmp
 
 """"display
 "use desert
