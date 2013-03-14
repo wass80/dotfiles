@@ -171,7 +171,6 @@ set expandtab
 set shiftwidth=4
 "no comment at new line
 autocmd! CursorMoved,CursorMoved * setlocal formatoptions-=ro
-
 "change search in UpperCase
 set ignorecase
 set smartcase
