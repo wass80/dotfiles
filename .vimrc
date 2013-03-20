@@ -148,9 +148,8 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle "Shougo/vimshell"
 "file tree
 NeoBundle "Shougo/vimfiler"
-"reference
+"reference K:search
 NeoBundle "thinca/vim-ref"
-    "K search
 "outline create
 NeoBundle "h1mesuke/unite-outline"
 
