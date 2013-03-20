@@ -50,6 +50,7 @@ NeoBundle "mattn/webapi-vim"
 NeoBundle "mattn/ideone-vim"
 "undo tree
 NeoBundle "sjl/gundo.vim"
+
 "completion
 NeoBundle "Shougo/neocomplcache"
 NeoBundle "Shougo/neosnippet"
@@ -75,7 +76,13 @@ NeoBundle "Shougo/neosnippet"
     " <CR>: close popup and save indent.
     "inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
     " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+    smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+    noremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>" 
+    " For snippet_complete marker.
+    if has('conceal') 
+        set conceallevel=2 concealcursor=i
+    endif
     " <C-h>, <BS>: close popup and delete backword char.
     " remap expr
     inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
@@ -88,7 +95,17 @@ NeoBundle "Shougo/neosnippet"
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-"completion end
+NeoBundle "Rip-Rip/clang_complete"
+    let g:neocomplcache_force_overwrite_completefunc=1
+    if !exists("g:neocomplcache_force_omni_patterns")
+            let g:neocomplcache_force_omni_patterns = {}
+    endif
+    let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
+    let g:clang_user_options = '-std=c++11'
+    let g:clang_complete_auto = 0
+    let g:clang_auto_select = 0
+
+"completion "end"
 NeoBundle 'taichouchou2/vim-endwise.git'
     let g:endwise_no_mappings=1
 
