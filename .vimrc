@@ -237,7 +237,7 @@ else
   set statusline+=%t
 endif
 set statusline+=%=\ \ %1l/%L,%c%V\ \ %p
-""" last space visiable
+" last space visiable
 set list
 set listchars=tab:^\ ,trail:~
 " highlight cursor
