@@ -2,24 +2,24 @@ set nocompatible
 filetype off
 filetype plugin indent off
 
-""""NeoBundle
-""""run ":NeoBundleInstall"
+"""" NeoBundle"{{{
+" run ":NeoBundleInstall"
 if has('vim_starting')
   set runtimepath+=~/.vim/neobundle.vim.git
   call neobundle#rc(expand('~/.vim/.bundle'))
 endif
-
-"colorscheme
-"NeoBundle "tomasr/molokai"
-"NeoBundle "altercation/vim-colors-solarized"
+"}}}
+""" colorscheme"{{{
+" NeoBundle "tomasr/molokai"
+" NeoBundle "altercation/vim-colors-solarized"
 NeoBundle "fugalh/desert.vim"
 NeoBundle "nanotech/jellybeans.vim"
 NeoBundle "w0ng/vim-hybrid"
-
-"powerline
+"}}}
+""" powerline"{{{
 NeoBundle "Lokaltog/vim-powerline"
-
-"quickrun anything
+"}}}
+""" quickrun anything"{{{
 NeoBundle "thinca/vim-quickrun"
     let g:quickrun_config = {}
     let g:quickrun_config._ = {
@@ -37,21 +37,22 @@ NeoBundle "thinca/vim-quickrun"
                 \}
     map <F5> <Plug>(quickrun)
 NeoBundle "osyo-manga/shabadou.vim"
-"RSpec
+"" RSpec
 let g:quickrun_config['ruby.rspec'] = { 'command': 'rspec' }
 augroup UjihisaRSpec
     autocmd!
     autocmd BufWinEnter,BufNewFile *_rspec.rb set filetype=ruby.rspec
     autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
 augroup END
-
-"run at ideone
+"}}}
+""" run at ideone"{{{
 NeoBundle "mattn/webapi-vim"
 NeoBundle "mattn/ideone-vim"
-"undo tree
+"}}}
+""" undo tree"{{{
 NeoBundle "sjl/gundo.vim"
-
-"completion
+"}}}
+""" completion"{{{
 NeoBundle "Shougo/neocomplcache"
 NeoBundle "Shougo/neosnippet"
     " Use neocomplcache.
@@ -104,17 +105,17 @@ NeoBundle "Rip-Rip/clang_complete"
     let g:clang_user_options = '-std=c++11'
     let g:clang_complete_auto = 0
     let g:clang_auto_select = 0
-
-"completion "end"
+"}}}
+""" completion "end""{{{
 NeoBundle 'taichouchou2/vim-endwise.git'
     let g:endwise_no_mappings=1
-
-"git
+"}}}
+"""" git"{{{
 NeoBundle 'tpope/vim-fugitive'
-"unite git
+""" unite git
 NeoBundle 'kmnk/vim-unite-giti'
-
-"file buffer ...etc
+"}}}
+""" file buffer ...etc"{{{
 NeoBundle "Shougo/unite.vim"
     ""insert mode start
     let g:unite_enable_start_insert=1
@@ -135,8 +136,8 @@ NeoBundle "Shougo/unite.vim"
     call unite#custom_default_action('file', 'tabopen')
 NeoBundle "ujihisa/unite-colorscheme"
 NeoBundle "osyo-manga/unite-quickfix"
-
-"for unite
+"}}}
+""" for unite"{{{
 NeoBundle 'Shougo/vimproc', {
     \ 'build' : {
     \     'windows' : 'make -f make_mingw32.mak',
@@ -145,82 +146,87 @@ NeoBundle 'Shougo/vimproc', {
     \     'unix' : 'make -f make_unix.mak',
     \    },
     \ }
+"}}}
+""" shell"{{{
 NeoBundle "Shougo/vimshell"
-"file tree
+"}}}
+""" file tree"{{{
 NeoBundle "Shougo/vimfiler"
-"reference K:search
+"}}}
+""" reference K:search"{{{
 NeoBundle "thinca/vim-ref"
-"outline create
+"}}}
+""" outline create"{{{
 NeoBundle "h1mesuke/unite-outline"
-
-""html
-"quick coding html css
+"}}}
+""" html"{{{
+"" quick coding html css
 NeoBundleLazy "mattn/zencoding-vim" ,{
  \ 'autoload' : {'filetypes' : ['html','css']}}
-
-""ruby
+"}}}
+""" ruby"{{{
 NeoBundleLazy 'Shougo/neocomplcache-rsense' ,{
  \ 'autoload' : {'filetypes' : 'ruby' }}
 let g:rsenseHome = '/cygwin/lib/ruby/gems/1.9.1/gems/rsence-2.2.5'
 NeoBundle 'vim-ruby/vim-ruby'
     :let ruby_space_errors = 1
-
-""""action
-"mouse enable
-"if has('mouse')
-"  set mouse=a
-"endif
-"clipboard shear
+"}}}
+"""" action"{{{
+" mouse enable
+" if has('mouse')
+"   set mouse=a
+" endif
+" clipboard shear
 set clipboard+=unnamed
-"deleat backspace word
+" deleat backspace word
 set backspace=indent,eol,start
-"multi word gap when cursor
+" multi word gap when cursor
 set ambiwidth=double
-"highlight search
+" highlight search
 set hlsearch
-"c type indent
+" c type indent
 set cindent
-"tab into space
+" tab into space
 set smarttab
 set tabstop=4
 set expandtab
 set shiftwidth=4
-"no comment at new line
+" no comment at new line
 autocmd! CursorMoved,CursorMoved * setlocal formatoptions-=ro
-"change search in UpperCase
+" change search in UpperCase
 set ignorecase
 set smartcase
-"no using octed
+" no using octed
 set nrformats-=octal
-"use ja help
+" use ja help
 set helplang=ja,en
-"edit many buffer
+" edit many buffer
 set hidden
-"backup directory
+" backup directory
 set directory=~/.tmp
 set backupdir=~/.tmp
 set viminfo+=n~/.tmp
-"folding
+" folding
 set foldmethod=marker
 set foldtext=FoldCCtext()
 set foldcolumn=1
 set fillchars=vert:\|
 noremap zs za
-
-""""display
-"use desert
+"}}}
+"""" display"{{{
+" use desert
 colorscheme hybrid
-"lisp rainbow parents
+" lisp rainbow parents
 let lisp_rainbow=1
-"line number
+" line number
 set number
-"slash of pass
+" slash of pass
 set shellslash
-"indent
+" indent
 set autoindent
-"comand in statusline
+" comand in statusline
 set showcmd
-"status line
+" status line
 set laststatus=2
 set statusline=%<[%n]%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}%y\ 
 if winwidth(0)>=130
@@ -229,13 +235,13 @@ else
   set statusline+=%t
 endif
 set statusline+=%=\ \ %1l/%L,%c%V\ \ %p
-"""last space visiable
+""" last space visiable
 set list
 set listchars=tab:^\ ,trail:~
-"syntax
+" syntax
 syntax on
 
-""デフォルトのZenkakuSpaceを定義
+"" デフォルトのZenkakuSpaceを定義
 function! ZenkakuSpace()
   highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
 endfunction
@@ -249,11 +255,11 @@ if has('syntax')
   augroup END
   call ZenkakuSpace()
 endif
-
-""""keymap
-"new line by enter
+"}}}
+"""" keymap"{{{
+" new line by enter
 noremap <CR> O<ESC>
-
-"filetype
+"}}}
+" filetype
 filetype plugin indent on
 
