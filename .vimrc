@@ -200,6 +200,12 @@ set hidden
 set directory=~/.tmp
 set backupdir=~/.tmp
 set viminfo+=n~/.tmp
+"folding
+set foldmethod=marker
+set foldtext=FoldCCtext()
+set foldcolumn=1
+set fillchars=vert:\|
+noremap zs za
 
 """"display
 "use desert
