@@ -240,6 +240,8 @@ set statusline+=%=\ \ %1l/%L,%c%V\ \ %p
 """ last space visiable
 set list
 set listchars=tab:^\ ,trail:~
+" highlight cursor
+set cursorline
 " syntax
 syntax on
 
