@@ -211,7 +211,7 @@ set backupdir=~/.tmp
 set viminfo+=n~/.tmp
 " folding
 set foldmethod=marker
-set foldtext=FoldCCtext()
+set foldtext=foldCC#foldtext()
 set foldcolumn=1
 set fillchars=vert:\|
 "}}}
