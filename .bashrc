@@ -200,7 +200,7 @@ alias l='ls -CF'                              #
 # My Tool
 
 ## My Prompt
-PS1="\n\u jobs:\j \w\$(__git_ps1 \" (%s)\")\n!\!\`if [ \$? = 0 ]; then echo \"\[\e[33m\](*'-')\"; else echo \"\[\e[31m\](*;-;)\"; fi;unset tmp\`\$ \[\e[0m\]"
+PS1="\n\`if [ \$? = 0 ]; then echo \"\[\e[33m\](*'-')\"; else echo \"\[\e[31m\](*;-;)\"; fi\` \u jobs:\j \w\$(__git_ps1 \" (%s)\")\n!\! \$ \[\e[0m\]"
 
 ## Bash Directory Bookmarks
 alias m1='alias g1="cd `pwd`"'
