@@ -214,7 +214,6 @@ set foldmethod=marker
 set foldtext=FoldCCtext()
 set foldcolumn=1
 set fillchars=vert:\|
-noremap zs za
 "}}}
 """" display"{{{
 " use desert
@@ -262,6 +261,8 @@ endif
 """" keymap"{{{
 " new line by enter
 noremap <CR> O<ESC>
+" easy type
+noremap zs za
 "}}}
 " filetype
 filetype plugin indent on
