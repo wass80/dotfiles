@@ -156,6 +156,9 @@ NeoBundle "Shougo/vimfiler"
 """ reference K:search"{{{
 NeoBundle "thinca/vim-ref"
 "}}}
+""" folding text"{{{
+NeoBundle 'LeafCage/foldCC'
+"}}}
 """ outline create"{{{
 NeoBundle "h1mesuke/unite-outline"
 "}}}
