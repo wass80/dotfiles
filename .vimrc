@@ -110,7 +110,7 @@ NeoBundle "Rip-Rip/clang_complete"
 NeoBundle 'taichouchou2/vim-endwise.git'
     let g:endwise_no_mappings=1
 "}}}
-"""" git"{{{
+""" git"{{{
 NeoBundle 'tpope/vim-fugitive'
 """ unite git
 NeoBundle 'kmnk/vim-unite-giti'
