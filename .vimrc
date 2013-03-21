@@ -164,7 +164,7 @@ NeoBundle "h1mesuke/unite-outline"
 "}}}
 """ html"{{{
 "" quick coding html css
-NeoBundleLazy "mattn/zencoding-vim" ,{
+NeoBundleLazy 'mattn/zencoding-vim' ,{
  \ 'autoload' : {'filetypes' : ['html','css']}}
 "}}}
 """ ruby"{{{
