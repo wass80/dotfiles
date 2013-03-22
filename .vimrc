@@ -175,7 +175,7 @@ NeoBundle 'vim-ruby/vim-ruby'
     :let ruby_space_errors = 1
 "}}}
 """" action"{{{
-mouse enable
+" mouse enable
 if has('mouse')
   set mouse=a
 endif
