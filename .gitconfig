@@ -1,0 +1,22 @@
+[user]
+	name = wass
+	email = wasss80@gmail.com
+[color]
+    ui = auto
+[alias]
+     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+     lga = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	co = checkout
+	st = status
+	br = branch
+    a = add
+    ap = add -p
+    aa = add -A
+	cpm = commit -pm
+    cm = commit -m
+    c = commit
+[help]
+	autocorrect = 1
+[core]
+	editor = vim
+	pager = LESS=-R less
