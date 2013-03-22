@@ -175,10 +175,10 @@ NeoBundle 'vim-ruby/vim-ruby'
     :let ruby_space_errors = 1
 "}}}
 """" action"{{{
-" mouse enable
-" if has('mouse')
-"   set mouse=a
-" endif
+mouse enable
+if has('mouse')
+  set mouse=a
+endif
 " clipboard shear
 set clipboard+=unnamed
 " deleat backspace word
