@@ -45,6 +45,15 @@ augroup UjihisaRSpec
     autocmd BufWinEnter,BufNewFile *_rspec.rb set filetype=ruby.rspec
     autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
 augroup END
+"" CoffeeScript
+let g:quickrun_config['javascript'] = {'command' : 'node', 'exec' : ['node "`cygpath -w %s`"']}
+let g:quickrun_config['coffee'] = {
+                \   'command' : 'coffee',
+                \   'outputter/quickfix/errorformat ' : '%m',
+                \   'hook/close_buffer/enable_failure' : 0,
+                \   'exec' : ['%c "`cygpath -w %s`"']
+                \}
+
 "}}}
 """ run at ideone"{{{
 NeoBundle "mattn/webapi-vim"
@@ -175,6 +184,13 @@ let g:rsenseHome = '/cygwin/lib/ruby/gems/1.9.1/gems/rsence-2.2.5'
 NeoBundle 'vim-ruby/vim-ruby'
     :let ruby_space_errors = 1
 "}}}
+""" coffeescript"{{{
+" syntax + auto compile
+NeoBundle 'kchmck/vim-coffee-script'
+    " auto compile when save
+    autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+"}}}
+
 """" action"{{{
 " mouse enable
 if has('mouse')
