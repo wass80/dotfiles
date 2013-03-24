@@ -10,11 +10,12 @@ if has('vim_starting')
 endif
 "}}}
 """ colorscheme"{{{
-" NeoBundle "tomasr/molokai"
+NeoBundle "tomasr/molokai"
 " NeoBundle "altercation/vim-colors-solarized"
 NeoBundle "fugalh/desert.vim"
 NeoBundle "nanotech/jellybeans.vim"
 NeoBundle "w0ng/vim-hybrid"
+colorscheme hybrid
 "}}}
 """ powerline"{{{
 NeoBundle "Lokaltog/vim-powerline"
@@ -216,8 +217,6 @@ set foldcolumn=1
 set fillchars=vert:\|
 "}}}
 """" display"{{{
-" use desert
-colorscheme hybrid
 " lisp rainbow parents
 let lisp_rainbow=1
 " line number
