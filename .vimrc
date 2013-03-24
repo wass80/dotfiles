@@ -195,7 +195,9 @@ NeoBundle 'vim-ruby/vim-ruby'
 "}}}
 """ coffeescript"{{{
 " syntax + auto compile
-NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'kchmck/vim-coffee-script' ,{
+ \ 'autoload' : {'filetypes' : 'coffeescript' }}
+
     " auto compile when save
     autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
 "}}}
