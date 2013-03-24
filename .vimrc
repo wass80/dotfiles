@@ -201,6 +201,12 @@ NeoBundle 'kchmck/vim-coffee-script' ,{
     " auto compile when save
     autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
 "}}}
+""" json"{{{
+NeoBundle 'vim-scripts/JSON.vim' ,{
+ \ 'autoload' : {'filetypes' : 'json' }}
+
+    au BufRead,BufNewFile *.json set filetype=json
+"}}}
 
 """" action"{{{
 " mouse enable
