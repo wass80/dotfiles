@@ -105,8 +105,9 @@ NeoBundle "Shougo/neosnippet"
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-NeoBundle "Rip-Rip/clang_complete"
+NeoBundle 'honza/snipmate-snippets'
+let g:neosnippet#snippets_directory='~/.vim/.bundle/nipmate-snippets/snippets'
+NeoBundle 'Rip-Rip/clang_complete'
     let g:neocomplcache_force_overwrite_completefunc=1
     if !exists("g:neocomplcache_force_omni_patterns")
             let g:neocomplcache_force_omni_patterns = {}
