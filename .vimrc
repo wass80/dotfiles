@@ -176,8 +176,9 @@ NeoBundle "h1mesuke/unite-outline"
 """ indent highlight"{{{
 NeoBundle 'nathanaelkane/vim-indent-guides'
     let g:indent_guides_auto_colors=0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=grey
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
+    let g:indent_guides_guide_size=1
     let g:indent_guides_enable_on_vim_startup=0
     au FileType coffee,ruby,javascript,python IndentGuidesEnable
     nmap <silent><Leader>ig <Plug>IndentGuidesToggle
