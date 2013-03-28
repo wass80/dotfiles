@@ -11,7 +11,7 @@
 	br = branch
     a = add
     ap = add -p
-    aa = add -A
+	aa = add -A
 	cpm = commit -pm
     cm = commit -m
     c = commit
@@ -20,3 +20,5 @@
 [core]
 	editor = vim
 	pager = LESS=-R less
+[ailas]
+	au = add
