@@ -121,6 +121,9 @@ NeoBundle 'Rip-Rip/clang_complete'
 NeoBundle 'taichouchou2/vim-endwise.git'
     let g:endwise_no_mappings=1
 "}}}
+""" use template"{{{
+NeoBundle 'mattn/sonictemplate-vim'
+"}}}
 """ git"{{{
 NeoBundle 'tpope/vim-fugitive'
 """ unite git
@@ -158,11 +161,19 @@ NeoBundle 'Shougo/vimproc', {
     \    },
     \ }
 "}}}
+""" outline create"{{{
+NeoBundle "Shougo/unite-outline"
+"}}}
 """ shell"{{{
 NeoBundle "Shougo/vimshell"
 "}}}
 """ file tree"{{{
 NeoBundle "Shougo/vimfiler"
+"}}}
+""" search word on cursor"{{{
+NeoBundle "thinca/vim-visualstar"
+    map * <Plug>(visualstar-*)N
+    map # <Plug>(visualstar-#)N
 "}}}
 """ reference K:search"{{{
 NeoBundle "thinca/vim-ref"
@@ -170,8 +181,31 @@ NeoBundle "thinca/vim-ref"
 """ folding text"{{{
 NeoBundle 'LeafCage/foldCC'
 "}}}
-""" outline create"{{{
-NeoBundle "h1mesuke/unite-outline"
+""" srround and textobj"{{{
+NeoBundle "tpope/vim-surround"
+NeoBundle "kana/vim-textobj-user"
+NeoBundle "kana/vim-textobj-line"
+"}}}
+""" smart w,e"{{{
+NeoBundle "kana/vim-smartword"
+    map w  <Plug>(smartword-w)
+    map b  <Plug>(smartword-b)
+    map e  <Plug>(smartword-e)
+    map ge  <Plug>(smartword-ge)
+    noremap ,w  w
+    noremap ,b  b
+    noremap ,e  e
+    noremap ,ge  ge
+    "}}}
+""" move text in virtual mode"{{{
+NeoBundle "t9md/vim-textmanip"
+    xmap <C-j> <Plug>(textmanip-move-down)
+    xmap <C-k> <Plug>(textmanip-move-up)
+    xmap <C-h> <Plug>(textmanip-move-left)
+    xmap <C-l> <Plug>(textmanip-move-right)
+"}}}
+""" vim restart"{{{
+NeoBundle "tyru/restart.vim"
 "}}}
 """ indent highlight"{{{
 NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -221,6 +255,8 @@ set clipboard+=unnamed
 set backspace=indent,eol,start
 " multi word gap when cursor
 set ambiwidth=double
+" visiable around cursor
+set scrolloff=5
 " highlight search
 set hlsearch
 " c type indent
@@ -296,9 +332,12 @@ endif
 "}}}
 """" keymap"{{{
 " new line by enter
-noremap <CR> O<ESC>
+noremap <CR> a<CR><ESC>
 " easy type
 noremap zs za
+" turn off highlight on enter twice
+nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
+nnoremap <C-l><C-l> :<C-u>nohlsearch<CR>
 "}}}
 " filetype
 filetype plugin indent on
