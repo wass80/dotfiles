@@ -36,7 +36,8 @@ NeoBundle "thinca/vim-quickrun"
                 \   "outputter" : "multi:buffer:quickfix",
                 \   "outputter/buffer/split" : ":botright 8sp",
                 \}
-    map <F5> <Plug>(quickrun)
+    nmap <F5> <Plug>(quickrun)
+    nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 NeoBundle "osyo-manga/shabadou.vim"
 "" RSpec
 let g:quickrun_config['ruby.rspec'] = { 'command': 'rspec' }
@@ -131,35 +132,35 @@ NeoBundle 'kmnk/vim-unite-giti'
 "}}}
 """ file buffer ...etc"{{{
 NeoBundle "Shougo/unite.vim"
-    ""insert mode start
-    let g:unite_enable_start_insert=1
-    ""buffer list
-    noremap <C-P> :Unite buffer<CR>
-    ""file list
-    noremap <C-N> :Unite -buffer-name=file file<CR>
-    ""recently files list
-    noremap <C-Z> :Unite file_mru<CR>
-    ""twice esc quit
-    au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-    au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-    ""short cut directory
-    call unite#set_substitute_pattern('file', '^\~', escape($HOME, '\'), -2)
-    call unite#set_substitute_pattern('file', '\\\@<! ', '\\ ', -20)
-    call unite#set_substitute_pattern('file', '\\ \@!', '/', -30)
-    ""open new tab
-    call unite#custom_default_action('file', 'tabopen')
+""insert mode start
+let g:unite_enable_start_insert=1
+""buffer list
+noremap <C-P> :Unite buffer<CR>
+""file list
+noremap <C-N> :Unite -buffer-name=file file<CR>
+""recently files list
+noremap <C-Z> :Unite file_mru<CR>
+""twice esc quit
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+""short cut directory
+call unite#set_substitute_pattern('file', '^\~', escape($HOME, '\'), -2)
+call unite#set_substitute_pattern('file', '\\\@<! ', '\\ ', -20)
+call unite#set_substitute_pattern('file', '\\ \@!', '/', -30)
+""open new tab
+call unite#custom_default_action('file', 'tabopen')
 NeoBundle "ujihisa/unite-colorscheme"
 NeoBundle "osyo-manga/unite-quickfix"
 "}}}
 """ for unite"{{{
 NeoBundle 'Shougo/vimproc', {
-    \ 'build' : {
-    \     'windows' : 'make -f make_mingw32.mak',
-    \     'cygwin' : 'make -f make_cygwin.mak',
-    \     'mac' : 'make -f make_mac.mak',
-    \     'unix' : 'make -f make_unix.mak',
-    \    },
-    \ }
+\ 'build' : {
+\     'windows' : 'make -f make_mingw32.mak',
+\     'cygwin' : 'make -f make_cygwin.mak',
+\     'mac' : 'make -f make_mac.mak',
+\     'unix' : 'make -f make_unix.mak',
+\    },
+\ }
 "}}}
 """ outline create"{{{
 NeoBundle "Shougo/unite-outline"
@@ -172,8 +173,8 @@ NeoBundle "Shougo/vimfiler"
 "}}}
 """ search word on cursor"{{{
 NeoBundle "thinca/vim-visualstar"
-    map * <Plug>(visualstar-*)N
-    map # <Plug>(visualstar-#)N
+map * <Plug>(visualstar-*)N
+map # <Plug>(visualstar-#)N
 "}}}
 """ reference K:search"{{{
 NeoBundle "thinca/vim-ref"
@@ -185,69 +186,81 @@ NeoBundle 'LeafCage/foldCC'
 NeoBundle "tpope/vim-surround"
 NeoBundle "kana/vim-textobj-user"
 NeoBundle "kana/vim-textobj-line"
+NeoBundle 'kana/vim-textobj-indent'
 "}}}
 """ smart w,e"{{{
 NeoBundle "kana/vim-smartword"
-    map w  <Plug>(smartword-w)
-    map b  <Plug>(smartword-b)
-    map e  <Plug>(smartword-e)
-    map ge  <Plug>(smartword-ge)
-    noremap ,w  w
-    noremap ,b  b
-    noremap ,e  e
-    noremap ,ge  ge
-    "}}}
+map w  <Plug>(smartword-w)
+map b  <Plug>(smartword-b)
+map e  <Plug>(smartword-e)
+map ge  <Plug>(smartword-ge)
+noremap ,w  w
+noremap ,b  b
+noremap ,e  e
+noremap ,ge  ge
+"}}}
 """ move text in virtual mode"{{{
 NeoBundle "t9md/vim-textmanip"
-    xmap <C-j> <Plug>(textmanip-move-down)
-    xmap <C-k> <Plug>(textmanip-move-up)
-    xmap <C-h> <Plug>(textmanip-move-left)
-    xmap <C-l> <Plug>(textmanip-move-right)
+xmap <C-j> <Plug>(textmanip-move-down)
+xmap <C-k> <Plug>(textmanip-move-up)
+xmap <C-h> <Plug>(textmanip-move-left)
+xmap <C-l> <Plug>(textmanip-move-right)
 "}}}
 """ vim restart"{{{
 NeoBundle "tyru/restart.vim"
 "}}}
 """ indent highlight"{{{
 NeoBundle 'nathanaelkane/vim-indent-guides'
-    let g:indent_guides_auto_colors=0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=grey
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
-    let g:indent_guides_guide_size=1
-    let g:indent_guides_enable_on_vim_startup=0
-    au FileType coffee,ruby,javascript,python IndentGuidesEnable
-    nmap <silent><Leader>ig <Plug>IndentGuidesToggle
+let g:indent_guides_auto_colors=0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=grey
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
+let g:indent_guides_guide_size=1
+let g:indent_guides_enable_on_vim_startup=0
+au FileType coffee,ruby,javascript,python IndentGuidesEnable
+nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 "}}}
 """ html"{{{
 "" quick coding html css
 NeoBundleLazy 'mattn/zencoding-vim' ,{
- \ 'autoload' : {'filetypes' : ['html','css']}}
+\ 'autoload' : {'filetypes' : ['html','css']}}
 "}}}
 """ ruby"{{{
 NeoBundleLazy 'Shougo/neocomplcache-rsense' ,{
- \ 'autoload' : {'filetypes' : 'ruby' }}
+\ 'autoload' : {'filetypes' : 'ruby' }}
 let g:rsenseHome = '/cygwin/lib/ruby/gems/1.9.1/gems/rsence-2.2.5'
 NeoBundle 'vim-ruby/vim-ruby'
-    :let ruby_space_errors = 1
+:let ruby_space_errors = 1
 "}}}
 """ coffeescript"{{{
 " syntax + auto compile
 NeoBundle 'kchmck/vim-coffee-script' ,{
- \ 'autoload' : {'filetypes' : 'coffeescript' }}
+\ 'autoload' : {'filetypes' : 'coffeescript' }}
 
-    " auto compile when save
-    autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+" auto compile when save
+autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
 "}}}
 """ json"{{{
 NeoBundle 'vim-scripts/JSON.vim' ,{
- \ 'autoload' : {'filetypes' : 'json' }}
+\ 'autoload' : {'filetypes' : 'json' }}
 
-    au BufRead,BufNewFile *.json set filetype=json
+au BufRead,BufNewFile *.json set filetype=json
 "}}}
+""" haskell"{{{
+" syntax
+NeoBundle 'dag/vim2hs' ,{
+\ 'autoload' : {'filetypes' : 'haskell' }}
+" completion
+NeoBundle 'ujihisa/neco-ghc' ,{
+\ 'autoload' : {'filetypes' : 'haskell' }}
+" for unite
+NeoBundle 'eagletmt/unite-haddock' ,{
+\ 'autoload' : {'filetypes' : 'haskell' }}
+" }}}
 
 """" action"{{{
 " mouse enable
 if has('mouse')
-  set mouse=a
+set mouse=a
 endif
 " clipboard shear
 set clipboard+=unnamed
@@ -302,9 +315,9 @@ set showcmd
 set laststatus=2
 set statusline=%<[%n]%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}%y\ 
 if winwidth(0)>=130
-  set statusline+=%F
+set statusline+=%F
 else
-  set statusline+=%t
+set statusline+=%t
 endif
 set statusline+=%=\ \ %1l/%L,%c%V\ \ %p
 " last space visiable
@@ -317,17 +330,17 @@ syntax on
 
 "" デフォルトのZenkakuSpaceを定義
 function! ZenkakuSpace()
-  highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
+highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
 endfunction
 
 if has('syntax')
-  augroup ZenkakuSpace
-  autocmd!
-  " 全角スペースのハイライト指定
-  autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+augroup ZenkakuSpace
+autocmd!
+" 全角スペースのハイライト指定
+autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
 
-  augroup END
-  call ZenkakuSpace()
+augroup END
+call ZenkakuSpace()
 endif
 "}}}
 """" keymap"{{{
@@ -336,8 +349,8 @@ noremap <CR> a<CR><ESC>
 " easy type
 noremap zs za
 " turn off highlight on enter twice
-nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
-nnoremap <C-l><C-l> :<C-u>nohlsearch<CR>
+nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
+nnoremap <silent><C-l><C-l> :<C-u>nohlsearch<CR>
 "}}}
 " filetype
 filetype plugin indent on
