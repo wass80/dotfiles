@@ -47,14 +47,21 @@ augroup UjihisaRSpec
     autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
 augroup END
 "" CoffeeScript
-let g:quickrun_config['javascript'] = {'command' : 'node', 'exec' : ['node "`cygpath -w %s`"']}
+let g:quickrun_config['javascript'] = {
+            \   'command' : 'node',
+            \   'exec' : ['node "`cygpath -w %s`"']
+            \}
 let g:quickrun_config['coffee'] = {
-                \   'command' : 'coffee',
-                \   'outputter/quickfix/errorformat ' : '%m',
-                \   'hook/close_buffer/enable_failure' : 0,
-                \   'exec' : ['%c "`cygpath -w %s`"']
-                \}
-
+            \   'command' : 'coffee',
+            \   'outputter/quickfix/errorformat ' : '%m',
+            \   'hook/close_buffer/enable_failure' : 0,
+            \   'exec' : ['%c "`cygpath -w %s`"']
+            \}
+"" Haskell
+let g:quickrun_config['haskell'] = {
+            \   'command' : 'haskell',
+            \   'exec' : ['runghc "`cygpath -w %s`"']
+            \}
 "}}}
 """ run at ideone"{{{
 NeoBundle "mattn/webapi-vim"
@@ -255,6 +262,10 @@ NeoBundle 'ujihisa/neco-ghc' ,{
 " for unite
 NeoBundle 'eagletmt/unite-haddock' ,{
 \ 'autoload' : {'filetypes' : 'haskell' }}
+" ghcmod
+NeoBundle 'eagletmt/ghcmod-vim' ,{
+\ 'autoload' : {'filetypes' : 'haskell' }}
+
 " }}}
 
 """" action"{{{
