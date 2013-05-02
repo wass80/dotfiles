@@ -195,17 +195,6 @@ NeoBundle "kana/vim-textobj-user"
 NeoBundle "kana/vim-textobj-line"
 NeoBundle 'kana/vim-textobj-indent'
 "}}}
-""" smart w,e"{{{
-NeoBundle "kana/vim-smartword"
-map w  <Plug>(smartword-w)
-map b  <Plug>(smartword-b)
-map e  <Plug>(smartword-e)
-map ge  <Plug>(smartword-ge)
-noremap ,w  w
-noremap ,b  b
-noremap ,e  e
-noremap ,ge  ge
-"}}}
 """ move text in virtual mode"{{{
 NeoBundle "t9md/vim-textmanip"
 xmap <C-j> <Plug>(textmanip-move-down)
