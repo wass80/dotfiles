@@ -22,3 +22,7 @@
 	pager = LESS=-R less
 [ailas]
 	au = add
+[merge]
+	ff = false
+[pull]
+	rebase = true
