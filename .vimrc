@@ -59,8 +59,13 @@ let g:quickrun_config['coffee'] = {
             \}
 "" Haskell
 let g:quickrun_config['haskell'] = {
-            \   'command' : 'haskell',
-            \   'exec' : ['runghc "`cygpath -w %s`"']
+            \   'command' : 'runghc',
+            \   'exec' : ['%c "`cygpath -w %s`"']
+            \}
+"" Java
+let g:quickrun_config['java'] = {
+            \   'command' : 'gcj',
+            \   'exec' : ['%c --main=%s:t:r -o %s:p:r.exe %s','%s:p:r.exe']
             \}
 "}}}
 """ run at ideone"{{{
