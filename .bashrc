@@ -96,8 +96,8 @@ alias cp='cp -i'
 alias mv='mv -i'
 #
 # Default to human readable figures
-# alias df='df -h'
-# alias du='du -h'
+alias df='df -h'
+alias du='du -h'
 #
 # Misc :)
 # alias less='less -r'                          # raw control characters
@@ -113,6 +113,8 @@ alias vdir='ls --color=auto --format=long'
 alias ll='ls -l'                              # long list
 alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
+alias vi='vim'
+alias g='git'
 
 # Umask
 #
@@ -216,9 +218,6 @@ alias mdump='alias|grep -e "alias g[0-9]"|grep -v "alias m" > ~/.bookmarks'
 alias lma='alias | grep -e "alias g[0-9]"|grep -v "alias m"|sed "s/alias //"'
 touch ~/.bookmarks
 source ~/.bookmarks
-
-## vi alias
-alias vi='vim'
 
 ## rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
