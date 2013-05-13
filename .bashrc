@@ -91,7 +91,7 @@
 # \rm will call the real rm not the alias.
 #
 # Interactive operation...
-alias rm='rm -i'
+alias rm='./bin/trash.sh'
 alias cp='cp -i'
 alias mv='mv -i'
 #
