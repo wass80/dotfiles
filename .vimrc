@@ -183,6 +183,12 @@ NeoBundle "Shougo/vimshell"
 """ file tree"{{{
 NeoBundle "Shougo/vimfiler"
 "}}}
+""" help search"{{{
+NeoBundle "tsukkee/unite-help"
+    " Execute help.
+    nnoremap <C-h>  :<C-u>Unite -start-insert help<CR>
+    " Execute help by cursor keyword.
+    nnoremap <silent> g<C-h>  :<C-u>UniteWithCursorWord help<CR>"}}}
 """ search word on cursor"{{{
 NeoBundle "thinca/vim-visualstar"
 map * <Plug>(visualstar-*)N
@@ -199,6 +205,17 @@ NeoBundle "tpope/vim-surround"
 NeoBundle "kana/vim-textobj-user"
 NeoBundle "kana/vim-textobj-line"
 NeoBundle 'kana/vim-textobj-indent'
+"}}}
+""" easy caret move to the char"{{{
+NeoBundle "Lokaltog/vim-easymotion"
+    let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+    " use ;w ;h..
+    let g:EasyMotion_leader_key = ";"
+    let g:EasyMotion_grouping = 1
+    hi EasyMotionTarget ctermbg=none ctermfg=red
+    hi EasyMotionShade  ctermbg=none ctermfg=blue
+    " continue f
+NeoBundle 'rhysd/clever-f.vim'
 "}}}
 """ move text in virtual mode"{{{
 NeoBundle "t9md/vim-textmanip"
