@@ -156,9 +156,13 @@ noremap <C-Z> :Unite file_mru<CR>
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 ""short cut directory
-call unite#set_substitute_pattern('file', '^\~', escape($HOME, '\'), -2)
-call unite#set_substitute_pattern('file', '\\\@<! ', '\\ ', -20)
-call unite#set_substitute_pattern('file', '\\ \@!', '/', -30)
+call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
+call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
+call unite#custom#substitute('files', '^@', '\=getcwd()."/*"', 1)
+call unite#custom#substitute('files', '^;r', '\=$VIMRUNTIME."/"')
+call unite#custom#substitute('files', '^\~', escape($HOME, '\'), -2)
+call unite#custom#substitute('files', '\\\@<! ', '\\ ', -20)
+call unite#custom#substitute('files', '\\ \@!', '/', -30)
 ""open new tab
 call unite#custom_default_action('file', 'tabopen')
 NeoBundle "ujihisa/unite-colorscheme"
