@@ -147,9 +147,9 @@ NeoBundle "Shougo/unite.vim"
 ""insert mode start
 let g:unite_enable_start_insert=1
 ""buffer list
-noremap <C-P> :Unite buffer<CR>
+noremap <C-V> :Unite buffer<CR>
 ""file list
-noremap <C-N> :Unite -buffer-name=file file<CR>
+noremap <C-B> :Unite -buffer-name=file file<CR>
 ""recently files list
 noremap <C-Z> :Unite file_mru<CR>
 ""twice esc quit
@@ -227,6 +227,13 @@ xmap <C-j> <Plug>(textmanip-move-down)
 xmap <C-k> <Plug>(textmanip-move-up)
 xmap <C-h> <Plug>(textmanip-move-left)
 xmap <C-l> <Plug>(textmanip-move-right)
+"}}}
+""" register ring"{{{
+NeoBundle "vim-scripts/YankRing.vim"
+"}}}
+""" change the word to another word"{{{
+NeoBundle "AndrewRadev/switch.vim"
+nnoremap ! :Switch<CR>
 "}}}
 """ vim restart"{{{
 NeoBundle "tyru/restart.vim"
