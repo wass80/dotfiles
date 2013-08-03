@@ -139,6 +139,7 @@ NeoBundle 'mattn/sonictemplate-vim'
 "}}}
 """ git"{{{
 NeoBundle 'tpope/vim-fugitive'
+noremap <space>g :Gstatus<CR>
 """ unite git
 NeoBundle 'kmnk/vim-unite-giti'
 "}}}
@@ -147,11 +148,15 @@ NeoBundle "Shougo/unite.vim"
 ""insert mode start
 let g:unite_enable_start_insert=1
 ""buffer list
-noremap <C-V> :Unite buffer<CR>
+noremap <space>b :Unite buffer<CR>
 ""file list
-noremap <C-B> :Unite -buffer-name=file file<CR>
+noremap <space>f :Unite -buffer-name=file file<CR>
 ""recently files list
-noremap <C-Z> :Unite file_mru<CR>
+noremap <space>z :Unite file_mru<CR>
+"" show outline
+noremap <space>o :Unite outline<CR>
+"" shoe regster
+noremap <space>r :Unite register<CR>
 ""twice esc quit
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
@@ -384,6 +389,13 @@ noremap zs za
 " turn off highlight on enter twice
 nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
 nnoremap <silent><C-l><C-l> :<C-u>nohlsearch<CR>
+" without shift
+noremap <Space>h ^
+noremap <Space>l $
+nnoremap <Space>/ *
+noremap <Space>p %
+" one char insert
+nnoremap <space>i i_<ESC>r
 "}}}
 " filetype
 filetype plugin indent on
