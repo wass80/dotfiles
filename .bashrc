@@ -91,7 +91,12 @@
 # \rm will call the real rm not the alias.
 #
 # Interactive operation...
-alias rm='trash -i'
+alias rm='trash.sh -i'
+export TRASHLIST=~/.trashlist # Where trash list is written
+export TRASHBOX=~/.Trash # Where trash will be moved in
+export MAXTRASHBOXSIZE=1024
+export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
+
 alias cp='cp -i'
 alias mv='mv -i'
 #
