@@ -4,26 +4,35 @@
 [color]
     ui = auto
 [alias]
-     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-     lga = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	co = checkout
-	st = status
-	br = branch
     a = add
+    aa = add -A
     ap = add -p
-	aa = add -A
-	cpm = commit -pm
-    cm = commit -m
+    br = branch
     c = commit
+    ca = commit -a
+    cam = commit -a --amend
+    cm = commit -m
+    co = checkout
+    cpm = commit -pm
+    d = diff
     df = diff
     dff = diff --word-diff
+    dm = diff master
+    ds = diff --staged
+    f = fetch
+    fp = fetch --prune
+    ignore = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >> .gitignore
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    lga = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    s = status --short --branch
+    sh = show
+    so = remote show origin
+    st = status
 [help]
 	autocorrect = 1
 [core]
 	editor = vim
 	pager = LESS=-R less
-[ailas]
-	au = add
 [merge]
 	ff = false
 [pull]
