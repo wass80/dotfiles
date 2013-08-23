@@ -396,6 +396,10 @@ nnoremap <Space>/ *
 noremap <Space>p %
 " one char insert
 nnoremap <space>i i_<ESC>r
+" copy clipboard
+noremap <Space>y :w !cat > /dev/clipboard<CR><CR>
+" ignore Q
+nnoremap Q gq
 "}}}
 " filetype
 filetype plugin indent on

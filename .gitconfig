@@ -17,6 +17,7 @@
     d = diff
     df = diff
     dff = diff --word-diff
+    dh = diff HEAD^
     dm = diff master
     ds = diff --staged
     f = fetch
