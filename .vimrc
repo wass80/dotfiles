@@ -344,6 +344,9 @@ NeoBundle 'LeafCage/foldCC'
 "}}}
 """ srround and textobj"{{{
 NeoBundle "tpope/vim-surround"
+NeoBundle 'kana/vim-operator-user.git'
+NeoBundle 'kana/vim-operator-replace.git'
+map R  <Plug>(operator-replace)
 NeoBundle "kana/vim-textobj-user"
 NeoBundle "kana/vim-textobj-line"
 NeoBundle 'kana/vim-textobj-indent'
