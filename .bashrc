@@ -120,6 +120,7 @@ alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
+function mkdc () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
 # Umask
 #
