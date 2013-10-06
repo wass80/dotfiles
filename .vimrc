@@ -177,6 +177,15 @@ augroup UjihisaRSpec
     autocmd BufWinEnter,BufNewFile *_rspec.rb set filetype=ruby.rspec
     autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
 augroup END
+"" Cpp
+let g:quickrun_config['cpp'] = {
+            \   'command' : 'g++',
+            \       "cmdopt"    : " -std=gnu++0x",
+            \       "exec" : ["%c %o %s -o %s:p:r", "%s:p:r"],
+            \       "hook/boost_link/enable" : 0,
+            \       "outputter/quickfix/errorformat" : '%f:%l:%c:\ %t%*[^:]:%m,%f:%m',
+            \       "outputter/location_list/errorformat" : '%f:%l:%c:\ %t%*[^:]:%m,%f:%m'
+            \}
 "" CoffeeScript
 let g:quickrun_config['javascript'] = {
             \   'command' : 'node',
