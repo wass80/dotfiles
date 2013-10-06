@@ -168,6 +168,7 @@ NeoBundle "thinca/vim-quickrun"
                 \   "outputter/buffer/split" : ":botright 8sp",
                 \}
     nmap <F5> <Plug>(quickrun)
+    imap <F5> <C-c> <Plug>(quickrun)
     nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 NeoBundle "osyo-manga/shabadou.vim"
 "" RSpec
@@ -206,6 +207,13 @@ let g:quickrun_config['haskell'] = {
 let g:quickrun_config['java'] = {
             \   'command' : 'gcj',
             \   'exec' : ['%c --main=%s:t:r -o %s:p:r.exe %s','%s:p:r.exe']
+            \}
+"" markdown
+let g:quickrun_config['markdown'] = {
+            \   'command' : 'pandoc',
+            \   'args': '--mathjax',
+            \   'exec' : ['%c %o "`cygpath -w %s`"'],
+            \   'outputter': 'browser',
             \}
 "}}}
 """ run at ideone"{{{
@@ -439,7 +447,9 @@ NeoBundle 'eagletmt/ghcmod-vim' ,{
 \ 'autoload' : {'filetypes' : 'haskell' }}
 
 " }}}
-
+""" markdown"{{{
+NeoBundle 'tyru/open-browser.vim'
+"}}}
 """" action"{{{
 " mouse enable
 if has('mouse')
