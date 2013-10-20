@@ -364,9 +364,12 @@ NeoBundle "tpope/vim-surround"
 NeoBundle 'kana/vim-operator-user.git'
 NeoBundle 'kana/vim-operator-replace.git'
 map R  <Plug>(operator-replace)
-NeoBundle "kana/vim-textobj-user"
-NeoBundle "kana/vim-textobj-line"
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kana/vim-textobj-line'
 NeoBundle 'kana/vim-textobj-indent'
+NeoBundle 'kana/vim-textobj-function'
+NeoBundle 'thinca/vim-textobj-between'
+NeoBundle 'osyo-manga/vim-textobj-multiblock'
 "}}}
 """ easy caret move to the char"{{{
 NeoBundle "Lokaltog/vim-easymotion"
