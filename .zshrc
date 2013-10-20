@@ -224,7 +224,7 @@ function ls_abbrev() {
 
     if [ $ls_lines -gt 10 ]; then
         echo "$ls_result" | head -n 5
-        echo '...'
+        echo '         ...'
         echo "$ls_result" | tail -n 5
         echo "$(command ls -1 -A | wc -l | tr -d ' ') files exist"
     else
@@ -242,8 +242,9 @@ function do_enter() {
         echo
         echo -e "\e[0;33m--- git status ---\e[0m"
         git status -sb
-        echo
     fi
+    echo
+    echo
     zle reset-prompt
     return 0
 }
@@ -253,6 +254,7 @@ bindkey '^m' do_enter
 ## action option# {{{
 setopt auto_cd # ディレクトリ名だけでcd
 setopt auto_pushd # cdの時にpushd
+setopt pushd_ignore_dups # 同じディレクトリをpushしない
 HISTSIZE=10000
 SAVEHIST=10000
 setopt share_history # コマンド履歴を共有
@@ -266,6 +268,7 @@ setopt auto_param_keys # カッコ補完
 setopt auto_param_slash # ディレクトリ名の後ろのスラッシュを補完
 setopt numeric_glob_sort # 数値順
 setopt nolistbeep # beepを鳴らさない
+setopt long_list_jobs # jobsの時にプロセスidも知る
 
 # alias
 alias rm='trash.sh -i'
@@ -274,6 +277,7 @@ export TRASHBOX=~/.Trash # Where trash will be moved in
 export MAXTRASHBOXSIZE=1024
 export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
 
+alias po='popd'
 alias cp='cp -i'
 alias mv='mv -i'
 alias df='df -h'
@@ -288,5 +292,45 @@ alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
 function cdmk () { mkdir -p "$@" && eval cd "\"\$$#\""; 
+
+### global alias
+alias -g G='| grep'
+alias -g L='| less'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g S='| sort'
+alias -g W='| wc'
+alias -g X='| xargs'
 }
 # }}}
+
+## packages
+# パッケージ管理システムを読み込む。
+source ~/.zsh.d/package.zsh
+
+### auto-fu
+#package-install github hchbaw/auto-fu.zsh
+#source $(package-directory hchbaw/auto-fu.zsh)/auto-fu.zsh
+## auto-fuを初期化する。
+#zle-line-init() {
+#    auto-fu-init
+#}
+#zle -N zle-line-init
+#zle -N zle-keymap-select auto-fu-zle-keymap-select
+#
+## auto-fuをカスタマイズする。
+### Enterを押したときは自動補完された部分を利用しない。
+#afu+cancel-and-accept-line() {
+#    ((afu_in_p == 1)) && { afu_in_p=0; BUFFER="$buffer_cur" }
+#    zle afu+accept-line
+#}
+#zle -N afu+cancel-and-accept-line
+#bindkey -M afu "^M" afu+cancel-and-accept-line
+
+### z
+package-install github rupa/z
+source $(package-directory rupa/z)/z.sh
+precmd() {
+    _z --add "$(pwd -P)"
+}
+
