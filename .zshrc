@@ -174,8 +174,12 @@ add-zsh-hook precmd _update_vcs_info_msg
 setopt prompt_subst
 PROMPT="
 %{${fg[yellow]}%}%h:%~%{${reset_color}%}
-%(?.%{$fg[green]%}.%{$fg[cyan]%})(%(!.#.)%(?!-_-) <!;_;%) <)%{${reset_color}%} "
-SPROMPT="%{$fg[cyan]%}%{$suggest%}(-_-)?< もしかして %B%r%b %{$fg[cyan]%}でしょうか? [(y)es,(n)o,(a)bort,(e)dit]:${reset_color} "
+%(?.%{$fg[green]%}.%{$fg[cyan]%})(%(!.#.)%(?!-＿-) <!;＿;%) <)%{${reset_color}%} "
+SPROMPT="%{$fg[cyan]%}%{$suggest%}(-＿-)?< もしかして %B%r%b %{$fg[cyan]%}でしょうか? [(y)es,(n)o,(a)bort,(e)dit]:${reset_color} "
+
+function command_not_found_handler() {
+    echo "$fg[cyan](;-＿-)< $0 というコマンドは見当たりませんが${reset_color}"
+}
 # }}}
 ## title bar# {{{
 case "${TERM}" in
@@ -250,6 +254,13 @@ function do_enter() {
 }
 zle -N do_enter
 bindkey '^m' do_enter
+function separate(){
+    echo -n $fg_bold[yellow]
+    for i in $(seq 1 $COLUMNS); do
+        echo -n '~'
+    done
+    echo -n $reset_color
+}
 # }}}
 ## action option# {{{
 setopt auto_cd # ディレクトリ名だけでcd
@@ -291,7 +302,7 @@ alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
-function cdmk () { mkdir -p "$@" && eval cd "\"\$$#\""; 
+function take () { mkdir -p "$@" && eval cd "\"\$$#\""; 
 
 ### global alias
 alias -g G='| grep'
@@ -303,8 +314,7 @@ alias -g W='| wc'
 alias -g X='| xargs'
 }
 # }}}
-
-## packages
+## packages# {{{
 # パッケージ管理システムを読み込む。
 source ~/.zsh.d/package.zsh
 
@@ -333,4 +343,4 @@ source $(package-directory rupa/z)/z.sh
 precmd() {
     _z --add "$(pwd -P)"
 }
-
+# }}}
