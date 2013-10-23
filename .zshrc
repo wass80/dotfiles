@@ -344,3 +344,8 @@ precmd() {
     _z --add "$(pwd -P)"
 }
 # }}}
+
+### syntax-highlighting
+package-install github zsh-users/zsh-syntax-highlighting
+source $(package-directory zsh-users/zsh-syntax-highlighting)/zsh-syntax-highlighting.zsh
+
