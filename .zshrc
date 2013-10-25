@@ -302,7 +302,7 @@ alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
-function take () { mkdir -p "$@" && eval cd "\"\$$#\""; 
+function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
 
 ### global alias
 alias -g G='| grep'
@@ -310,9 +310,9 @@ alias -g L='| less'
 alias -g H='| head'
 alias -g T='| tail'
 alias -g S='| sort'
+alias -g U='| nkf -w'
 alias -g W='| wc'
 alias -g X='| xargs'
-}
 # }}}
 ## packages# {{{
 # パッケージ管理システムを読み込む。
