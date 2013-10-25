@@ -261,6 +261,9 @@ function separate(){
     done
     echo -n $reset_color
 }
+
+bindkey '^R' history-incremental-pattern-search-backward
+bindkey '^S' history-incremental-pattern-search-forward
 # }}}
 ## action option# {{{
 setopt auto_cd # ディレクトリ名だけでcd
@@ -268,6 +271,7 @@ setopt auto_pushd # cdの時にpushd
 setopt pushd_ignore_dups # 同じディレクトリをpushしない
 HISTSIZE=10000
 SAVEHIST=10000
+HISTFILE=~/.zsh_history # 保存先
 setopt share_history # コマンド履歴を共有
 setopt hist_ignore_all_dups # 履歴重複削除
 setopt hist_reduce_blanks # 空白履歴削除
