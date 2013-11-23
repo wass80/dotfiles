@@ -412,6 +412,34 @@ nnoremap ! :Switch<CR>
 NeoBundle "osyo-manga/vim-over"
 nnoremap <silent> <Space>m :OverCommandLine<CR>
 "}}}
+""" clipboard{{{
+function! Putclip(type, ...) range
+    let sel_save = &selection
+    let &selection = "inclusive"
+    let reg_save = @@
+    if a:type == 'n'
+        silent exe a:firstline . "," . a:lastline . "y"
+        elseif a:type == 'c'
+        silent exe a:1 . "," . a:2 . "y"
+        else
+        silent exe "normal! `<" . a:type . "`>y"
+    endif
+    call writefile(split(@@,"\n"), '/dev/clipboard')
+    let &selection = sel_save
+    let @@ = reg_save
+endfunction
+function! Getclip()
+    let reg_save = @@
+    let @@ = join(readfile('/dev/clipboard','b'), "\n")
+    setlocal paste
+    exe 'normal p'
+    setlocal nopaste
+    let @@ = reg_save
+endfunction
+nnoremap <silent> <Space>p :call Getclip()<CR>
+vnoremap <silent> <Space>y :call Putclip(visualmode(), 1)<CR>
+nnoremap <silent> <Space>y :call Putclip('n', 1)<CR>
+"}}}
 """ vim restart"{{{
 NeoBundle "tyru/restart.vim"
 "}}}
