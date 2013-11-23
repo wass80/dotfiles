@@ -10,6 +10,7 @@ if has('vim_starting')
 endif
 "}}}
 """ colorscheme"{{{
+set t_Co=256
 NeoBundle "tomasr/molokai"
 " NeoBundle "altercation/vim-colors-solarized"
 NeoBundle "fugalh/desert.vim"
@@ -370,6 +371,10 @@ NeoBundle 'kana/vim-textobj-indent'
 NeoBundle 'kana/vim-textobj-function'
 NeoBundle 'thinca/vim-textobj-between'
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
+omap ab <Plug>(textobj-multiblock-a)
+omap ib <Plug>(textobj-multiblock-i)
+vmap ab <Plug>(textobj-multiblock-a)
+vmap ib <Plug>(textobj-multiblock-i)
 "}}}
 """ easy caret move to the char"{{{
 NeoBundle "Lokaltog/vim-easymotion"
@@ -389,12 +394,23 @@ xmap <C-k> <Plug>(textmanip-move-up)
 xmap <C-h> <Plug>(textmanip-move-left)
 xmap <C-l> <Plug>(textmanip-move-right)
 "}}}
+""" multple cursors"{{{
+NeoBundle "terryma/vim-multiple-cursors"
+"}}}
 """ register ring"{{{
-NeoBundle "vim-scripts/YankRing.vim"
+NeoBundle "LeafCage/yankround.vim"
+nmap p <Plug>(yankround-p)
+nmap P <Plug>(yankround-P)
+nmap <Space>n <Plug>(yankround-prev)
+nmap <Space>N <Plug>(yankround-next)
 "}}}
 """ change the word to another word"{{{
 NeoBundle "AndrewRadev/switch.vim"
 nnoremap ! :Switch<CR>
+"}}}
+""" interactive substitute"{{{
+NeoBundle "osyo-manga/vim-over"
+nnoremap <silent> <Space>m :OverCommandLine<CR>
 "}}}
 """ vim restart"{{{
 NeoBundle "tyru/restart.vim"
@@ -411,7 +427,7 @@ nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 "}}}
 """ html"{{{
 "" quick coding html css
-NeoBundleLazy 'mattn/zencoding-vim' ,{
+NeoBundleLazy 'mattn/emmet-vim' ,{
 \ 'autoload' : {'filetypes' : ['html','css']}}
 "}}}
 """ ruby"{{{
@@ -589,11 +605,13 @@ nnoremap <silent><C-l><C-l> :<C-u>nohlsearch<CR>
 noremap <Space>h ^
 noremap <Space>l $
 nnoremap <Space>/ *
-noremap <Space>p %
+noremap <Space>b %
 " one char insert
 nnoremap <space>i i_<ESC>r
 " copy clipboard
-noremap <Space>y :w !cat > /dev/clipboard<CR><CR>
+noremap <Space>y :w! /dev/clipboard<CR>
+vnoremap <Space>y :w! /dev/clipboard<CR>
+
 " ignore Q
 nnoremap Q gq
 "}}}
