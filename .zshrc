@@ -307,6 +307,8 @@ alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
 function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
+autoload -Uz zmv
+alias mmv='noglob zmv -W'
 
 ### global alias
 alias -g G='| grep'
