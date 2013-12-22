@@ -216,6 +216,11 @@ let g:quickrun_config['markdown'] = {
             \   'exec' : ['%c %o "`cygpath -w %s`"'],
             \   'outputter': 'browser',
             \}
+"" slim
+let g:quickrun_config['slim'] = {
+            \   'command' : 'slimrb',
+            \   'exec' : ['%c -p %s']
+            \}
 "}}}
 """ run at ideone"{{{
 NeoBundle "mattn/webapi-vim"
@@ -495,7 +500,15 @@ NeoBundle 'eagletmt/ghcmod-vim' ,{
 
 " }}}
 """ markdown"{{{
-NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'tyru/open-browser.vim',{
+\ 'autoload' : {'filetypes' : 'markdown' }}
+"}}}
+""" slim"{{{
+NeoBundle 'slim-template/vim-slim'
+augroup Slim
+    autocmd!
+    autocmd BufWinEnter,BufNewFile *.slim set filetype=slim
+augroup END
 "}}}
 """" action"{{{
 " mouse enable
