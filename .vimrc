@@ -229,6 +229,14 @@ NeoBundle "mattn/ideone-vim"
 """ undo tree"{{{
 NeoBundle "sjl/gundo.vim"
 "}}}
+""" syntastic "{{{
+NeoBundle 'scrooloose/syntastic'
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=2
+let g:syntastic_check_on_open = 1
+let g:syntastic_js_checkers=['jshint']
+
+"}}}
 """ completion"{{{
 NeoBundle "Shougo/neocomplcache"
 NeoBundle "Shougo/neosnippet"
@@ -313,6 +321,8 @@ noremap <space>z :Unite file_mru<CR>
 noremap <space>o :Unite outline<CR>
 "" shoe regster
 noremap <space>r :Unite register<CR>
+"" unite source
+noremap <space>u :Unite source<CR>
 ""twice esc quit
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
