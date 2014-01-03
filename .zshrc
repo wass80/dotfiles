@@ -276,9 +276,10 @@ setopt share_history # コマンド履歴を共有
 setopt hist_ignore_all_dups # 履歴重複削除
 setopt hist_reduce_blanks # 空白履歴削除
 setopt extended_glob # 拡張ワイルドカード表現
+setopt ignore_eof # Ctrl-Dで終了しない
 setopt correct # もしかして
 autoload -U compinit; compinit
-setopt list_packed
+setopt list_packed # 補完表示を詰める
 setopt auto_param_keys # カッコ補完
 setopt auto_param_slash # ディレクトリ名の後ろのスラッシュを補完
 setopt numeric_glob_sort # 数値順
