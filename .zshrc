@@ -356,3 +356,8 @@ precmd() {
 package-install github zsh-users/zsh-syntax-highlighting
 source $(package-directory zsh-users/zsh-syntax-highlighting)/zsh-syntax-highlighting.zsh
 
+## rbenv
+if [ -d ${HOME}/.rbenv  ] ; then
+  export PATH=$HOME/.rbenv/bin:$PATH
+  eval "$(rbenv init - zsh)"
+fi

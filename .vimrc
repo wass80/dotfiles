@@ -396,7 +396,7 @@ vmap ab <Plug>(textobj-multiblock-a)
 vmap ib <Plug>(textobj-multiblock-i)
 "}}}
 """ easy caret move to the char"{{{
-NeoBundle "Lokaltog/vim-easymotion"
+NeoBundle 'haya14busa/vim-easymotion'
     let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
     " use ;w ;h..
     let g:EasyMotion_leader_key = ";"
