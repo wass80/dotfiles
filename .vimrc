@@ -227,6 +227,9 @@ let g:quickrun_config['slim'] = {
 NeoBundle "mattn/webapi-vim"
 NeoBundle "mattn/ideone-vim"
 "}}}
+""" run at wandbox"{{{
+NeoBundle "rhysd/wandbox-vim"
+"}}}
 """ undo tree"{{{
 NeoBundle "sjl/gundo.vim"
 "}}}
