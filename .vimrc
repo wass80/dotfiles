@@ -400,9 +400,12 @@ NeoBundle 'haya14busa/vim-easymotion'
     let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
     " use ;w ;h..
     let g:EasyMotion_leader_key = ";"
+    let g:EasyMotion_startofline=0
     let g:EasyMotion_grouping = 1
     hi EasyMotionTarget ctermbg=none ctermfg=red
     hi EasyMotionShade  ctermbg=none ctermfg=blue
+    " z all search
+    map z <Plug>(easymotion-s)
     " continue f
 NeoBundle 'rhysd/clever-f.vim'
 "}}}
@@ -607,6 +610,7 @@ map <silent> [Tag]x :tabclose<CR>
 map <silent> [Tag]n :tabnext<CR>
 map <silent> [Tag]p :tabprevious<CR>
 map <silent> [Tag]s :Unite tab<CR>
+map <silent> [Tag]t :tabe<CR>
 
 " Smooth Scrooll modified"{{{
 " 2011/01/23
