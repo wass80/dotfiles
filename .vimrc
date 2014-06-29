@@ -344,6 +344,7 @@ call unite#custom#substitute('files', '\\ \@!', '/', -30)
 call unite#custom_default_action('file', 'tabopen')
 NeoBundle "ujihisa/unite-colorscheme"
 NeoBundle "osyo-manga/unite-quickfix"
+NeoBundle "mattn/unite-gist"
 "}}}
 """ for unite"{{{
 NeoBundle 'Shougo/vimproc', {
@@ -406,8 +407,8 @@ NeoBundle 'haya14busa/vim-easymotion'
     let g:EasyMotion_grouping = 1
     hi EasyMotionTarget ctermbg=none ctermfg=red
     hi EasyMotionShade  ctermbg=none ctermfg=blue
-    " z all search
-    map z <Plug>(easymotion-s)
+    " s all search
+    map s <Plug>(easymotion-s)
     " continue f
 NeoBundle 'rhysd/clever-f.vim'
 "}}}
@@ -464,8 +465,19 @@ nnoremap <silent> <Space>p :call Getclip()<CR>
 vnoremap <silent> <Space>y :call Putclip(visualmode(), 1)<CR>
 nnoremap <silent> <Space>y :call Putclip('n', 1)<CR>
 "}}}
+""" submitting to gist"{{{
+NeoBundle "mattn/gist-vim"
+    let g:gist_show_privates = 1
+    let g:gist_post_private = 1
+    let g:github_user = "wass80"
+    let g:gist_curl_options = "-k"
+    let g:gist_detect_filetype = 1
+"}}}
 """ vim restart"{{{
 NeoBundle "tyru/restart.vim"
+"}}}
+""" show last error messages "{{{
+NeoBundle 'LeafCage/lastmess.vim'
 "}}}
 """ indent highlight"{{{
 NeoBundle 'nathanaelkane/vim-indent-guides'
