@@ -327,6 +327,8 @@ noremap <space>o :Unite outline<CR>
 noremap <space>r :Unite register<CR>
 "" unite source
 noremap <space>u :Unite source<CR>
+"" gist
+noremap <space>s :Unite gist<CR>
 ""twice esc quit
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>

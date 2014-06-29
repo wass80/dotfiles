@@ -311,6 +311,8 @@ function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
 autoload -Uz zmv
 alias mmv='noglob zmv -W'
 
+alias youdl="~/cw/python/youtube-dl/youtube_dl/__main__.py"
+
 ### global alias
 alias -g G='| grep'
 alias -g L='| less'
