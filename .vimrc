@@ -422,6 +422,9 @@ xmap <C-l> <Plug>(textmanip-move-right)
 """ multple cursors"{{{
 NeoBundle "terryma/vim-multiple-cursors"
 "}}}
+""" repeat plugin command with '.' "{{{
+NeoBundle "tpope/vim-repeat"
+"}}}
 """ register ring"{{{
 NeoBundle "LeafCage/yankround.vim"
 nmap p <Plug>(yankround-p)
@@ -752,6 +755,8 @@ nnoremap <space>i i_<ESC>r
 " copy clipboard
 noremap <Space>y :w! /dev/clipboard<CR>
 vnoremap <Space>y :w! /dev/clipboard<CR>
+" go normal mode with jj
+inoremap jj <Esc>
 
 " ignore Q
 nnoremap Q gq
