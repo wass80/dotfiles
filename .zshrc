@@ -180,6 +180,115 @@ SPROMPT="%{$fg[cyan]%}%{$suggest%}(-＿-)?< もしかして %B%r%b %{$fg[cyan]%}
 function command_not_found_handler() {
     echo "$fg[cyan](;-＿-)< $0 というコマンドは見当たりませんが${reset_color}"
 }
+#
+# Set vi mode status bar
+#
+
+#
+# Reads until the given character has been entered.
+#
+readuntil () {
+    typeset a
+    while [ "$a" != "$1" ]
+    do
+        read -E -k 1 a
+    done
+}
+
+#
+# If the $SHOWMODE variable is set, displays the vi mode, specified by
+# the $VIMODE variable, under the current command line.
+# 
+# Arguments:
+#
+#   1 (optional): Beyond normal calculations, the number of additional
+#   lines to move down before printing the mode.  Defaults to zero.
+#
+showmode() {
+    typeset movedown
+    typeset row
+
+    # Get number of lines down to print mode
+    movedown=$(($(echo "$RBUFFER" | wc -l) + ${1:-0}))
+    
+    # Get current row position
+    echo -n "\e[6n"
+    row="${${$(readuntil R)#*\[}%;*}"
+    
+    # Are we at the bottom of the terminal?
+    if [ $((row+movedown)) -gt "$LINES" ]
+    then
+        # Scroll terminal up one line
+        echo -n "\e[1S"
+        
+        # Move cursor up one line
+        echo -n "\e[1A"
+    fi
+    
+    # Save cursor position
+    echo -n "\e[s"
+    
+    # Move cursor to start of line $movedown lines down
+    echo -n "\e[$movedown;E"
+    
+    # Change font attributes
+    echo -n "\e[1m"
+    
+    # Has a mode been set?
+    if [ -n "$VIMODE" ]
+    then
+        # Print mode line
+        echo -n "-- $VIMODE -- "
+    else
+        # Clear mode line
+        echo -n "\e[0K"
+    fi
+
+    # Restore font
+    echo -n "\e[0m"
+    
+    # Restore cursor position
+    echo -n "\e[u"
+}
+
+clearmode() {
+    VIMODE= showmode
+}
+
+#
+# Temporary function to extend built-in widgets to display mode.
+#
+#   1: The name of the widget.
+#
+#   2: The mode string.
+#
+#   3 (optional): Beyond normal calculations, the number of additional
+#   lines to move down before printing the mode.  Defaults to zero.
+#
+makemodal () {
+    # Create new function
+    eval "$1() { zle .'$1'; ${2:+VIMODE='$2'}; showmode $3 }"
+
+    # Create new widget
+    zle -N "$1"
+}
+
+# Extend widgets
+makemodal vi-add-eol           INSERT
+makemodal vi-add-next          INSERT
+makemodal vi-change            INSERT
+makemodal vi-change-eol        INSERT
+makemodal vi-change-whole-line INSERT
+makemodal vi-insert            INSERT
+makemodal vi-insert-bol        INSERT
+makemodal vi-open-line-above   INSERT
+makemodal vi-substitute        INSERT
+makemodal vi-open-line-below   INSERT 1
+makemodal vi-replace           REPLACE
+makemodal vi-cmd-mode          NORMAL
+
+unfunction makemodal
+
 # }}}
 ## title bar# {{{
 case "${TERM}" in
@@ -191,12 +300,16 @@ kterm*|xterm)
 esac
 # }}}
 ## keybind# {{{
-bindkey -e
+bindkey -v
 autoload -Uz select-word-style
 select-word-style default
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style
-bindkey '^R' history-incremental-pattern-search-backwardunspecified
+bindkey "^P" up-line-or-history
+
+bindkey "^N" down-line-or-history
+bindkey '^R' history-incremental-pattern-search-backward
+bindkey '^S' history-incremental-pattern-search-forward
 function chpwd() {
     ls_abbrev
 }
@@ -262,8 +375,6 @@ function separate(){
     echo -n $reset_color
 }
 
-bindkey '^R' history-incremental-pattern-search-backward
-bindkey '^S' history-incremental-pattern-search-forward
 # }}}
 ## action option# {{{
 setopt auto_cd # ディレクトリ名だけでcd
@@ -285,6 +396,7 @@ setopt auto_param_slash # ディレクトリ名の後ろのスラッシュを補
 setopt numeric_glob_sort # 数値順
 setopt nolistbeep # beepを鳴らさない
 setopt long_list_jobs # jobsの時にプロセスidも知る
+setopt noflowcontrol # 画面更新停止(ctrl-S)させない
 
 # alias
 alias rm='trash.sh -i'
@@ -309,9 +421,13 @@ alias vi='vim'
 alias g='git'
 function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
 autoload -Uz zmv
+
 alias mmv='noglob zmv -W'
 
 alias youdl="~/cw/python/youtube-dl/youtube_dl/__main__.py"
+function addnicolist() {
+    /bin/ruby ~/cw/ruby/getmylistids.rb $1 | tee -a ~/cw/db/Temp/nicofab.txt
+}
 
 ### global alias
 alias -g G='| grep'
