@@ -285,7 +285,7 @@ NeoBundle "Shougo/neosnippet"
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 NeoBundle 'honza/snipmate-snippets'
-let g:neosnippet#snippets_directory='~/.vim/.bundle/snipmate-snippets/snippets,~/.vim/mysnippets'
+let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets,~/.vim/mysnippets'
 NeoBundle 'Rip-Rip/clang_complete'
     let g:neocomplcache_force_overwrite_completefunc=1
     if !exists("g:neocomplcache_force_omni_patterns")
@@ -345,6 +345,7 @@ call unite#custom_default_action('file', 'tabopen')
 NeoBundle "ujihisa/unite-colorscheme"
 NeoBundle "osyo-manga/unite-quickfix"
 NeoBundle "mattn/unite-gist"
+NeoBundle "Shougo/neomru.vim"
 "}}}
 """ for unite"{{{
 NeoBundle 'Shougo/vimproc', {
@@ -371,6 +372,9 @@ NeoBundle "tsukkee/unite-help"
     nnoremap <C-h>  :<C-u>Unite -start-insert help<CR>
     " Execute help by cursor keyword.
     nnoremap <silent> g<C-h>  :<C-u>UniteWithCursorWord help<CR>"}}}
+""" text aline"{{{
+NeoBundle "junegunn/vim-easy-align"
+"}}}
 """ search word on cursor"{{{
 NeoBundle "thinca/vim-visualstar"
 map * <Plug>(visualstar-*)N
@@ -483,14 +487,8 @@ NeoBundle "tyru/restart.vim"
 NeoBundle 'LeafCage/lastmess.vim'
 "}}}
 """ indent highlight"{{{
-NeoBundle 'nathanaelkane/vim-indent-guides'
-let g:indent_guides_auto_colors=0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=grey
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
-let g:indent_guides_guide_size=1
-let g:indent_guides_enable_on_vim_startup=0
-au FileType coffee,ruby,javascript,python IndentGuidesEnable
-nmap <silent><Leader>ig <Plug>IndentGuidesToggle
+    NeoBundle "Yggdroot/indentLine"
+    let g:indentLine_char = '│' 
 "}}}
 """ html"{{{
 "" quick coding html css
@@ -500,7 +498,7 @@ NeoBundleLazy 'mattn/emmet-vim' ,{
 """ ruby"{{{
 NeoBundleLazy 'Shougo/neocomplcache-rsense' ,{
 \ 'autoload' : {'filetypes' : 'ruby' }}
-let g:rsenseHome = '/cygwin/lib/ruby/gems/1.9.1/gems/rsence-2.2.5'
+let g:rsenseHome = '/cygwin64/lib/ruby/gems/1.9.1/gems/rsence-2.2.5'
 NeoBundle 'vim-ruby/vim-ruby'
 :let ruby_space_errors = 1
 "}}}
@@ -581,9 +579,9 @@ set helplang=ja,en
 " edit many buffer
 set hidden
 " backup directory
-set directory=~/.tmp
-set backupdir=~/.tmp
-set viminfo+=n~/.tmp
+set directory=~/.vim/tmp
+set backupdir=~/.vim/tmp
+set viminfo+=n~/.vim/tmp/viminfo.txt
 " folding
 set foldmethod=marker
 set foldtext=foldCC#foldtext()
@@ -693,6 +691,22 @@ map <silent> <C-D> :call SmoothScroll("d",2, 2)<CR>
 map <silent> <C-U> :call SmoothScroll("u",2, 2)<CR>
 map <silent> <C-F> :call SmoothScroll("d",1, 1)<CR>
 map <silent> <C-B> :call SmoothScroll("u",1, 1)<CR>
+
+" サイズ変更
+nnoremap <M-+> <C-w>-
+nnoremap <M--> <C-w>+
+nnoremap <M->> <C-w>>
+nnoremap <M-<> <C-w><
+" alt + = でリセット
+nnoremap <M-=> <C-w>=
+" alt + a で最大化
+nnoremap <M-a> <C-w>_<C-w><Bar>
+" 移動
+nnoremap <M-h> <C-w>h
+nnoremap <M-j> <C-w>j
+nnoremap <M-k> <C-w>k
+nnoremap <M-l> <C-w>l
+
 "}}}
 """" display"{{{
 " lisp rainbow parents
