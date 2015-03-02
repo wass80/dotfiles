@@ -48,8 +48,8 @@ let g:lightline = {
             \   'charcode': 'MyCharCode',
             \   'gitgutter': 'MyGitGutter',
             \ },
-            \ 'separator': {'left': '⮀', 'right': '⮂'},
-            \ 'subseparator': {'left': '⮁', 'right': '⮃'}
+            \ 'separator': {'left': '', 'right': ''},
+            \ 'subseparator': {'left': '|', 'right': '|'}
             \ }
 
 function! MyModified()
@@ -57,7 +57,7 @@ function! MyModified()
 endfunction
 
 function! MyReadonly()
-    return &ft !~? 'help\|vimfiler\|gundo' && &ro ? '⭤' : ''
+    return &ft !~? 'help\|vimfiler\|gundo' && &ro ? 'RO' : ''
 endfunction
 
 function! MyFilename()
@@ -73,7 +73,7 @@ function! MyFugitive()
     try
         if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
             let _ = fugitive#head()
-            return strlen(_) ? '⭠ '._ : ''
+            return strlen(_) ? 'ﾄ'._ : ''
         endif
     catch
     endtry
