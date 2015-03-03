@@ -547,6 +547,10 @@ NeoBundle 'kana/vim-filetype-haskell' ,{
 """ markdown"{{{
 NeoBundle 'tyru/open-browser.vim',{
 \ 'autoload' : {'filetypes' : 'markdown' }}
+NeoBundle 'rcmdnk/vim-markdown',{
+\ 'autoload' : {'filetypes' : 'markdown' }}
+NeoBundle 'joker1007/vim-markdown-quote-syntax',{
+\ 'autoload' : {'filetypes' : 'markdown' }}
 "}}}
 """ silm"{{{
 NeoBundle 'slim-template/vim-slim'
