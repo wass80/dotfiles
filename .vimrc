@@ -243,7 +243,7 @@ let g:syntastic_js_checkers=['jshint']
 "}}}
 """ completion"{{{
 NeoBundle "Shougo/neocomplcache"
-NeoBundle "Shougo/neosnippet"
+NeoBundle "Shougo/neosnippet-snippets"
     " Use neocomplcache.
     let g:neocomplcache_enable_at_startup = 1
     " Use smartcase.
@@ -284,7 +284,6 @@ NeoBundle "Shougo/neosnippet"
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-NeoBundle 'honza/snipmate-snippets'
 let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets,~/.vim/mysnippets'
 NeoBundle 'Rip-Rip/clang_complete'
     let g:neocomplcache_force_overwrite_completefunc=1
@@ -328,7 +327,9 @@ noremap <space>r :Unite register<CR>
 "" unite source
 noremap <space>u :Unite source<CR>
 "" gist
-noremap <space>s :Unite gist<CR>
+noremap <space>t :Unite gist<CR>
+"" mapping
+noremap <space>\ :Unite mapping<CR>
 ""twice esc quit
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
@@ -376,9 +377,9 @@ NeoBundle "tsukkee/unite-help"
 NeoBundle "junegunn/vim-easy-align"
 "}}}
 """ search word on cursor"{{{
-NeoBundle "thinca/vim-visualstar"
-map * <Plug>(visualstar-*)N
-map # <Plug>(visualstar-#)N
+NeoBundle "thinca/vim-visualstar" 
+    map * <Plug>(visualstar-*)N
+    map # <Plug>(visualstar-#)N
 "}}}
 """ reference K:search"{{{
 NeoBundle "thinca/vim-ref"
@@ -403,16 +404,24 @@ vmap ab <Plug>(textobj-multiblock-a)
 vmap ib <Plug>(textobj-multiblock-i)
 "}}}
 """ easy caret move to the char"{{{
-NeoBundle 'haya14busa/vim-easymotion'
+NeoBundle 'Lokaltog/vim-easymotion'
     let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
-    " use ;w ;h..
-    let g:EasyMotion_leader_key = ";"
     let g:EasyMotion_startofline=0
     let g:EasyMotion_grouping = 1
+    let g:EasyMotion_do_mapping = 0
+    let g:EasyMotion_smartcase = 1
+    let g:EasyMotion_skipfoldedline = 0
     hi EasyMotionTarget ctermbg=none ctermfg=red
     hi EasyMotionShade  ctermbg=none ctermfg=blue
     " s all search
-    map s <Plug>(easymotion-s)
+    map s <Plug>(easymotion-s2)
+    " search label
+    nmap / <Plug>(easymotion-sn)
+    xmap / <Plug>(easymotion-sn)
+    omap / <Plug>(easymotion-tn)
+    nnoremap g/ /
+    xnoremap g/ /
+    onoremap g/ /
     " continue f
 NeoBundle 'rhysd/clever-f.vim'
 "}}}
@@ -442,7 +451,7 @@ nnoremap ! :Switch<CR>
 "}}}
 """ interactive substitute"{{{
 NeoBundle "osyo-manga/vim-over"
-nnoremap <silent> <Space>m :OverCommandLine<CR>
+nnoremap <silent> <Space>s :OverCommandLine<CR>
 "}}}
 """ clipboard{{{
 function! Putclip(type, ...) range
@@ -469,6 +478,7 @@ function! Getclip()
     let @@ = reg_save
 endfunction
 nnoremap <silent> <Space>p :call Getclip()<CR>
+nnoremap <silent> <Space>P h :call Getclip()<CR>
 vnoremap <silent> <Space>y :call Putclip(visualmode(), 1)<CR>
 nnoremap <silent> <Space>y :call Putclip('n', 1)<CR>
 "}}}
@@ -515,7 +525,7 @@ NeoBundle 'vim-scripts/JSON.vim' ,{
 \ 'autoload' : {'filetypes' : 'json' }}
 
 au BufRead,BufNewFile *.json set filetype=json
-"}}}
+"""}}}
 """ haskell"{{{
 " syntax
 NeoBundle 'dag/vim2hs' ,{
@@ -538,7 +548,7 @@ NeoBundle 'kana/vim-filetype-haskell' ,{
 NeoBundle 'tyru/open-browser.vim',{
 \ 'autoload' : {'filetypes' : 'markdown' }}
 "}}}
-""" slim"{{{
+""" silm"{{{
 NeoBundle 'slim-template/vim-slim'
 augroup Slim
     autocmd!
@@ -584,7 +594,7 @@ set backupdir=~/.vim/tmp
 set viminfo+=n~/.vim/tmp/viminfo.txt
 " folding
 set foldmethod=marker
-set foldtext=foldCC#foldtext()
+set foldtext=FoldCCtext()
 set foldcolumn=1
 set fillchars=vert:\|
 " tab page
@@ -762,13 +772,12 @@ nnoremap <silent><C-l><C-l> :<C-u>nohlsearch<CR>
 " without shift
 noremap <Space>h ^
 noremap <Space>l $
+noremap <Space>j 10j
+noremap <Space>k 10k
 nnoremap <Space>/ *
 noremap <Space>b %
 " one char insert
 nnoremap <space>i i_<ESC>r
-" copy clipboard
-noremap <Space>y :w! /dev/clipboard<CR>
-vnoremap <Space>y :w! /dev/clipboard<CR>
 " go normal mode with jj
 inoremap jj <Esc>
 
