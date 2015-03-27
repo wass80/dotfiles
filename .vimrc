@@ -579,11 +579,21 @@ augroup Slim
     autocmd BufWinEnter,BufNewFile *.slim set filetype=slim
 augroup END
 "}}}
+""" twitter "{{{
+NeoBundle "basyura/TweetVim"
+NeoBundle "basyura/twibill.vim"
+let g:tweetvim_display_separator = 0
+nmap <silent> <space>0h :TweetVimUserStream<CR>
+nmap <silent> <space>0t :TweetVimSay<CR>
+"}}}
 """" action"{{{
 " mouse enable
 if has('mouse')
 set mouse=a
 endif
+" command completion
+set wildmenu
+set wildmode=longest:full,full
 " clipboard shear
 set clipboard+=unnamed
 " deleat backspace word
