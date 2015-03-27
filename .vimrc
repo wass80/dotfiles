@@ -243,6 +243,7 @@ let g:syntastic_js_checkers=['jshint']
 "}}}
 """ completion"{{{
 NeoBundle "Shougo/neocomplcache"
+NeoBundle "Shougo/neosnippet.vim"
 NeoBundle "Shougo/neosnippet-snippets"
     " Use neocomplcache.
     let g:neocomplcache_enable_at_startup = 1
@@ -255,30 +256,49 @@ NeoBundle "Shougo/neosnippet-snippets"
     " Set minimum syntax keyword length.
     let g:neocomplcache_min_syntax_length = 3
     let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+    let g:neocomplcache_enable_auto_select=1
     " Zen coding
     let g:use_zen_complete_tag = 1
+
     " Plugin key-mappings.
+	inoremap <expr><C-g>     neocomplcache#undo_completion()
+	inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+	" Recommended key-mappings.
+	" <CR>: close popup and save indent.
+	inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+	function! s:my_cr_function()
+	  return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+	endfunction
+	" <TAB>: completion.
+	inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+	" <C-h>, <BS>: close popup and delete backword char.
+	inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+	inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+	inoremap <expr><C-y>  neocomplcache#close_popup()
+	inoremap <expr><C-e>  neocomplcache#cancel_popup()
+	" Close popup by <Space>.
+	inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+	" For cursor moving in insert mode(Not recommended)
+	inoremap <expr><Left>  neocomplcache#close_popup() . "\<Left>"
+	inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
+	inoremap <expr><Up>    neocomplcache#close_popup() . "\<Up>"
+	inoremap <expr><Down>  neocomplcache#close_popup() . "\<Down>"
+    "snipet
     imap <C-k>     <Plug>(neocomplcache_snippets_expand)
     smap <C-k>     <Plug>(neocomplcache_snippets_expand)
     inoremap <expr><C-g>    neocomplcache#undo_completion()
     inoremap <expr><C-l>    neocomplcache#complete_common_string()
-    " Recommended key-mappings.
-    " <CR>: close popup and save indent.
-    "inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
     " <TAB>: completion.
-    imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-    smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-    noremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>" 
+	imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+	\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+	smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+	\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
     " For snippet_complete marker.
     if has('conceal') 
         set conceallevel=2 concealcursor=i
     endif
-    " <C-h>, <BS>: close popup and delete backword char.
-    " remap expr
-    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y> neocomplcache#close_popup()
-    inoremap <expr><C-e> neocomplcache#cancel_popup()
     " Enable omni completion.
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
