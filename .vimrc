@@ -1,56 +1,83 @@
 set nocompatible
 filetype off
 filetype plugin indent off
-
-"""" NeoBundle"{{{
-" run ":NeoBundleInstall"
+" core "{{{
+"" NeoBundle "{{{ 
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
   call neobundle#rc(expand('~/.vim/bundle'))
 endif
 NeoBundleFetch "Shougo/neobundle.vim"
+""}}}
+"" vimproc "{{{
+NeoBundle 'Shougo/vimproc', {
+\ 'build' : {
+\     'windows' : 'make -f make_mingw32.mak',
+\     'cygwin' : 'make -f make_cygwin.mak',
+\     'mac' : 'make -f make_mac.mak',
+\     'unix' : 'make -f make_unix.mak',
+\    },
+\ }
+""}}}
 "}}}
-""" colorscheme"{{{
+" apperance "{{{
+"" basic "{{{
 set t_Co=256
-NeoBundle "tomasr/molokai"
-" NeoBundle "altercation/vim-colors-solarized"
-NeoBundle "fugalh/desert.vim"
-NeoBundle "nanotech/jellybeans.vim"
-NeoBundle "w0ng/vim-hybrid"
-colorscheme hybrid
+set number
+set cursorline
+set list
+set listchars=tab:^\ ,trail:~
 "}}}
-""" lightline"{{{
+"" colorscheme  "{{{
+NeoBundle "w0ng/vim-hybrid"
+syntax on
+colorscheme hybrid
+function! ZenkakuSpace()
+highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
+endfunction
+
+if has('syntax')
+    augroup ZenkakuSpace
+        autocmd!
+        autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+    augroup END
+    call ZenkakuSpace()
+endif
+""}}}
+"" lightline  "{{{
 NeoBundle 'itchyny/lightline.vim'
+set laststatus=2
 let g:lightline = {
-            \ 'colorscheme': 'wombat',
-            \ 'mode_map': {'c': 'NORMAL'},
-            \ 'active': {
-            \   'left': [
-            \     ['mode', 'paste'],
-            \     ['fugitive', 'gitgutter', 'filename'],
-            \   ],
-            \   'right': [
-            \     ['lineinfo', 'syntastic'],
-            \     ['percent'],
-            \     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
-            \   ]
-            \ },
-            \ 'component_function': {
-            \   'modified': 'MyModified',
-            \   'readonly': 'MyReadonly',
-            \   'fugitive': 'MyFugitive',
-            \   'filename': 'MyFilename',
-            \   'fileformat': 'MyFileformat',
-            \   'filetype': 'MyFiletype',
-            \   'fileencoding': 'MyFileencoding',
-            \   'mode': 'MyMode',
-            \   'syntastic': 'SyntasticStatuslineFlag',
-            \   'charcode': 'MyCharCode',
-            \   'gitgutter': 'MyGitGutter',
-            \ },
-            \ 'separator': {'left': '', 'right': ''},
-            \ 'subseparator': {'left': '|', 'right': '|'}
-            \ }
+\   'colorscheme': 'wombat',
+\   'mode_map': {'c': 'NORMAL'},
+\   'active': {
+\     'left': [
+\       ['mode', 'paste'],
+\       ['fugitive', 'gitgutter', 'filename',],
+\     ],
+\     'right': [
+\       ['lineinfo'],
+\       ['filetype'],
+\       ['charcode', 'fileformat', 'fileencoding'],
+\     ]
+\   },
+\   'component_function': {
+\     'modified': 'MyModified',
+\     'readonly': 'MyReadonly',
+\     'filename': 'MyFilename',
+\     'fugitive': 'MyFugitive',
+\     'lineinfo': 'MyLineinfo',
+\     'fileformat': 'MyFileformat',
+\     'filetype': 'MyFiletype',
+\     'fileencoding': 'MyFileencoding',
+\     'mode': 'MyMode',
+\     'syntastic': 'SyntasticStatuslineFlag',
+\     'charcode': 'MyCharCode',
+\     'gitgutter': 'MyGitGutter',
+\   },
+\   'separator': {'left': '', 'right': ''},
+\   'subseparator': {'left': '|', 'right': '|'}
+\}
 
 function! MyModified()
     return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
@@ -80,6 +107,10 @@ function! MyFugitive()
     return ''
 endfunction
 
+function! MyLineinfo()
+    return printf("%d/%d:%d", line("."), line('$'), col('.'))
+endfunction
+
 function! MyFileformat()
     return winwidth('.') > 70 ? &fileformat : ''
 endfunction
@@ -103,9 +134,9 @@ function! MyGitGutter()
         return ''
     endif
     let symbols = [
-                \ g:gitgutter_sign_added . ' ',
-                \ g:gitgutter_sign_modified . ' ',
-                \ g:gitgutter_sign_removed . ' '
+                \ g:gitgutter_sign_added . '+',
+                \ g:gitgutter_sign_modified . 'M',
+                \ g:gitgutter_sign_removed . '-'
                 \ ]
     let hunks = GitGutterGetHunkSummary()
     let ret = []
@@ -117,7 +148,6 @@ function! MyGitGutter()
     return join(ret, ' ')
 endfunction
 
-" https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
 function! MyCharCode()
     if winwidth('.') <= 70
         return ''
@@ -152,672 +182,109 @@ function! MyCharCode()
 
     return "'". char ."' ". nr
 endfunction
+""}}}
 "}}}
-""" quickrun anything"{{{
+" exec "{{{
+"" quickrun&fix "{{{
 NeoBundle "thinca/vim-quickrun"
-    let g:quickrun_config = {}
-    let g:quickrun_config._ = {
-                \   "runner" : "vimproc",
-                \   "runner/vimproc/updatetime" : 10,
-                \   "hook/shabadoubi_touch_henshin/enable" : 1,
-                \   "hook/shabadoubi_touch_henshin/wait" : 20,
-                \   "hook/close_unite_quickfix/enable_hook_loaded" : 1,
-                \   "hook/unite_quickfix/enable_failure" : 1,
-                \   "hook/close_quickfix/enable_exit" : 1,
-                \   "hook/close_buffer/enable_failure" : 1,
-                \   "hook/close_buffer/enable_empty_data" : 1,
-                \   "outputter" : "multi:buffer:quickfix",
-                \   "outputter/buffer/split" : ":botright 8sp",
-                \}
-    nmap <F5> <Plug>(quickrun)
-    imap <F5> <C-c> <Plug>(quickrun)
-    nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 NeoBundle "osyo-manga/shabadou.vim"
-"" RSpec
-let g:quickrun_config['ruby.rspec'] = { 'command': 'rspec' }
-augroup UjihisaRSpec
-    autocmd!
-    autocmd BufWinEnter,BufNewFile *_rspec.rb set filetype=ruby.rspec
-    autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
-augroup END
-"" Cpp
-let g:quickrun_config['cpp'] = {
-            \   'command' : 'g++',
-            \       "cmdopt"    : " -std=gnu++0x",
-            \       "exec" : ["%c %o %s -o %s:p:r", "%s:p:r"],
-            \       "hook/boost_link/enable" : 0,
-            \       "outputter/quickfix/errorformat" : '%f:%l:%c:\ %t%*[^:]:%m,%f:%m',
-            \       "outputter/location_list/errorformat" : '%f:%l:%c:\ %t%*[^:]:%m,%f:%m'
-            \}
-"" CoffeeScript
-let g:quickrun_config['javascript'] = {
-            \   'command' : 'node',
-            \   'exec' : ['node "`cygpath -w %s`"']
-            \}
-let g:quickrun_config['coffee'] = {
-            \   'command' : 'coffee',
-            \   'outputter/quickfix/errorformat ' : '%m',
-            \   'hook/close_buffer/enable_failure' : 0,
-            \   'exec' : ['%c "`cygpath -w %s`"']
-            \}
-"" Haskell
-let g:quickrun_config['haskell'] = {
-            \   'command' : 'runghc',
-            \   'exec' : ['%c "`cygpath -w %s`"']
-            \}
-"" Java
-let g:quickrun_config['java'] = {
-            \   'command' : 'gcj',
-            \   'exec' : ['%c --main=%s:t:r -o %s:p:r.exe %s','%s:p:r.exe']
-            \}
-"" markdown
-let g:quickrun_config['markdown'] = {
-            \   'command' : 'pandoc',
-            \   'args': '--mathjax',
-            \   'exec' : ['%c %o "`cygpath -w %s`"'],
-            \   'outputter': 'browser',
-            \}
-"" slim
-let g:quickrun_config['slim'] = {
-            \   'command' : 'slimrb',
-            \   'exec' : ['%c -p %s']
-            \}
-"}}}
-""" run at ideone"{{{
-NeoBundle "mattn/webapi-vim"
-NeoBundle "mattn/ideone-vim"
-"}}}
-""" run at wandbox"{{{
+NeoBundle "osyo-manga/unite-quickfix"
+call quickrun#module#register(shabadou#make_quickrun_hook_anim(
+\   "turret",
+\   ['{:}-', '{:}--', '{:}---', '{:}----', '{:}-----', '{:}<cake is a lie.'],
+\   12,
+\), 1)
+let g:quickrun_config = {
+\   "_" : {
+\       "runner" : "vimproc",
+\       "runner/vimproc/updatetime" : 40,
+\       "hook/quickfix_replate_tempname_to_bufnr/enable_exit" : 1,
+\       "hook/quickfix_replate_tempname_to_bufnr/priority_exit" : -10,
+\       "outputter/buffer/split" : ":botright 8sp",
+\       "hook/turret/enable" : 1,
+\       "hook/turret/wait" : 5,
+\       "hook/turret/redraw" : 1,
+\   },
+\}
+nmap <Space>q <Plug>(quickrun)
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+""}}}
+"" syntax check "{{{
+NeoBundle "osyo-manga/vim-watchdogs"
+NeoBundle "jceb/vim-hier"
+NeoBundle "dannyob/quickfixstatus"
+NeoBundle "tomtom/quickfixsigns_vim"
+let s:config = {
+\    "watchdogs_checker/_" : {
+\        "hook/close_quickfix/enable_exit" : 1,
+\    },
+\}
+call extend(g:quickrun_config, s:config)
+unlet s:config
+call watchdogs#setup(g:quickrun_config)
+let g:watchdogs_check_BufWritePost_enable = 1
+""}}}
+"" wandbox "{{{
 NeoBundle "rhysd/wandbox-vim"
+""}}}
 "}}}
-""" undo tree"{{{
-NeoBundle "sjl/gundo.vim"
+" view "{{{
+"" Unite "{{{
+""}}}
 "}}}
-""" syntastic "{{{
-NeoBundle 'scrooloose/syntastic'
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=2
-let g:syntastic_check_on_open = 1
-let g:syntastic_js_checkers=['jshint']
-
-"}}}
-""" completion"{{{
-NeoBundle "Shougo/neocomplcache"
+" completion "{{{
+"" neocomplcache "{{{
+NeoBundle "Shougo/neocomplete"
 NeoBundle "Shougo/neosnippet.vim"
 NeoBundle "Shougo/neosnippet-snippets"
-    " Use neocomplcache.
-    let g:neocomplcache_enable_at_startup = 1
-    " Use smartcase.
-    let g:neocomplcache_enable_smart_case = 1
-    " Use camel case completion.
-    let g:neocomplcache_enable_camel_case_completion = 1
-    " Use underbar completion.
-    let g:neocomplcache_enable_underbar_completion = 1
-    " Set minimum syntax keyword length.
-    let g:neocomplcache_min_syntax_length = 3
-    let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-    let g:neocomplcache_enable_auto_select=1
-    " Zen coding
-    let g:use_zen_complete_tag = 1
-
-    " Plugin key-mappings.
-	inoremap <expr><C-g>     neocomplcache#undo_completion()
-	inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-	" Recommended key-mappings.
-	" <CR>: close popup and save indent.
-	inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-	function! s:my_cr_function()
-	  return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-	endfunction
-	" <TAB>: completion.
-	inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-	" <C-h>, <BS>: close popup and delete backword char.
-	inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-	inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-	inoremap <expr><C-y>  neocomplcache#close_popup()
-	inoremap <expr><C-e>  neocomplcache#cancel_popup()
-	" Close popup by <Space>.
-	inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
-	" For cursor moving in insert mode(Not recommended)
-	inoremap <expr><Left>  neocomplcache#close_popup() . "\<Left>"
-	inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
-	inoremap <expr><Up>    neocomplcache#close_popup() . "\<Up>"
-	inoremap <expr><Down>  neocomplcache#close_popup() . "\<Down>"
-    "snipet
-    imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    inoremap <expr><C-g>    neocomplcache#undo_completion()
-    inoremap <expr><C-l>    neocomplcache#complete_common_string()
-    " <TAB>: completion.
-	imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-	\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-	smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-	\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-    " For snippet_complete marker.
-    if has('conceal') 
-        set conceallevel=2 concealcursor=i
-    endif
-    " Enable omni completion.
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets,~/.vim/mysnippets'
-NeoBundle 'Rip-Rip/clang_complete'
-    let g:neocomplcache_force_overwrite_completefunc=1
-    if !exists("g:neocomplcache_force_omni_patterns")
-            let g:neocomplcache_force_omni_patterns = {}
-    endif
-    let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|::'
-    let g:clang_user_options = '-std=c++11'
-    let g:clang_complete_auto = 0
-    let g:clang_auto_select = 0
-"}}}
-""" completion "end""{{{
-NeoBundle 'taichouchou2/vim-endwise.git'
-    let g:endwise_no_mappings=1
-"}}}
-""" use template"{{{
-NeoBundle 'mattn/sonictemplate-vim'
-"}}}
-""" git"{{{
-NeoBundle 'tpope/vim-fugitive'
-noremap <space>g :Gstatus<CR>
-""" git diff
-NeoBundle "airblade/vim-gitgutter"
-""" unite git
-NeoBundle 'kmnk/vim-unite-giti'
-"}}}
-""" file buffer ...etc"{{{
-NeoBundle "Shougo/unite.vim"
-""insert mode start
-let g:unite_enable_start_insert=1
-""buffer list
-noremap <space>b :Unite buffer<CR>
-""file list
-noremap <space>f :Unite -buffer-name=file file<CR>
-""recently files list
-noremap <space>z :Unite file_mru<CR>
-"" show outline
-noremap <space>o :Unite outline<CR>
-"" shoe regster
-noremap <space>r :Unite register<CR>
-"" unite source
-noremap <space>u :Unite source<CR>
-"" gist
-noremap <space>t :Unite gist<CR>
-"" mapping
-noremap <space>\ :Unite mapping<CR>
-""twice esc quit
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-""short cut directory
-call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
-call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
-call unite#custom#substitute('files', '^@', '\=getcwd()."/*"', 1)
-call unite#custom#substitute('files', '^;r', '\=$VIMRUNTIME."/"')
-call unite#custom#substitute('files', '^\~', escape($HOME, '\'), -2)
-call unite#custom#substitute('files', '\\\@<! ', '\\ ', -20)
-call unite#custom#substitute('files', '\\ \@!', '/', -30)
-""open new tab
-call unite#custom_default_action('file', 'tabopen')
-NeoBundle "ujihisa/unite-colorscheme"
-NeoBundle "osyo-manga/unite-quickfix"
-NeoBundle "mattn/unite-gist"
-NeoBundle "Shougo/neomru.vim"
-"}}}
-""" for unite"{{{
-NeoBundle 'Shougo/vimproc', {
-\ 'build' : {
-\     'windows' : 'make -f make_mingw32.mak',
-\     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make -f make_mac.mak',
-\     'unix' : 'make -f make_unix.mak',
-\    },
-\ }
-"}}}
-""" outline create"{{{
-NeoBundle "Shougo/unite-outline"
-"}}}
-""" shell"{{{
-NeoBundle "Shougo/vimshell"
-"}}}
-""" file tree"{{{
-NeoBundle "Shougo/vimfiler"
-"}}}
-""" help search"{{{
-NeoBundle "tsukkee/unite-help"
-    " Execute help.
-    nnoremap <C-h>  :<C-u>Unite -start-insert help<CR>
-    " Execute help by cursor keyword.
-    nnoremap <silent> g<C-h>  :<C-u>UniteWithCursorWord help<CR>"}}}
-""" text aline"{{{
-NeoBundle "junegunn/vim-easy-align"
-"}}}
-""" search word on cursor"{{{
-NeoBundle "thinca/vim-visualstar" 
-    map * <Plug>(visualstar-*)N
-    map # <Plug>(visualstar-#)N
-"}}}
-""" reference K:search"{{{
-NeoBundle "thinca/vim-ref"
-"}}}
-""" folding text"{{{
-NeoBundle 'LeafCage/foldCC'
-"}}}
-""" srround and textobj"{{{
-NeoBundle "tpope/vim-surround"
-NeoBundle 'kana/vim-operator-user.git'
-NeoBundle 'kana/vim-operator-replace.git'
-map R  <Plug>(operator-replace)
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'kana/vim-textobj-line'
-NeoBundle 'kana/vim-textobj-indent'
-NeoBundle 'kana/vim-textobj-function'
-NeoBundle 'thinca/vim-textobj-between'
-NeoBundle 'osyo-manga/vim-textobj-multiblock'
-omap ab <Plug>(textobj-multiblock-a)
-omap ib <Plug>(textobj-multiblock-i)
-vmap ab <Plug>(textobj-multiblock-a)
-vmap ib <Plug>(textobj-multiblock-i)
-"}}}
-""" easy caret move to the char"{{{
-NeoBundle 'Lokaltog/vim-easymotion'
-    let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
-    let g:EasyMotion_startofline=0
-    let g:EasyMotion_grouping = 1
-    let g:EasyMotion_do_mapping = 0
-    let g:EasyMotion_smartcase = 1
-    let g:EasyMotion_skipfoldedline = 0
-    hi EasyMotionTarget ctermbg=none ctermfg=red
-    hi EasyMotionShade  ctermbg=none ctermfg=blue
-    " s all search
-    map s <Plug>(easymotion-s2)
-    " search label
-    nmap / <Plug>(easymotion-sn)
-    xmap / <Plug>(easymotion-sn)
-    omap / <Plug>(easymotion-tn)
-    nnoremap g/ /
-    xnoremap g/ /
-    onoremap g/ /
-    " continue f
-NeoBundle 'rhysd/clever-f.vim'
-"}}}
-""" move text in virtual mode"{{{
-NeoBundle "t9md/vim-textmanip"
-xmap <C-j> <Plug>(textmanip-move-down)
-xmap <C-k> <Plug>(textmanip-move-up)
-xmap <C-h> <Plug>(textmanip-move-left)
-xmap <C-l> <Plug>(textmanip-move-right)
-"}}}
-""" multple cursors"{{{
-NeoBundle "terryma/vim-multiple-cursors"
-"}}}
-""" repeat plugin command with '.' "{{{
-NeoBundle "tpope/vim-repeat"
-"}}}
-""" register ring"{{{
-NeoBundle "LeafCage/yankround.vim"
-nmap p <Plug>(yankround-p)
-nmap P <Plug>(yankround-P)
-nmap <Space>n <Plug>(yankround-prev)
-nmap <Space>N <Plug>(yankround-next)
-"}}}
-""" change the word to another word"{{{
-NeoBundle "AndrewRadev/switch.vim"
-nnoremap ! :Switch<CR>
-"}}}
-""" interactive substitute"{{{
-NeoBundle "osyo-manga/vim-over"
-nnoremap <silent> <Space>s :OverCommandLine<CR>
-"}}}
-""" clipboard{{{
-function! Putclip(type, ...) range
-    let sel_save = &selection
-    let &selection = "inclusive"
-    let reg_save = @@
-    if a:type == 'n'
-        silent exe a:firstline . "," . a:lastline . "y"
-        elseif a:type == 'c'
-        silent exe a:1 . "," . a:2 . "y"
-        else
-        silent exe "normal! `<" . a:type . "`>y"
-    endif
-    call writefile(split(@@,"\n"), '/dev/clipboard')
-    let &selection = sel_save
-    let @@ = reg_save
-endfunction
-function! Getclip()
-    let reg_save = @@
-    let @@ = join(readfile('/dev/clipboard','b'), "\n")
-    setlocal paste
-    exe 'normal p'
-    setlocal nopaste
-    let @@ = reg_save
-endfunction
-nnoremap <silent> <Space>p :call Getclip()<CR>
-nnoremap <silent> <Space>P h :call Getclip()<CR>
-vnoremap <silent> <Space>y :call Putclip(visualmode(), 1)<CR>
-nnoremap <silent> <Space>y :call Putclip('n', 1)<CR>
-"}}}
-""" submitting to gist"{{{
-NeoBundle "mattn/gist-vim"
-    let g:gist_show_privates = 1
-    let g:gist_post_private = 1
-    let g:github_user = "wass80"
-    let g:gist_curl_options = "-k"
-    let g:gist_detect_filetype = 1
-"}}}
-""" vim restart"{{{
-NeoBundle "tyru/restart.vim"
-"}}}
-""" show last error messages "{{{
-NeoBundle 'LeafCage/lastmess.vim'
-"}}}
-""" indent highlight"{{{
-    NeoBundle "Yggdroot/indentLine"
-    let g:indentLine_char = '│' 
-"}}}
-""" html"{{{
-"" quick coding html css
-NeoBundleLazy 'mattn/emmet-vim' ,{
-\ 'autoload' : {'filetypes' : ['html','css']}}
-"}}}
-""" ruby"{{{
-NeoBundleLazy 'Shougo/neocomplcache-rsense' ,{
-\ 'autoload' : {'filetypes' : 'ruby' }}
-let g:rsenseHome = '/cygwin64/lib/ruby/gems/1.9.1/gems/rsence-2.2.5'
-NeoBundle 'vim-ruby/vim-ruby'
-:let ruby_space_errors = 1
-"}}}
-""" coffeescript"{{{
-" syntax + auto compile
-NeoBundle 'kchmck/vim-coffee-script' ,{
-\ 'autoload' : {'filetypes' : 'coffeescript' }}
-
-" auto compile when save
-"autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
-"}}}
-""" json"{{{
-NeoBundle 'vim-scripts/JSON.vim' ,{
-\ 'autoload' : {'filetypes' : 'json' }}
-
-au BufRead,BufNewFile *.json set filetype=json
-"""}}}
-""" haskell"{{{
-" syntax
-NeoBundle 'dag/vim2hs' ,{
-\ 'autoload' : {'filetypes' : 'haskell' }}
-" completion
-NeoBundle 'ujihisa/neco-ghc' ,{
-\ 'autoload' : {'filetypes' : 'haskell' }}
-" for unite
-NeoBundle 'eagletmt/unite-haddock' ,{
-\ 'autoload' : {'filetypes' : 'haskell' }}
-" ghcmod
-NeoBundle 'eagletmt/ghcmod-vim' ,{
-\ 'autoload' : {'filetypes' : 'haskell' }}
-" ghcmod
-NeoBundle 'kana/vim-filetype-haskell' ,{
-\ 'autoload' : {'filetypes' : 'haskell' }}
-
-" }}}
-""" markdown"{{{
-NeoBundle 'tyru/open-browser.vim',{
-\ 'autoload' : {'filetypes' : 'markdown' }}
-NeoBundle 'rcmdnk/vim-markdown',{
-\ 'autoload' : {'filetypes' : 'markdown' }}
-NeoBundle 'joker1007/vim-markdown-quote-syntax',{
-\ 'autoload' : {'filetypes' : 'markdown' }}
-"}}}
-""" silm"{{{
-NeoBundle 'slim-template/vim-slim'
-augroup Slim
-    autocmd!
-    autocmd BufWinEnter,BufNewFile *.slim set filetype=slim
-augroup END
-"}}}
-""" twitter "{{{
-NeoBundle "basyura/TweetVim"
-NeoBundle "basyura/twibill.vim"
-let g:tweetvim_display_separator = 0
-nmap <silent> <space>0h :TweetVimUserStream<CR>
-nmap <silent> <space>0t :TweetVimSay<CR>
-"}}}
-"""" action"{{{
-" mouse enable
-if has('mouse')
-set mouse=a
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
 endif
-" command completion
-set wildmenu
-set wildmode=longest:full,full
-" clipboard shear
-set clipboard+=unnamed
-" deleat backspace word
-set backspace=indent,eol,start
-" multi word gap when cursor
-set ambiwidth=double
-" visiable around cursor
-set scrolloff=5
-" highlight search
-set hlsearch
-" c type indent
-set cindent
-" tab into space
-set smarttab
-set tabstop=4
-set expandtab
-set shiftwidth=4
-" no comment at new line
-autocmd! CursorMoved,CursorMoved * setlocal formatoptions-=ro
-" change search in UpperCase
-set ignorecase
-set smartcase
-" no using octed
-set nrformats-=octal
-" use ja help
-set helplang=ja,en
-" edit many buffer
-set hidden
-" backup directory
-set directory=~/.vim/tmp
-set backupdir=~/.vim/tmp
-set viminfo+=n~/.vim/tmp/viminfo.txt
-" folding
-set foldmethod=marker
-set foldtext=FoldCCtext()
-set foldcolumn=1
-set fillchars=vert:\|
-" tab page
-" Anywhere SID.
-function! s:SID_PREFIX()
-    return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
 endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
 
-" set tabline.
-function! s:my_tabline()  "{{{
-    let s = ''
-    for i in range(1, tabpagenr('$'))
-        let bufnrs = tabpagebuflist(i)
-        let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
-        let no = i  " display 0-origin tabpagenr.
-        let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
-        let title = fnamemodify(bufname(bufnr), ':t')
-        let s .= '%'.i.'T'
-        let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-        let s .= no . '⮁' . title
-        let s .= mod
-        let s .= '%#TabLineFill# '
-    endfor
-    let s .= '%#TabLineFill#%T%=%#TabLine#'
-    return s
-endfunction "}}}
-let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
-set showtabline=2
-" The prefix key.
-nnoremap    [Tag]   <Nop>
-nmap    , [Tag]
-" Tab jump
-for n in range(1, 9)
-    execute 'nnoremap <silent> [Tag]'.n  ':<C-u>tabnext'.n.'<CR>'
-endfor
-map <silent> [Tag]c :tablast <bar> tabnew<CR>
-map <silent> [Tag]x :tabclose<CR>
-map <silent> [Tag]n :tabnext<CR>
-map <silent> [Tag]p :tabprevious<CR>
-map <silent> [Tag]s :Unite tab<CR>
-map <silent> [Tag]t :tabe<CR>
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Smooth Scrooll modified"{{{
-" 2011/01/23
-" [original] http://www.vim.org/scripts/script.php?script_id=1601
-"
-" * The global variable g:scroll_skip_line_size is the scroll lines by one time.
-" * The scroll is stopped when reaching the top and bottom of the buffer. 
-" 
- 
-" Smooth Scroll
-"
-" Remamps
-"  <C-U>
-"  <C-D>
-"  <C-F>
-"  <C-B>
-"
-" to allow smooth scrolling of the window. I find that quick changes of
-" context don't allow my eyes to follow the action properly.
-"
-" The global variable g:scroll_factor changes the scroll speed.
-"
-"
-" Written by Brad Phelan 2006
-" http://xtargets.com
-let g:scroll_factor = 5000
-let g:scroll_skip_line_size = 4
-function! SmoothScroll(dir, windiv, factor)
-   let wh=winheight(0)
-   let i=0
-   let j=0
-   while i < wh / a:windiv
-      let t1=reltime()
-      let i = i + 1
-      if a:dir=="d"
-         if line('w$') == line('$')
-           break
-         endif
-         exec "normal \<C-E>j"
-      else
-         if line('w0') == 1
-           break
-         endif
-         exec "normal \<C-Y>k"
-      end
- 
-      if j >= g:scroll_skip_line_size
-        let j = 0
-        redraw
-        while 1
-           let t2=reltime(t1,reltime())
-           if t2[1] > g:scroll_factor * a:factor
-              break
-           endif
-        endwhile
-      else
-        let j = j + 1
-      endif
-   endwhile
-endfunction
-"}}}
-map <silent> <C-D> :call SmoothScroll("d",2, 2)<CR>
-map <silent> <C-U> :call SmoothScroll("u",2, 2)<CR>
-map <silent> <C-F> :call SmoothScroll("d",1, 1)<CR>
-map <silent> <C-B> :call SmoothScroll("u",1, 1)<CR>
-
-" サイズ変更
-nnoremap <M-+> <C-w>-
-nnoremap <M--> <C-w>+
-nnoremap <M->> <C-w>>
-nnoremap <M-<> <C-w><
-" alt + = でリセット
-nnoremap <M-=> <C-w>=
-" alt + a で最大化
-nnoremap <M-a> <C-w>_<C-w><Bar>
-" 移動
-nnoremap <M-h> <C-w>h
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-l> <C-w>l
-
-"}}}
-"""" display"{{{
-" lisp rainbow parents
-let lisp_rainbow=1
-" line number
-set number
-" slash of pass
-set shellslash
-" indent
-set autoindent
-" comand in statusline
-set showcmd
-" status line
-set laststatus=2
-set statusline=%<[%n]%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}%y\ 
-if winwidth(0)>=130
-set statusline+=%F
-else
-set statusline+=%t
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
 endif
-set statusline+=%=\ \ %1l/%L,%c%V\ \ %p
-" last space visiable
-set list
-set listchars=tab:^\ ,trail:~
-" highlight cursor
-set cursorline
-" syntax
-syntax on
-
-"" デフォルトのZenkakuSpaceを定義
-function! ZenkakuSpace()
-highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
-endfunction
-
-if has('syntax')
-augroup ZenkakuSpace
-autocmd!
-" 全角スペースのハイライト指定
-autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
-
-augroup END
-call ZenkakuSpace()
-endif
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+""}}}
 "}}}
-"""" keymap"{{{
-" new line by enter
-noremap <CR> a<CR><ESC>
-" easy type
-noremap zs za
-" turn off highlight on enter twice
-nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
-nnoremap <silent><C-l><C-l> :<C-u>nohlsearch<CR>
-" without shift
-noremap <Space>h ^
-noremap <Space>l $
-noremap <Space>j 10j
-noremap <Space>k 10k
-nnoremap <Space>/ *
-noremap <Space>b %
-" one char insert
-nnoremap <space>i i_<ESC>r
-" go normal mode with jj
-inoremap jj <Esc>
-
-" ignore Q
-nnoremap Q gq
+" operation "{{{
+"" undo tree "{{{
+NeoBundle "sjl/gundo.vim"
+""}}}
 "}}}
-" filetype
 filetype plugin indent on
-
