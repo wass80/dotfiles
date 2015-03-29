@@ -295,11 +295,11 @@ setopt long_list_jobs # jobsの時にプロセスidも知る
 setopt noflowcontrol # 画面更新停止(ctrl-S)させない
 
 # alias
-alias rm='trash.sh -i'
-export TRASHLIST=~/.trashlist # Where trash list is written
-export TRASHBOX=~/.Trash # Where trash will be moved in
-export MAXTRASHBOXSIZE=1024
-export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
+# alias rm='trash.sh -i'
+# export TRASHLIST=~/.trashlist # Where trash list is written
+# export TRASHBOX=~/.Trash # Where trash will be moved in
+# export MAXTRASHBOXSIZE=1024
+# export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
 
 alias po='popd'
 alias cp='cp -i'
