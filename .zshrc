@@ -376,3 +376,8 @@ if [ -d ${HOME}/.rbenv  ] ; then
   export PATH=$HOME/.rbenv/bin:$PATH
   eval "$(rbenv init - zsh)"
 fi
+
+##
+if [ -d ${HOME}/.rsense-0.3  ] ; then
+    export RSENSE_HOME=$HOME/.rsense-0.3
+fi

@@ -5,10 +5,10 @@ filetype plugin indent off
 "" NeoBundle "{{{ 
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#begin(expand('~/.vim/bundle/'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
 endif
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+call neobundle#end()
 ""}}}
 "" ideone"{{{
 NeoBundle "mattn/webapi-vim"
@@ -76,8 +76,11 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors=0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=239
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=237
+augroup indenthilight
+    autocmd!
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=239
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=237
+augroup END
 let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
 ""}}}
 "" folding "{{{
@@ -236,7 +239,7 @@ NeoBundle "osyo-manga/shabadou.vim"
 NeoBundle "osyo-manga/unite-quickfix"
 call quickrun#module#register(shabadou#make_quickrun_hook_anim(
 \   "turret",
-\   ['{:}-', '{:}--', '{:}---', '{:}----', '{:}-----', '{:}<cake is a lie.'],
+\   ['{:}-', '{:}--', '{:}---', '{:}----', '{:}-----', '{:}<the cake is a lie.'],
 \   12,
 \), 1)
 let g:quickrun_config = {
@@ -249,6 +252,10 @@ let g:quickrun_config = {
 \       "hook/turret/enable" : 1,
 \       "hook/turret/wait" : 5,
 \       "hook/turret/redraw" : 1,
+\   },
+\   "cpp" : {
+\       "command": "g++",
+\       "cmdopt": "-std=c++11",
 \   },
 \}
 nmap <Space>q <Plug>(quickrun)
@@ -287,6 +294,8 @@ NeoBundle "ujihisa/unite-colorscheme"
 NeoBundle "Shougo/neomru.vim"
 NeoBundle "tsukkee/unite-help"
 NeoBundle "Shougo/unite-outline"
+NeoBundle "osyo-manga/unite-fold"
+NeoBundle "yuku-t/vim-ref-ri"
 let g:unite_enable_start_insert=1
 ""buffer list
 noremap <space>b :Unite buffer<CR>
@@ -321,6 +330,36 @@ call unite#custom_default_action('file', 'tabopen')
 "" reference K:search" {{{
 NeoBundle "thinca/vim-ref"
 ""}}}
+"" tag "{{{
+NeoBundle 'tsukkee/unite-tag'
+nnoremap <silent> <C-]> :<C-u>Unite -immediately -no-start-insert tag:<C-r>=expand('<cword>')<CR><CR>
+nnoremap <buffer> <C-t> :<C-u>Unite jump<CR>
+NeoBundle 'alpaca-tc/alpaca_tags'
+let g:alpaca_tags#config = {
+\   '_' : '-R --sort=yes --languages=+Ruby --languages=-js,JavaScript',
+\   'js' : '--languages=+js',
+\   '-js' : '--languages=-js,JavaScript',
+\   'vim' : '--languages=+Vim,vim',
+\   'php' : '--languages=+php',
+\   '-vim' : '--languages=-Vim,vim',
+\   '-style': '--languages=-css,scss,js,JavaScript,html',
+\   'scss' : '--languages=+scss --languages=-css',
+\   'css' : '--languages=+css',
+\   'java' : '--languages=+java $JAVA_HOME/src',
+\   'ruby': '--languages=+Ruby',
+\   'coffee': '--languages=+coffee',
+\   '-coffee': '--languages=-coffee',
+\   'bundle': '--languages=+Ruby',
+\   }
+augroup AlpacaTags
+    autocmd!
+    if exists(':Tags')
+        autocmd BufWritePost Gemfile TagsBundle
+        autocmd BufEnter * TagsSet
+        autocmd BufWritePost * TagsUpdate
+    endif
+augroup END
+""}}}
 "}}}
 " manager "{{{
 "" backup directory "{{{
@@ -335,10 +374,11 @@ noremap <space>g :Gstatus<CR>
 "" gist "{{{
 NeoBundle "lambdalisue/vim-gista"
 let g:gista#github_user = "wass80"
+let g:gista#update_on_write = 1
 "" }}}
 "}}}
 " completion "{{{
-"" ommand completion "{{{
+"" command completion "{{{
 set wildmenu
 set wildmode=longest:full,full
 "}}}
@@ -394,11 +434,14 @@ if has('conceal')
 endif
 
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup omni
+    autocmd!
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
 
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -407,6 +450,19 @@ endif
 let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+""}}}
+"" rsense "{{{
+NeoBundleLazy 'marcus/rsense', { 'autoload' : {
+\ 'filetypes': 'ruby',
+\ }}
+NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
+\ 'filetypes': 'ruby',
+\ }}
 ""}}}
 "" completion "end" "{{{
 NeoBundle 'taichouchou2/vim-endwise.git'
@@ -424,11 +480,6 @@ if !exists('loaded_matchit')
   runtime macros/matchit.vim
 endif
 ""}}}
-"" search word on cursor "{{{
-NeoBundle "thinca/vim-visualstar" 
-map * <Plug>(visualstar-*)N
-map # <Plug>(visualstar-#)N
-""}}}
 "" easy cursor moving "{{{
 NeoBundle 'Lokaltog/vim-easymotion'
 let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
@@ -438,18 +489,15 @@ let g:EasyMotion_smartcase = 1
 let g:EasyMotion_skipfoldedline = 0
 " need +migemo
 " let g:EasyMotion_use_migemo = 1
-
 hi EasyMotionTarget ctermbg=none ctermfg=red
 hi EasyMotionShade  ctermbg=none ctermfg=blue
-" s all search
 map s <Plug>(easymotion-s2)
-" search label
-nmap / <Plug>(easymotion-sn)
-xmap / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-nnoremap g/ /
-xnoremap g/ /
-onoremap g/ /
+nmap g/ <Plug>(easymotion-sn)
+xmap g/ <Plug>(easymotion-sn)
+omap g/ <Plug>(easymotion-tn)
+let g:EasyMotion_startofline=0
+map <Space>j <Plug>(easymotion-j)
+map <Space>k <Plug>(easymotion-k)
 " continue f
 NeoBundle 'rhysd/clever-f.vim'
 "let g:clever_f_use_migemo=1
@@ -475,14 +523,15 @@ set shiftwidth=4
 " no using octed
 set nrformats-=octal
 " no comment at new line
-autocmd! CursorMoved,CursorMoved * setlocal formatoptions-=ro
+augroup nocr
+    autocmd!
+    autocmd CursorMoved,CursorMoved * setlocal formatoptions-=ro
+augroup END
 " new line by enter
 noremap <CR> a<CR><ESC>
 " without shift
 noremap <Space>h ^
 noremap <Space>l $
-noremap <Space>j 10j
-noremap <Space>k 10k
 nnoremap <Space>/ *
 noremap <Space>b %
 " one char insert
@@ -493,21 +542,54 @@ inoremap jj <Esc>
 " ignore Q
 nnoremap Q gq
 ""}}}
-"" srround and textobj "{{{
-NeoBundle "tpope/vim-surround"
+"" textobj "{{{
 NeoBundle 'kana/vim-operator-user.git'
+NeoBundle 'emonkak/vim-operator-comment'
+nmap co <Plug>(operator-comment)
+nmap cO <Plug>(operator-uncomment)
 NeoBundle 'kana/vim-operator-replace.git'
 map R  <Plug>(operator-replace)
+NeoBundle 'rhysd/vim-operator-surround'
+nmap yu <Plug>(operator-surround-append)
+nmap du <Plug>(operator-surround-delete)
+nmap cu <Plug>(operator-surround-replace)
+NeoBundle 'thinca/vim-visualstar'
+NeoBundle 'tyru/operator-star.vim'
+map *  <Plug>(operator-*)
+map g*  <Plug>(operator-g*)
+map #  <Plug>(operator-#)
+map g#  <Plug>(operator-g#)
+
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-line'
+" al / il
 NeoBundle 'kana/vim-textobj-indent'
+" ai / ii
 NeoBundle 'kana/vim-textobj-function'
+let g:textobj_function_no_default_key_mappings=1
+omap iF <Plug>(textobj-function-i)
+omap aF <Plug>(textobj-function-a)
+vmap iF <Plug>(textobj-function-i)
+vmap aF <Plug>(textobj-function-a)
 NeoBundle 'thinca/vim-textobj-between'
+" af* / if*
+NeoBundle 'kana/vim-textobj-entire'
+let g:textobj_entire_no_default_key_mappings=1
+omap aE <Plug>(textobj-entire-a)
+omap iE <Plug>(textobj-entire-i)
+vmap aE <Plug>(textobj-entire-a)
+vmap iE <Plug>(textobj-entire-i)
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
 omap ab <Plug>(textobj-multiblock-a)
 omap ib <Plug>(textobj-multiblock-i)
 vmap ab <Plug>(textobj-multiblock-a)
 vmap ib <Plug>(textobj-multiblock-i)
+NeoBundle 'kana/vim-textobj-fold'
+" az / iz
+NeoBundle 'rhysd/vim-textobj-ruby'
+" ar / ir
+NeoBundle 'rbonvall/vim-textobj-latex'
+" a\, a$, aq, aQ, ae
 ""}}}
 "" repeat plugin command "{{{
 NeoBundle "tpope/vim-repeat"
@@ -555,11 +637,14 @@ nnoremap <silent> <Space>s :OverCommandLine<CR>
 ""}}}
 "}}} 
 " window & tab "{{{
-"" basic "{{{
-" edit many buffer
+"" edit many buffer "{{{
 set hidden
-"}}}
+""}}}
 "" tab move "{{{
+call submode#enter_with('changetab', 'n', '', 'gt', 'gt')
+call submode#enter_with('changetab', 'n', '', 'gT', 'gT')
+call submode#map('changetab', 'n', '', 't', 'gt')
+call submode#map('changetab', 'n', '', 'T', 'gT')
 let s:Math = s:V.import('Math')
 function! s:SIDP()
 	  return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SIDP$') . '_'
@@ -568,10 +653,10 @@ function! s:SIDP()
 	    execute 'tabmove' s:Math.modulo(tabpagenr() + a:nr - 1, tabpagenr('$'))
     endfunction
     let s:movetab = ':<C-u>call ' . s:SIDP() . 'movetab(%d)<CR>'
-    call submode#enter_with('movetab', 'n', '', 'gt', printf(s:movetab, 1))
-    call submode#enter_with('movetab', 'n', '', 'gT', printf(s:movetab, -1))
-    call submode#map('movetab', 'n', '', 't', printf(s:movetab, 1))
-    call submode#map('movetab', 'n', '', 'T', printf(s:movetab, -1))
+    call submode#enter_with('movetab', 'n', '', '<Space>ct', printf(s:movetab, 1))
+    call submode#enter_with('movetab', 'n', '', '<Space>cT', printf(s:movetab, -1))
+    call submode#map('movetab', 'n', '', '<Space>t', printf(s:movetab, 1))
+    call submode#map('movetab', 'n', '', '<Space>T', printf(s:movetab, -1))
     unlet s:movetab
 ""}}}
 "" window size "{{{
@@ -621,13 +706,17 @@ NeoBundleLazy 'mattn/emmet-vim' ,{
 "" css "{{{
 NeoBundleLazy 'hail2u/vim-css3-syntax' ,{
 \ 'autoload' : {'filetypes' : 'css'}}
-""}}}kk
+""}}}
 "" coffeescript "{{{
 NeoBundle 'kchmck/vim-coffee-script' ,{
 \ 'autoload' : {'filetypes' : 'coffeescript' }}
 ""}}}
 "" js "{{{
-NeoBundle 'taichouchou2/vim-javascript' ,{
+NeoBundle 'jelera/vim-javascript-syntax' ,{
+\ 'autoload' : {'filetypes' : 'javascript' }}
+NeoBundle 'jiangmiao/simple-javascript-indenter' ,{
+\ 'autoload' : {'filetypes' : 'javascript' }}
+NeoBundle 'mattn/jscomplete-vim' ,{
 \ 'autoload' : {'filetypes' : 'javascript' }}
 "}}}
 "" json "{{{
@@ -636,5 +725,7 @@ NeoBundle 'vim-scripts/JSON.vim' ,{
 
 au BufRead,BufNewFile *.json set filetype=json
 ""}}}
+"}}}
 filetype plugin indent on
+NeoBundleCheck
 
