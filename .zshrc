@@ -378,5 +378,7 @@ if [ -d ${HOME}/.rbenv  ] ; then
 fi
 
 ## luajit
-exprot PATH="/usr/local/luajit/bin/:$PATH"
-echo $PATH
+export PATH="/usr/local/luajit/bin/:$PATH"
+
+## vim
+export PATH="/usr/local/vim/bin/:$PATH"
