@@ -1,4 +1,4 @@
-set nocompatible
+﻿set nocompatible
 filetype off
 filetype plugin indent off
 " core "{{{
@@ -8,12 +8,12 @@ if has('vim_starting')
 endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
-call neobundle#end()
 ""}}}
 "" ideone"{{{
 NeoBundle "mattn/webapi-vim"
 ""}}}
 "" vimproc "{{{
+if !has('gui_running')
 NeoBundle 'Shougo/vimproc', {
 \ 'build' : {
 \     'windows' : 'make -f make_mingw32.mak',
@@ -22,6 +22,7 @@ NeoBundle 'Shougo/vimproc', {
 \     'unix' : 'make -f make_unix.mak',
 \    },
 \ }
+end
 ""}}}
 "" submode "{{{
 NeoBundle "kana/vim-submode"
@@ -31,7 +32,7 @@ let g:submode_timeout=0
 ""}}}
 "" vital "{{{
 NeoBundle "vim-jp/vital.vim"
-let s:V = vital#of('vital')
+"...
 ""}}}
 "}}}
 " apperance "{{{
@@ -42,7 +43,7 @@ set number
 NeoBundle "w0ng/vim-hybrid"
 set t_Co=256
 syntax on
-colorscheme hybrid
+"...
 ""}}}
 "" character hilight "{{{
 function! ZenkakuSpace()
@@ -237,11 +238,6 @@ endfunction
 NeoBundle "thinca/vim-quickrun"
 NeoBundle "osyo-manga/shabadou.vim"
 NeoBundle "osyo-manga/unite-quickfix"
-call quickrun#module#register(shabadou#make_quickrun_hook_anim(
-\   "turret",
-\   ['{:}-', '{:}--', '{:}---', '{:}----', '{:}-----', '{:}<the cake is a lie.'],
-\   12,
-\), 1)
 let g:quickrun_config = {
 \   "_" : {
 \       "runner" : "vimproc",
@@ -271,10 +267,6 @@ let s:config = {
 \        "hook/close_quickfix/enable_exit" : 1,
 \    },
 \}
-call extend(g:quickrun_config, s:config)
-unlet s:config
-call watchdogs#setup(g:quickrun_config)
-let g:watchdogs_check_BufWritePost_enable = 1
 ""}}}
 "" wandbox "{{{
 NeoBundle "rhysd/wandbox-vim"
@@ -316,16 +308,6 @@ noremap <space>\ :Unite mapping<CR>
 ""twice esc quit
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-""short cut directory
-call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
-call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
-call unite#custom#substitute('files', '^@', '\=getcwd()."/*"', 1)
-call unite#custom#substitute('files', '^;r', '\=$VIMRUNTIME."/"')
-call unite#custom#substitute('files', '^\~', escape($HOME, '\'), -2)
-call unite#custom#substitute('files', '\\\@<! ', '\\ ', -20)
-call unite#custom#substitute('files', '\\ \@!', '/', -30)
-""open new tab
-call unite#custom_default_action('file', 'tabopen')
 ""}}}
 "" reference K:search" {{{
 NeoBundle "thinca/vim-ref"
@@ -334,6 +316,7 @@ NeoBundle "thinca/vim-ref"
 NeoBundle 'tsukkee/unite-tag'
 nnoremap <silent> <C-]> :<C-u>Unite -immediately -no-start-insert tag:<C-r>=expand('<cword>')<CR><CR>
 nnoremap <buffer> <C-t> :<C-u>Unite jump<CR>
+if executable("ctags")
 NeoBundle 'alpaca-tc/alpaca_tags'
 let g:alpaca_tags#config = {
 \   '_' : '-R --sort=yes --languages=+Ruby --languages=-js,JavaScript',
@@ -359,6 +342,7 @@ augroup AlpacaTags
         autocmd BufWritePost * TagsUpdate
     endif
 augroup END
+endif
 ""}}}
 "}}}
 " manager "{{{
@@ -597,21 +581,8 @@ NeoBundle "tpope/vim-repeat"
 "" undo tree "{{{
 NeoBundle "sjl/gundo.vim"
 ""}}}
-"" back and back "{{{
-call submode#enter_with('undo/redo', 'n', '', 'g-', 'g-')
-call submode#enter_with('undo/redo', 'n', '', 'g+', 'g+')
-call submode#map('undo/redo', 'n', '', '-', 'g-')
-call submode#map('undo/redo', 'n', '', '+', 'g+')
-""}}}
 "" packing x "{{{
 NeoBundle 'kana/vim-submode'
-function! s:my_x()
-    undojoin
-    normal! x
-endfunction
-nnoremap <silent> <Plug>(my-x) :<C-u>call <SID>my_x()<CR>
-call submode#enter_with('my_x', 'n', '', 'x', 'x')
-call submode#map('my_x', 'n', 'r', 'x', '<Plug>(my-x)')
 "}}}
 "" register ring "{{{
 NeoBundle "LeafCage/yankround.vim"
@@ -639,35 +610,6 @@ nnoremap <silent> <Space>s :OverCommandLine<CR>
 " window & tab "{{{
 "" edit many buffer "{{{
 set hidden
-""}}}
-"" tab move "{{{
-call submode#enter_with('changetab', 'n', '', 'gt', 'gt')
-call submode#enter_with('changetab', 'n', '', 'gT', 'gT')
-call submode#map('changetab', 'n', '', 't', 'gt')
-call submode#map('changetab', 'n', '', 'T', 'gT')
-let s:Math = s:V.import('Math')
-function! s:SIDP()
-	  return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SIDP$') . '_'
-  endfunction
-  function! s:movetab(nr)
-	    execute 'tabmove' s:Math.modulo(tabpagenr() + a:nr - 1, tabpagenr('$'))
-    endfunction
-    let s:movetab = ':<C-u>call ' . s:SIDP() . 'movetab(%d)<CR>'
-    call submode#enter_with('movetab', 'n', '', '<Space>ct', printf(s:movetab, 1))
-    call submode#enter_with('movetab', 'n', '', '<Space>cT', printf(s:movetab, -1))
-    call submode#map('movetab', 'n', '', '<Space>t', printf(s:movetab, 1))
-    call submode#map('movetab', 'n', '', '<Space>T', printf(s:movetab, -1))
-    unlet s:movetab
-""}}}
-"" window size "{{{
-call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>-')
-call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>+')
-call submode#map('winsize', 'n', '', '>', '<C-w>>')
-call submode#map('winsize', 'n', '', '<', '<C-w><')
-call submode#map('winsize', 'n', '', '+', '<C-w>-')
-call submode#map('winsize', 'n', '', '-', '<C-w>+')
 ""}}}
 "" window position "{{{
 nnoremap <M-h> <C-w>h
@@ -726,6 +668,79 @@ NeoBundle 'vim-scripts/JSON.vim' ,{
 au BufRead,BufNewFile *.json set filetype=json
 ""}}}
 "}}}
-filetype plugin indent on
+call neobundle#end()
+" after "{{{
+"" vital
+let s:V = vital#of('vital')
+"" colorscheme
+colorscheme hybrid
+"" shabadou
+call quickrun#module#register(shabadou#make_quickrun_hook_anim(
+\   "turret",
+\   ['{:}-', '{:}--', '{:}---', '{:}----', '{:}-----', '{:}<the cake is a lie.'],
+\   12,
+\), 1)
+"" watchdogs
+call extend(g:quickrun_config, s:config)
+unlet s:config
+call watchdogs#setup(g:quickrun_config)
+let g:watchdogs_check_BufWritePost_enable = 1
+"" unite
+""short cut directory
+call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
+call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
+call unite#custom#substitute('files', '^@', '\=getcwd()."/*"', 1)
+call unite#custom#substitute('files', '^;r', '\=$VIMRUNTIME."/"')
+call unite#custom#substitute('files', '^\~', escape($HOME, '\'), -2)
+call unite#custom#substitute('files', '\\\@<! ', '\\ ', -20)
+call unite#custom#substitute('files', '\\ \@!', '/', -30)
+""open new tab
+call unite#custom_default_action('file', 'tabopen')
+"" back and back "{{{
+call submode#enter_with('undo/redo', 'n', '', 'g-', 'g-')
+call submode#enter_with('undo/redo', 'n', '', 'g+', 'g+')
+call submode#map('undo/redo', 'n', '', '-', 'g-')
+call submode#map('undo/redo', 'n', '', '+', 'g+')
+""}}}
+"" packing x "{{{
+function! s:my_x()
+    undojoin
+    normal! x
+endfunction
+nnoremap <silent> <Plug>(my-x) :<C-u>call <SID>my_x()<CR>
+call submode#enter_with('my_x', 'n', '', 'x', 'x')
+call submode#map('my_x', 'n', 'r', 'x', '<Plug>(my-x)')
+"}}}
+"" tab move "{{{
+call submode#enter_with('changetab', 'n', '', 'gt', 'gt')
+call submode#enter_with('changetab', 'n', '', 'gT', 'gT')
+call submode#map('changetab', 'n', '', 't', 'gt')
+call submode#map('changetab', 'n', '', 'T', 'gT')
+let s:Math = s:V.import('Math')
+function! s:SIDP()
+	  return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SIDP$') . '_'
+  endfunction
+  function! s:movetab(nr)
+	    execute 'tabmove' s:Math.modulo(tabpagenr() + a:nr - 1, tabpagenr('$'))
+    endfunction
+    let s:movetab = ':<C-u>call ' . s:SIDP() . 'movetab(%d)<CR>'
+    call submode#enter_with('movetab', 'n', '', '<Space>ct', printf(s:movetab, 1))
+    call submode#enter_with('movetab', 'n', '', '<Space>cT', printf(s:movetab, -1))
+    call submode#map('movetab', 'n', '', '<Space>t', printf(s:movetab, 1))
+    call submode#map('movetab', 'n', '', '<Space>T', printf(s:movetab, -1))
+    unlet s:movetab
+""}}}
+"" window size "{{{
+call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>-')
+call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>+')
+call submode#map('winsize', 'n', '', '>', '<C-w>>')
+call submode#map('winsize', 'n', '', '<', '<C-w><')
+call submode#map('winsize', 'n', '', '+', '<C-w>-')
+call submode#map('winsize', 'n', '', '-', '<C-w>+')
+""}}}
+"}}}
 NeoBundleCheck
+filetype plugin indent on
 
