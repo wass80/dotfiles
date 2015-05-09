@@ -1,5 +1,3 @@
-cd
-
 ## prompt# {{{
 autoload -Uz colors; colors
 autoload -Uz vcs_info
@@ -295,11 +293,13 @@ setopt long_list_jobs # jobsの時にプロセスidも知る
 setopt noflowcontrol # 画面更新停止(ctrl-S)させない
 
 # alias
-alias rm='trash.sh -i'
-export TRASHLIST=~/.trashlist # Where trash list is written
-export TRASHBOX=~/.Trash # Where trash will be moved in
-export MAXTRASHBOXSIZE=1024
-export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
+if builtin command -v trash.sh > /dev/null; then
+	alias rm='trash.sh -i'
+	export TRASHLIST=~/.trashlist # Where trash list is written
+	export TRASHBOX=~/.Trash # Where trash will be moved in
+	export MAXTRASHBOXSIZE=1024
+	export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
+fi
 
 alias po='popd'
 alias cp='cp -i'
@@ -376,3 +376,7 @@ if [ -d ${HOME}/.rbenv  ] ; then
   export PATH=$HOME/.rbenv/bin:$PATH
   eval "$(rbenv init - zsh)"
 fi
+
+## luajit
+exprot PATH="/usr/local/luajit/bin/:$PATH"
+echo $PATH
