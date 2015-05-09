@@ -194,6 +194,7 @@ echo -ne "\033]0;${USER}@${HOST%%.*}\007"
 # }}}
 ## keybind# {{{
 bindkey -v
+bindkey -r '^X'
 export KEYTIMEOUT=1
 autoload -Uz select-word-style
 select-word-style default
@@ -365,11 +366,17 @@ source $(package-directory rupa/z)/z.sh
 precmd() {
     _z --add "$(pwd -P)"
 }
-# }}}
 
 ### syntax-highlighting
 package-install github zsh-users/zsh-syntax-highlighting
 source $(package-directory zsh-users/zsh-syntax-highlighting)/zsh-syntax-highlighting.zsh
+
+### history increment search
+package-install github zsh-users/zaw
+source $(package-directory zsh-users/zaw)/zaw.zsh
+bindkey '^R' zaw-history
+
+# }}}
 
 ## rbenv
 if [ -d ${HOME}/.rbenv  ] ; then
