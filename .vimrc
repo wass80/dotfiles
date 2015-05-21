@@ -350,6 +350,7 @@ endif
 set directory=~/.vim/tmp
 set backupdir=~/.vim/tmp
 set viminfo+=n~/.vim/tmp/viminfo.txt
+set undodir=~/.vim/tmp
 ""}}}
 "" fugitive "{{{
 NeoBundle 'tpope/vim-fugitive'
