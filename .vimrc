@@ -41,6 +41,10 @@ set number
 ""}}}
 "" colorscheme "{{{
 NeoBundle "w0ng/vim-hybrid"
+autocmd ColorScheme * highlight LineNr ctermfg=247
+autocmd ColorScheme * highlight SpecialKey ctermfg=247 guifg=Cyan
+autocmd ColorScheme * highlight NonText ctermfg=247 gui=bold guifg=Blue
+autocmd ColorScheme * highlight VertSplit ctermfg=246 gui=reverse
 set t_Co=256
 syntax on
 "...
@@ -637,9 +641,9 @@ augroup Slim
 augroup END
 ""}}}
 "" haskell "{{{
-NeoBundle 'kana/vim-filetype-haskell'
-NeoBundle 'eagletmt/ghcmod-vim'
-NeoBundle 'ujihisa/neco-ghc'
+NeoBundleLazy 'kana/vim-filetype-haskell', { 'filetypes': ['haskell'] }
+NeoBundleLazy 'eagletmt/ghcmod-vim', { 'filetypes': ['haskell'] }
+NeoBundleLazy 'ujihisa/neco-ghc', { 'commands': ['GhcModType'] }
 noremap <space>m :GhcModType<CR>
 ""}}}
 "" markdown "{{{
