@@ -389,9 +389,17 @@ if [ -d ${HOME}/.rsense-0.3  ] ; then
     export RSENSE_HOME=$HOME/.rsense-0.3
 fi
 
+## cabal
+if [ -d ${HOME}/.cabal  ] ; then
+  export PATH=$HOME/.cabal/bin:$PATH
+fi
+
 ## luajit
 export PATH="/usr/local/luajit/bin/:$PATH"
 
 ## vim
 export PATH="/usr/local/vim/bin/:$PATH"
+
+## general
+export PATH="/home/vagrant/.bin/:$PATH"
 
