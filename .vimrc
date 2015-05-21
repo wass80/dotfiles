@@ -50,7 +50,7 @@ function! ZenkakuSpace()
 highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
 endfunction
 
-set cursorline
+"set cursorline
 set list
 set listchars=tab:^\ ,trail:~
 
@@ -251,7 +251,7 @@ let g:quickrun_config = {
 \   },
 \   "cpp" : {
 \       "command": "g++",
-\       "cmdopt": "-std=c++11",
+\       "cmdopt": "-std=c++0x",
 \   },
 \}
 nmap <Space>q <Plug>(quickrun)
@@ -369,7 +369,10 @@ set wildmode=longest:full,full
 "" neocomplcache "{{{
 NeoBundle "Shougo/neocomplete"
 NeoBundle "Shougo/neosnippet.vim"
-NeoBundle "Shougo/neosnippet-snippets"
+NeoBundle "wass80/neosnippet-snippets"
+
+let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippets/'
+
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
@@ -471,6 +474,7 @@ let g:EasyMotion_grouping = 1
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_skipfoldedline = 0
+let g:EasyMotion_startofline=0
 " need +migemo
 " let g:EasyMotion_use_migemo = 1
 hi EasyMotionTarget ctermbg=none ctermfg=red
@@ -482,9 +486,10 @@ omap g/ <Plug>(easymotion-tn)
 let g:EasyMotion_startofline=0
 map <Space>j <Plug>(easymotion-j)
 map <Space>k <Plug>(easymotion-k)
+map <Space>w <Plug>(easymotion-wl)
 " continue f
 NeoBundle 'rhysd/clever-f.vim'
-"let g:clever_f_use_migemo=1
+let g:clever_f_use_migemo=1
 let g:clever_f_chars_match_any_signs=1
 ""}}}
 "" multple cursors "{{{
@@ -631,7 +636,10 @@ augroup Slim
 augroup END
 ""}}}
 "" haskell "{{{
-
+NeoBundle 'kana/vim-filetype-haskell'
+NeoBundle 'eagletmt/ghcmod-vim'
+NeoBundle 'ujihisa/neco-ghc'
+noremap <space>m :GhcModType<CR>
 ""}}}
 "" markdown "{{{
 NeoBundle 'rcmdnk/vim-markdown',{
