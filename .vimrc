@@ -42,9 +42,9 @@ set number
 "" colorscheme "{{{
 NeoBundle "w0ng/vim-hybrid"
 autocmd ColorScheme * highlight LineNr ctermfg=247 guifg=#909090
-autocmd ColorScheme * highlight SpecialKey ctermfg=247 guifg=Cyan
-autocmd ColorScheme * highlight NonText ctermfg=247 gui=bold guifg=Blue
-autocmd ColorScheme * highlight VertSplit ctermfg=246 gui=reverse
+autocmd ColorScheme * highlight SpecialKey ctermfg=247 guifg=#606060
+autocmd ColorScheme * highlight NonText ctermfg=247 guifg=#606060
+autocmd ColorScheme * highlight VertSplit ctermfg=246 ctermbg=239
 set t_Co=256
 syntax on
 "...
