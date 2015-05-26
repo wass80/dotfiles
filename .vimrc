@@ -99,6 +99,7 @@ noremap zs za
 "" lightline "{{{
 NeoBundle 'itchyny/lightline.vim'
 set laststatus=2
+set cmdheight=2
 set showcmd
 let g:lightline = {
 \   'colorscheme': 'wombat',
@@ -480,6 +481,7 @@ let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_skipfoldedline = 0
 let g:EasyMotion_startofline=0
+let g:EasyMotion_enter_jump_first = 1
 " need +migemo
 " let g:EasyMotion_use_migemo = 1
 hi EasyMotionTarget ctermbg=none ctermfg=red
@@ -491,7 +493,8 @@ omap g/ <Plug>(easymotion-tn)
 let g:EasyMotion_startofline=0
 map <Space>j <Plug>(easymotion-j)
 map <Space>k <Plug>(easymotion-k)
-map <Space>w <Plug>(easymotion-wl)
+map <Space>w <Plug>(easymotion-bd-wl)
+map <Space>W <Plug>(easymotion-bd-el)
 " continue f
 NeoBundle 'rhysd/clever-f.vim'
 let g:clever_f_use_migemo=1
@@ -645,6 +648,8 @@ NeoBundleLazy 'kana/vim-filetype-haskell', { 'filetypes': ['haskell'] }
 NeoBundleLazy 'eagletmt/ghcmod-vim', { 'filetypes': ['haskell'] }
 NeoBundleLazy 'ujihisa/neco-ghc', { 'commands': ['GhcModType'] }
 noremap <space>m :GhcModType<CR>
+NeoBundleLazy 'ujihisa/ref-hoogle', { 'filetypes': ['haskell'] }
+NeoBundleLazy 'ujihisa/unite-haskellimport', { 'filetypes': ['haskell'] }
 ""}}}
 "" markdown "{{{
 NeoBundle 'rcmdnk/vim-markdown',{

@@ -329,7 +329,7 @@ function addnicolist() {
 
 ### global alias
 alias -g G='| grep'
-alias -g L='| less'
+alias -g L='| less -N'
 alias -g H='| head'
 alias -g T='| tail'
 alias -g S='| sort'
