@@ -249,7 +249,7 @@ let g:quickrun_config = {
 \       "runner/vimproc/updatetime" : 40,
 \       "hook/quickfix_replate_tempname_to_bufnr/enable_exit" : 1,
 \       "hook/quickfix_replate_tempname_to_bufnr/priority_exit" : -10,
-\       "outputter/buffer/split" : ":botright 8sp",
+\       "outputter/buffer/split" : ":botright 5sp",
 \       "hook/turret/enable" : 1,
 \       "hook/turret/wait" : 5,
 \       "hook/turret/redraw" : 1,
@@ -547,9 +547,9 @@ nmap cO <Plug>(operator-uncomment)
 NeoBundle 'kana/vim-operator-replace.git'
 map R  <Plug>(operator-replace)
 NeoBundle 'rhysd/vim-operator-surround'
-nmap yu <Plug>(operator-surround-append)
-nmap du <Plug>(operator-surround-delete)
-nmap cu <Plug>(operator-surround-replace)
+map yu <Plug>(operator-surround-append)
+map du <Plug>(operator-surround-delete)
+map cu <Plug>(operator-surround-replace)
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tyru/operator-star.vim'
 map *  <Plug>(operator-*)
