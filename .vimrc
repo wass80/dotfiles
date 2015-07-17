@@ -666,6 +666,7 @@ vnoremap <C-X> <C-X>gv
 " window & tab "{{{
 "" edit many buffer "{{{
 set hidden
+set autochdir
 ""}}}
 "" window position "{{{
 nnoremap <M-h> <C-w>h
