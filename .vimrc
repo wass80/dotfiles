@@ -303,22 +303,40 @@ NeoBundle "Shougo/unite-outline"
 NeoBundle "osyo-manga/unite-fold"
 NeoBundle "yuku-t/vim-ref-ri"
 let g:unite_enable_start_insert=1
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
 ""buffer list
-noremap <space>b :Unite buffer<CR>
+noremap <space>b :<C-u>Unite buffer<CR>
 ""file list
-noremap <space>f :Unite -buffer-name=file file<CR>
+if executable("ag")
+    nnoremap <space>f :<C-u>Unite file_rec/async:
+    let g:unite_source_find_command = 'ag'
+    let g:unite_source_rec_async_command =
+                \ 'ag --follow --nocolor --nogroup --hidden -g ""'
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
+else
+    nnoremap <space>f :<C-u>Unite file_rec:
+endif
+nnoremap <space>d :<C-u>Unite directory_rec:
+"" grep
+nnoremap <space>e  :<C-u>Unite grep -buffer-name=search-buffer<CR>
 ""recently files list
-noremap <space>z :Unite file_mru<CR>
+noremap <space>z :<C-u>Unite file_mru<CR>
+nnoremap <space>y :<C-u>Unite directory_rec:~<CR>
 "" show outline
-noremap <space>o :Unite outline<CR>
+noremap <space>o :<C-u>Unite outline<CR>
 "" shoe regster
-noremap <space>r :Unite register<CR>
+noremap <space>r :<C-u>Unite register<CR>
 "" unite source
-noremap <space>u :Unite source<CR>
+noremap <space>u :<C-u>Unite source<CR>
 "" gist
-noremap <space>t :Unite gista<CR>
+noremap <space>t :<C-u>Unite gista<CR>
 "" mapping
-noremap <space>\ :Unite mapping<CR>
+noremap <space>\ :<C-u>Unite mapping<CR>
+"" resume
+noremap <space>0 :<C-u>UniteResume<CR>
 ""twice esc quit
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
@@ -595,9 +613,9 @@ NeoBundle 'thinca/vim-textobj-between'
 " af* / if*
 NeoBundle 'kana/vim-textobj-entire'
 let g:textobj_entire_no_default_key_mappings=1
-omap aE <Plug>(textobj-entire-a)
-omap iE <Plug>(textobj-entire-i)
-vmap aE <Plug>(textobj-entire-a)
+omap ao <Plug>(textobj-entire-a)
+omap io <Plug>(textobj-entire-i)
+vmap ao <Plug>(textobj-entire-a)
 vmap iE <Plug>(textobj-entire-i)
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
 omap ab <Plug>(textobj-multiblock-a)
@@ -612,6 +630,11 @@ NeoBundle 'rbonvall/vim-textobj-latex'
 " a\, a$, aq, aQ, ae
 NeoBundle 'sgur/vim-textobj-parameter'
 "a, / i,
+NeoBundle 'glts/vim-textobj-comment'
+"ac / ic
+NeoBundle 'kana/vim-textobj-syntax'
+"ay / iy
+
 ""}}}
 "" repeat plugin command "{{{
 NeoBundle "tpope/vim-repeat"
@@ -664,9 +687,11 @@ vnoremap <C-X> <C-X>gv
 "}}} 
 "}}} 
 " window & tab "{{{
+"" smooth scroll "{{{
+NeoBundle "yonchu/accelerated-smooth-scroll"
+"}}}
 "" edit many buffer "{{{
 set hidden
-set autochdir
 ""}}}
 "" window position "{{{
 nnoremap <M-h> <C-w>h
@@ -676,6 +701,10 @@ nnoremap <M-l> <C-w>l
 ""}}}
 "}}}
 " language "{{{
+"" cpp "{{{
+NeoBundleLazy 'vim-jp/cpp-vim', {
+\ 'autoload' : {'filetypes' : 'cpp'}}
+""}}}
 "" ruby "{{{
 
 ""}}}
