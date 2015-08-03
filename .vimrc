@@ -49,7 +49,6 @@ autocmd ColorScheme * highlight NonText ctermfg=247 guifg=#606060
 " autocmd ColorScheme * highlight VertSplit ctermfg=246 ctermbg=239
 set t_Co=256
 syntax on
-"...
 ""}}}
 "" character hilight "{{{
 "set cursorline
@@ -61,9 +60,10 @@ set hlsearch
 nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
 nnoremap <silent><C-l><C-l> :<C-u>nohlsearch<CR>
 
-let lisp_rainbow=1
+" highlight parenttheses
+let g:lisp_instring = 1
+let g:lisp_rainbow = 1
 
-" multi word gap when cursor
 function! ZenkakuSpace()
   highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
 endfunction
@@ -79,19 +79,11 @@ if has('syntax')
   augroup END
   call ZenkakuSpace()
 endif
-
 ""}}}
-"" indent hilight "{{{
+"" indent highlight "{{{
 NeoBundle 'nathanaelkane/vim-indent-guides' 
 let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
-let g:indent_guides_auto_colors=0
-augroup indenthilight
-    autocmd!
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=239
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=237
-augroup END
+let g:indent_guides_color_change_percent = 20
 let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
 ""}}}
 "" folding "{{{
@@ -395,7 +387,7 @@ set diffopt=filler,vertical
 "}}}
 "" gist "{{{
 NeoBundle "lambdalisue/vim-gista"
-" let g:gista#github_user = "wass80"
+let g:gista#github_user = "wass80"
 " let g:gista#update_on_write = 1
 " let g:gista#gist_api_url = 'https://gist.github.com'
 let g:gista#directory = expand('~/.gista/')
@@ -587,7 +579,7 @@ map cO <Plug>(operator-uncomment)
 NeoBundle 'kana/vim-operator-replace.git'
 map R  <Plug>(operator-replace)
 NeoBundle 'rhysd/vim-operator-surround'
-noremap gh gd;
+noremap gh gd
 map gy <Plug>(operator-surround-append)
 map gd <Plug>(operator-surround-delete)
 map gc <Plug>(operator-surround-replace)
@@ -615,7 +607,7 @@ NeoBundle 'kana/vim-textobj-entire'
 let g:textobj_entire_no_default_key_mappings=1
 omap ao <Plug>(textobj-entire-a)
 omap io <Plug>(textobj-entire-i)
-vmap ao <Plug>(textobj-entire-a)
+vmap aE <Plug>(textobj-entire-a)
 vmap iE <Plug>(textobj-entire-i)
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
 omap ab <Plug>(textobj-multiblock-a)
@@ -645,15 +637,6 @@ NeoBundle "sjl/gundo.vim"
 "" packing x "{{{
 NeoBundle 'kana/vim-submode'
 "}}}
-"" register ring "{{{
-NeoBundle "LeafCage/yankround.vim"
-nmap p <Plug>(yankround-p)
-xmap p <Plug>(yankround-p)
-nmap P <Plug>(yankround-P)
-nmap <space>p <Plug>(yankround-prev)
-nmap <space>p <Plug>(yankround-next)
-let g:yankround_dir = '~/.vim/tmp/yankround'
-"}}}
 "" aline text "{{{
 NeoBundle "junegunn/vim-easy-align"
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -670,8 +653,8 @@ xmap <C-l> <Plug>(textmanip-move-right)
 ""}}}
 "" interactive substitute "{{{
 NeoBundle "osyo-manga/vim-over"
-nnoremap <silent> <Space>s :OverCommandLine<CR>
-vnoremap <silent> <Space>s :OverCommandLine<CR>
+nnoremap <silent> <Space>s :OverCommandLine <CR>
+vnoremap <silent> <Space>s :OverCommandLine '<,'>s/<CR>
 ""}}}
 "" disable F1 "{{{
 map <F1> <nop>
