@@ -81,10 +81,8 @@ if has('syntax')
 endif
 ""}}}
 "" indent highlight "{{{
-NeoBundle 'nathanaelkane/vim-indent-guides' 
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_color_change_percent = 20
-let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
+NeoBundle 'Yggdroot/indentLine'
+let g:indentLine_faster = 1
 ""}}}
 "" folding "{{{
 NeoBundle 'LeafCage/foldCC'
@@ -279,7 +277,6 @@ NeoBundle "Shougo/vimshell"
 let g:vimshell_split_command = "split"
 noremap <space>v :<C-u>VimShellPop<CR>
 noremap <space>V :<C-u>VimShellInteractive<space>
-
 ""}}}
 "" browser{{{
 NeoBundle 'tyru/open-browser.vim'
@@ -320,7 +317,7 @@ nnoremap <space>d :<C-u>Unite directory_rec:
 nnoremap <space>e  :<C-u>Unite grep -buffer-name=search-buffer<CR>
 ""recently files list
 noremap <space>z :<C-u>Unite file_mru<CR>
-nnoremap <space>y :<C-u>Unite directory_rec:~<CR>
+nnoremap <space>y :<C-u>Unite directory_mru<CR>
 "" show outline
 noremap <space>o :<C-u>Unite outline<CR>
 "" shoe regster
