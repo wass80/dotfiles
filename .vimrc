@@ -276,6 +276,10 @@ NeoBundle "rhysd/wandbox-vim"
 ""}}}
 "" shell "{{{
 NeoBundle "Shougo/vimshell"
+let g:vimshell_split_command = "split"
+noremap <space>v :<C-u>VimShellPop<CR>
+noremap <space>V :<C-u>VimShellInteractive<space>
+
 ""}}}
 "" browser{{{
 NeoBundle 'tyru/open-browser.vim'
