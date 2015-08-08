@@ -316,6 +316,7 @@ alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
+alias a='./a.out'
 alias tmux='tmux -2'
 function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
 autoload -Uz zmv
@@ -403,3 +404,4 @@ export PATH="/usr/local/vim/bin/:$PATH"
 ## general
 export PATH="/home/vagrant/.bin/:$PATH"
 
+clear
