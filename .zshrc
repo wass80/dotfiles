@@ -195,6 +195,8 @@ echo -ne "\033]0;${USER}@${HOST%%.*}\007"
 source ~/dotfiles/antigen.zsh
 
 # antigen-lib
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
 antigen-bundle zsh-users/zaw
 antigen-bundle zsh-users/zsh-syntax-highlighting
 # antigen-theme robbyrussell
@@ -278,8 +280,6 @@ function separate(){
     echo -n $reset_color
 }
 
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
 zstyle ':chpwd:*' recent-dirs-max 500 # cdrの履歴を保存する個数
 zstyle ':chpwd:*' recent-dirs-default yes
 zstyle ':completion:*' recent-dirs-insert both
