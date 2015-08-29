@@ -503,9 +503,6 @@ NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
 NeoBundle 'taichouchou2/vim-endwise.git'
 let g:endwise_no_mappings=1
 ""}}}
-"" switch "{{{
-
-"}}}
 "}}}
 " cursor & search "{{{
 "" search setting "{{{
@@ -708,7 +705,7 @@ vnoremap < <gv
 vnoremap <C-a> <C-a>gv
 vnoremap <C-X> <C-X>gv
 "}}} 
-"" multi lines<-> single line "{{{
+"" multi lines <-> single line "{{{
 NeoBundle "AndrewRadev/splitjoin.vim"
 " gS gJ
 "}}}
