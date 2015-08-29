@@ -381,3 +381,4 @@ export PATH="/usr/local/vim/bin/:$PATH"
 ## general
 export PATH="/home/vagrant/.bin/:$PATH"
 
+clear

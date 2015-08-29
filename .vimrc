@@ -41,52 +41,49 @@ set number
 ""}}}
 "" colorscheme "{{{
 NeoBundle "w0ng/vim-hybrid"
+NeoBundle "chriskempson/vim-tomorrow-theme"
+
 autocmd ColorScheme * highlight LineNr ctermfg=247 guifg=#909090
 autocmd ColorScheme * highlight SpecialKey ctermfg=247 guifg=#606060
 autocmd ColorScheme * highlight NonText ctermfg=247 guifg=#606060
-autocmd ColorScheme * highlight VertSplit ctermfg=246 ctermbg=239
+" autocmd ColorScheme * highlight VertSplit ctermfg=246 ctermbg=239
 set t_Co=256
 syntax on
-"...
 ""}}}
 "" character hilight "{{{
-function! ZenkakuSpace()
-highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
-endfunction
-
+set ambiwidth=double
 "set cursorline
 set list
-set listchars=tab:^\ ,trail:~
+set listchars=tab:^\ ,trail:~,eol:_
 
 set hlsearch
 " turn off highlight on enter twice
 nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
 nnoremap <silent><C-l><C-l> :<C-u>nohlsearch<CR>
 
-let lisp_rainbow=1
+" highlight parenttheses
+let g:lisp_instring = 1
+let g:lisp_rainbow = 1
 
-" multi word gap when cursor
-set ambiwidth=double
+function! ZenkakuSpace()
+  highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
+endfunction
+
 if has('syntax')
-    augroup ZenkakuSpace
-        autocmd!
-        autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
-    augroup END
-    call ZenkakuSpace()
+  augroup ZenkakuSpace
+    autocmd!
+    " ZenkakuSpaceをカラーファイルで設定するなら次の行は削除
+    autocmd ColorScheme       * call ZenkakuSpace()
+    " 全角スペースのハイライト指定
+    autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+    autocmd VimEnter,WinEnter * match ZenkakuSpace '\%u3000'
+  augroup END
+  call ZenkakuSpace()
 endif
 ""}}}
-"" indent hilight "{{{
-NeoBundle 'nathanaelkane/vim-indent-guides' 
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
-let g:indent_guides_auto_colors=0
-augroup indenthilight
-    autocmd!
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=239
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=237
-augroup END
-let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
+"" indent highlight "{{{
+NeoBundle 'Yggdroot/indentLine'
+let g:indentLine_faster = 1
 ""}}}
 "" folding "{{{
 NeoBundle 'LeafCage/foldCC'
@@ -278,6 +275,12 @@ NeoBundle "rhysd/wandbox-vim"
 ""}}}
 "" shell "{{{
 NeoBundle "Shougo/vimshell"
+let g:vimshell_split_command = "split"
+noremap <space>v :<C-u>VimShellPop<CR>
+noremap <space>V :<C-u>VimShellInteractive<space>
+""}}}
+"" browser{{{
+NeoBundle 'tyru/open-browser.vim'
 ""}}}
 "}}}
 " view "{{{
@@ -294,22 +297,40 @@ NeoBundle "Shougo/unite-outline"
 NeoBundle "osyo-manga/unite-fold"
 NeoBundle "yuku-t/vim-ref-ri"
 let g:unite_enable_start_insert=1
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
 ""buffer list
-noremap <space>b :Unite buffer<CR>
+noremap <space>b :<C-u>Unite buffer<CR>
 ""file list
-noremap <space>f :Unite -buffer-name=file file<CR>
+if executable("ag")
+    nnoremap <space>f :<C-u>Unite file_rec/async:
+    let g:unite_source_find_command = 'ag'
+    let g:unite_source_rec_async_command =
+                \ 'ag --follow --nocolor --nogroup --hidden -g ""'
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
+else
+    nnoremap <space>f :<C-u>Unite file_rec:
+endif
+nnoremap <space>d :<C-u>Unite directory_rec:
+"" grep
+nnoremap <space>e  :<C-u>Unite grep -buffer-name=search-buffer<CR>
 ""recently files list
-noremap <space>z :Unite file_mru<CR>
+noremap <space>z :<C-u>Unite file_mru<CR>
+nnoremap <space>y :<C-u>Unite directory_mru -default-action=cd<CR>
 "" show outline
-noremap <space>o :Unite outline<CR>
+noremap <space>o :<C-u>Unite outline<CR>
 "" shoe regster
-noremap <space>r :Unite register<CR>
+noremap <space>r :<C-u>Unite register<CR>
 "" unite source
-noremap <space>u :Unite source<CR>
+noremap <space>u :<C-u>Unite source<CR>
 "" gist
-noremap <space>t :Unite gista<CR>
+noremap <space>t :<C-u>Unite gista<CR>
 "" mapping
-noremap <space>\ :Unite mapping<CR>
+noremap <space>\ :<C-u>Unite mapping<CR>
+"" resume
+noremap <space>0 :<C-u>UniteResume<CR>
 ""twice esc quit
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
@@ -358,14 +379,25 @@ set viminfo+=n~/.vim/tmp/viminfo.txt
 set undodir=~/.vim/tmp
 ""}}}
 "" fugitive "{{{
-NeoBundle 'tpope/vim-fugitive'
+NeoBundle "tpope/vim-fugitive"
 noremap <space>g :Gstatus<CR>
 ""}}}
+"" diff tool "{{{
+NeoBundle 'lambdalisue/vim-unified-diff'
+set diffexpr=unified_diff#diffexpr()
+set diffopt=filler,vertical
+"}}}
 "" gist "{{{
 NeoBundle "lambdalisue/vim-gista"
 let g:gista#github_user = "wass80"
-let g:gista#update_on_write = 1
+" let g:gista#update_on_write = 1
+" let g:gista#gist_api_url = 'https://gist.github.com'
+let g:gista#directory = expand('~/.gista/')
+let g:gista#token_directory = g:gista#directory . 'tokens/' 
 "" }}}
+"" vimcoder"{{{
+NeoBundle "vim-scripts/VimCoder.jar"
+"}}}
 "}}}
 " completion "{{{
 "" command completion "{{{
@@ -482,14 +514,15 @@ let g:EasyMotion_smartcase = 1
 let g:EasyMotion_skipfoldedline = 0
 let g:EasyMotion_startofline=0
 let g:EasyMotion_enter_jump_first = 1
-" need +migemo
-" let g:EasyMotion_use_migemo = 1
+if(has('migemo'))
+    let g:EasyMotion_use_migemo = 1
+endif
 hi EasyMotionTarget ctermbg=none ctermfg=red
 hi EasyMotionShade  ctermbg=none ctermfg=blue
 map s <Plug>(easymotion-s2)
-nmap g/ <Plug>(easymotion-sn)
-xmap g/ <Plug>(easymotion-sn)
-omap g/ <Plug>(easymotion-tn)
+nmap <Space>/ <Plug>(easymotion-sn)
+xmap <Space>/ <Plug>(easymotion-sn)
+omap <Space>/ <Plug>(easymotion-tn)
 let g:EasyMotion_startofline=0
 map <Space>j <Plug>(easymotion-j)
 map <Space>k <Plug>(easymotion-k)
@@ -506,6 +539,8 @@ NeoBundle "terryma/vim-multiple-cursors"
 "}}}
 " operation "{{{
 "" basic "{{{
+" warp japanese
+set formatoptions+=mM
 " deleat backspace word
 set backspace=indent,eol,start
 " visiable around cursor
@@ -514,9 +549,10 @@ set scrolloff=5
 set cindent
 " tab into space
 set smarttab
-set tabstop=4
+set tabstop=2
+set softtabstop=2
 set expandtab
-set shiftwidth=4
+set shiftwidth=2
 " no using octed
 set nrformats-=octal
 " no comment at new line
@@ -529,7 +565,6 @@ noremap <CR> a<CR><ESC>
 " without shift
 noremap <Space>h ^
 noremap <Space>l $
-nnoremap <Space>/ *
 noremap <Space>b %
 " one char insert
 nnoremap <space>i i_<ESC>r
@@ -542,14 +577,15 @@ nnoremap Q gq
 "" textobj "{{{
 NeoBundle 'kana/vim-operator-user.git'
 NeoBundle 'emonkak/vim-operator-comment'
-nmap co <Plug>(operator-comment)
-nmap cO <Plug>(operator-uncomment)
+map co <Plug>(operator-comment)
+map cO <Plug>(operator-uncomment)
 NeoBundle 'kana/vim-operator-replace.git'
 map R  <Plug>(operator-replace)
 NeoBundle 'rhysd/vim-operator-surround'
-map yu <Plug>(operator-surround-append)
-map du <Plug>(operator-surround-delete)
-map cu <Plug>(operator-surround-replace)
+noremap gh gd
+map gy <Plug>(operator-surround-append)
+map gd <Plug>(operator-surround-delete)
+map gc <Plug>(operator-surround-replace)
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tyru/operator-star.vim'
 map *  <Plug>(operator-*)
@@ -572,8 +608,8 @@ NeoBundle 'thinca/vim-textobj-between'
 " af* / if*
 NeoBundle 'kana/vim-textobj-entire'
 let g:textobj_entire_no_default_key_mappings=1
-omap aE <Plug>(textobj-entire-a)
-omap iE <Plug>(textobj-entire-i)
+omap ao <Plug>(textobj-entire-a)
+omap io <Plug>(textobj-entire-i)
 vmap aE <Plug>(textobj-entire-a)
 vmap iE <Plug>(textobj-entire-i)
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
@@ -587,6 +623,13 @@ NeoBundle 'rhysd/vim-textobj-ruby'
 " ar / ir
 NeoBundle 'rbonvall/vim-textobj-latex'
 " a\, a$, aq, aQ, ae
+NeoBundle 'sgur/vim-textobj-parameter'
+"a, / i,
+NeoBundle 'glts/vim-textobj-comment'
+"ac / ic
+NeoBundle 'kana/vim-textobj-syntax'
+"ay / iy
+
 ""}}}
 "" repeat plugin command "{{{
 NeoBundle "tpope/vim-repeat"
@@ -597,17 +640,12 @@ NeoBundle "sjl/gundo.vim"
 "" packing x "{{{
 NeoBundle 'kana/vim-submode'
 "}}}
-"" register ring "{{{
-NeoBundle "LeafCage/yankround.vim"
-nmap p <Plug>(yankround-p)
-xmap p <Plug>(yankround-p)
-nmap P <Plug>(yankround-P)
-nmap <space>p <Plug>(yankround-prev)
-nmap <space>p <Plug>(yankround-next)
-let g:yankround_dir = '~/.vim/tmp/yankround'
-"}}}
 "" aline text "{{{
 NeoBundle "junegunn/vim-easy-align"
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+nmap ga <Plug>(EasyAlign)
 ""}}}
 "" move text in virtual mode "{{{
 NeoBundle "t9md/vim-textmanip"
@@ -615,12 +653,29 @@ xmap <C-j> <Plug>(textmanip-move-down)
 xmap <C-k> <Plug>(textmanip-move-up)
 xmap <C-h> <Plug>(textmanip-move-left)
 xmap <C-l> <Plug>(textmanip-move-right)
-""}}}"" interactive substitute "{{{
-NeoBundle "osyo-manga/vim-over"
-nnoremap <silent> <Space>s :OverCommandLine<CR>
 ""}}}
+"" interactive substitute "{{{
+NeoBundle "osyo-manga/vim-over"
+nnoremap <silent> <Space>s :OverCommandLine <CR>
+vnoremap <silent> <Space>s :OverCommandLine '<,'>s/<CR>
+""}}}
+"" disable F1 "{{{
+map <F1> <nop>
+cmap <F1> <nop>
+imap <F1> <nop>
+vmap <F1> <nop>
+"}}} 
+"" continue visual "{{{
+vnoremap > >gv
+vnoremap < <gv
+vnoremap <C-a> <C-a>gv
+vnoremap <C-X> <C-X>gv
+"}}} 
 "}}} 
 " window & tab "{{{
+"" smooth scroll "{{{
+NeoBundle "yonchu/accelerated-smooth-scroll"
+"}}}
 "" edit many buffer "{{{
 set hidden
 ""}}}
@@ -632,11 +687,15 @@ nnoremap <M-l> <C-w>l
 ""}}}
 "}}}
 " language "{{{
+"" cpp "{{{
+NeoBundleLazy 'vim-jp/cpp-vim', {
+\ 'autoload' : {'filetypes' : 'cpp'}}
+""}}}
 "" ruby "{{{
 
 ""}}}
 "" slim "{{{
-NeoBundle 'slim-template/vim-slim',{
+NeoBundleLazy 'slim-template/vim-slim',{
 \ 'autoload' : {'filetypes' : 'slim' }}
 augroup Slim
     autocmd!
@@ -654,7 +713,7 @@ NeoBundleLazy 'ujihisa/unite-haskellimport', { 'filetypes': ['haskell'] }
 "" markdown "{{{
 NeoBundle 'rcmdnk/vim-markdown',{
 \ 'autoload' : {'filetypes' : 'markdown' }}
-NeoBundle 'joker1007/vim-markdown-quote-syntax',{
+NeoBundleLazy 'joker1007/vim-markdown-quote-syntax',{
 \ 'autoload' : {'filetypes' : 'markdown' }}
 ""}}}
 "" html "{{{
@@ -691,7 +750,7 @@ call neobundle#end()
 "" vital
 let s:V = vital#of('vital')
 "" colorscheme
-colorscheme hybrid
+colorscheme Tomorrow-Night-Bright
 "" shabadou
 call quickrun#module#register(shabadou#make_quickrun_hook_anim(
 \   "turret",
