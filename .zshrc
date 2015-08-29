@@ -1,4 +1,4 @@
-## prompt# {{{
+# prompt# {{{
 autoload -Uz colors; colors
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
@@ -188,11 +188,19 @@ function command_not_found_handler() {
 }
 
 # }}}
-
-## title bar# {{{
+# title bar# {{{
 echo -ne "\033]0;${USER}@${HOST%%.*}\007"
 # }}}
-## keybind# {{{
+# packages# {{{
+source ~/dotfiles/antigen.zsh
+
+# antigen-lib
+antigen-bundle zsh-users/zaw
+antigen-bundle zsh-users/zsh-syntax-highlighting
+# antigen-theme robbyrussell
+antigen-apply
+# }}}
+# keybind# {{{
 bindkey -v
 bindkey -r '^X'
 export KEYTIMEOUT=1
@@ -270,8 +278,20 @@ function separate(){
     echo -n $reset_color
 }
 
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':chpwd:*' recent-dirs-max 500 # cdrの履歴を保存する個数
+zstyle ':chpwd:*' recent-dirs-default yes
+zstyle ':completion:*' recent-dirs-insert both
+
+zstyle ':filter-select:highlight' selected fg=black,bg=white,standout
+zstyle ':filter-select' case-insensitive yes
+
+bindkey '^R' zaw-history
+bindkey '^O' zaw-cdr
+
 # }}}
-## action option# {{{
+# action option# {{{
 setopt auto_cd # ディレクトリ名だけでcd
 setopt auto_pushd # cdの時にpushd
 setopt pushd_ignore_dups # 同じディレクトリをpushしない
@@ -339,23 +359,7 @@ alias -g U='| nkf -w'
 alias -g W='| wc'
 alias -g X='| xargs'
 # }}}
-## packages# {{{
-source ~/dotfiles/antigen.zsh
-
-# antigen-lib
-antigen-bundle rupa/z
-# antigen-bundle zsh-users/zaw
-antigen-bundle zsh-users/zsh-syntax-highlighting
-# antigen-theme robbyrussell
-# antigen-apply
-precmd() {
-    _z --add "$(pwd -P)"
-}
-
-bindkey '^R' zaw-history
-
-# }}}
-
+# path# {{{
 ## rbenv
 if [ -d ${HOME}/.rbenv  ] ; then
   export PATH=$HOME/.rbenv/bin:$PATH
@@ -380,5 +384,6 @@ export PATH="/usr/local/vim/bin/:$PATH"
 
 ## general
 export PATH="/home/vagrant/.bin/:$PATH"
+# }}}
 
 clear
