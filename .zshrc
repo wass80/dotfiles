@@ -316,6 +316,8 @@ alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
+alias a='./a.out'
+alias gpp='g++ -std=c++11'
 alias tmux='tmux -2'
 function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
 autoload -Uz zmv
@@ -338,42 +340,18 @@ alias -g W='| wc'
 alias -g X='| xargs'
 # }}}
 ## packages# {{{
-# パッケージ管理システムを読み込む。
-source ~/.zsh.d/package.zsh
+source ~/dotfiles/antigen.zsh
 
-### auto-fu
-#package-install github hchbaw/auto-fu.zsh
-#source $(package-directory hchbaw/auto-fu.zsh)/auto-fu.zsh
-## auto-fuを初期化する。
-#zle-line-init() {
-#    auto-fu-init
-#}
-#zle -N zle-line-init
-#zle -N zle-keymap-select auto-fu-zle-keymap-select
-#
-## auto-fuをカスタマイズする。
-### Enterを押したときは自動補完された部分を利用しない。
-#afu+cancel-and-accept-line() {
-#    ((afu_in_p == 1)) && { afu_in_p=0; BUFFER="$buffer_cur" }
-#    zle afu+accept-line
-#}
-#zle -N afu+cancel-and-accept-line
-#bindkey -M afu "^M" afu+cancel-and-accept-line
-
-### z
-package-install github rupa/z
-source $(package-directory rupa/z)/z.sh
+# antigen-lib
+antigen-bundle rupa/z
+# antigen-bundle zsh-users/zaw
+antigen-bundle zsh-users/zsh-syntax-highlighting
+# antigen-theme robbyrussell
+# antigen-apply
 precmd() {
     _z --add "$(pwd -P)"
 }
 
-### syntax-highlighting
-package-install github zsh-users/zsh-syntax-highlighting
-source $(package-directory zsh-users/zsh-syntax-highlighting)/zsh-syntax-highlighting.zsh
-
-### history increment search
-package-install github zsh-users/zaw
-source $(package-directory zsh-users/zaw)/zaw.zsh
 bindkey '^R' zaw-history
 
 # }}}
