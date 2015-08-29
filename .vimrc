@@ -51,6 +51,7 @@ set t_Co=256
 syntax on
 ""}}}
 "" character hilight "{{{
+set ambiwidth=double
 "set cursorline
 set list
 set listchars=tab:^\ ,trail:~,eol:_
@@ -317,7 +318,7 @@ nnoremap <space>d :<C-u>Unite directory_rec:
 nnoremap <space>e  :<C-u>Unite grep -buffer-name=search-buffer<CR>
 ""recently files list
 noremap <space>z :<C-u>Unite file_mru<CR>
-nnoremap <space>y :<C-u>Unite directory_mru<CR>
+nnoremap <space>y :<C-u>Unite directory_mru -default-action=cd<CR>
 "" show outline
 noremap <space>o :<C-u>Unite outline<CR>
 "" shoe regster
@@ -548,9 +549,10 @@ set scrolloff=5
 set cindent
 " tab into space
 set smarttab
-set tabstop=4
+set tabstop=2
+set softtabstop=2
 set expandtab
-set shiftwidth=4
+set shiftwidth=2
 " no using octed
 set nrformats-=octal
 " no comment at new line
