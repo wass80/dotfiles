@@ -4,6 +4,13 @@ filetype plugin indent off
 " core "{{{
 "" NeoBundle "{{{ 
 if has('vim_starting')
+  if !isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
+    echo "install neobundle..."
+    :call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
+  endif
+  if !isdirectory(expand("~/.vim/tmp/"))
+    :call mkdir(expand("~/.vim/tmp/"),"p")
+  endif
   set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 call neobundle#begin(expand('~/.vim/bundle/'))
@@ -51,6 +58,7 @@ set t_Co=256
 syntax on
 ""}}}
 "" character hilight "{{{
+set ambiwidth=double
 "set cursorline
 set list
 set listchars=tab:^\ ,trail:~,eol:_
@@ -317,7 +325,7 @@ nnoremap <space>d :<C-u>Unite directory_rec:
 nnoremap <space>e  :<C-u>Unite grep -buffer-name=search-buffer<CR>
 ""recently files list
 noremap <space>z :<C-u>Unite file_mru<CR>
-nnoremap <space>y :<C-u>Unite directory_mru<CR>
+nnoremap <space>y :<C-u>Unite directory_mru -default-action=cd<CR>
 "" show outline
 noremap <space>o :<C-u>Unite outline<CR>
 "" shoe regster
@@ -381,10 +389,13 @@ set undodir=~/.vim/tmp
 NeoBundle "tpope/vim-fugitive"
 noremap <space>g :Gstatus<CR>
 ""}}}
-"" diff tool "{{{
+"" diff tools "{{{
 NeoBundle 'lambdalisue/vim-unified-diff'
 set diffexpr=unified_diff#diffexpr()
 set diffopt=filler,vertical
+
+NeoBundle 'AndrewRadev/linediff.vim' , { 'commands': ['Linediff'] }
+
 "}}}
 "" gist "{{{
 NeoBundle "lambdalisue/vim-gista"
@@ -535,6 +546,10 @@ let g:clever_f_chars_match_any_signs=1
 "" multple cursors "{{{
 NeoBundle "terryma/vim-multiple-cursors"
 "}}}
+"" switch "{{{
+NeoBundle "AndrewRadev/switch.vim"
+nnoremap <Space>n  :<C-u>Switch<CR>
+"}}}
 "}}}
 " operation "{{{
 "" basic "{{{
@@ -548,9 +563,10 @@ set scrolloff=5
 set cindent
 " tab into space
 set smarttab
-set tabstop=4
+set tabstop=2
+set softtabstop=2
 set expandtab
-set shiftwidth=4
+set shiftwidth=2
 " no using octed
 set nrformats-=octal
 " no comment at new line
@@ -607,9 +623,9 @@ NeoBundle 'thinca/vim-textobj-between'
 NeoBundle 'kana/vim-textobj-entire'
 let g:textobj_entire_no_default_key_mappings=1
 omap ao <Plug>(textobj-entire-a)
-omap io <Plug>(textobj-entire-i)
-vmap aE <Plug>(textobj-entire-a)
-vmap iE <Plug>(textobj-entire-i)
+omap ao <Plug>(textobj-entire-a)
+vmap io <Plug>(textobj-entire-i)
+vmap io <Plug>(textobj-entire-i)
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
 omap ab <Plug>(textobj-multiblock-a)
 omap ib <Plug>(textobj-multiblock-i)
@@ -622,11 +638,31 @@ NeoBundle 'rhysd/vim-textobj-ruby'
 NeoBundle 'rbonvall/vim-textobj-latex'
 " a\, a$, aq, aQ, ae
 NeoBundle 'sgur/vim-textobj-parameter'
-"a, / i,
+" a, / i,
 NeoBundle 'glts/vim-textobj-comment'
-"ac / ic
+" ac / ic
 NeoBundle 'kana/vim-textobj-syntax'
-"ay / iy
+" ay / iy
+NeoBundle 'rhysd/vim-textobj-word-column'
+" av, aV
+
+NeoBundle 'terryma/vim-expand-region'
+let g:expand_region_text_objects = {
+      \ 'iw'  :0,
+      \ 'iW'  :0,
+      \ 'i"'  :0,
+      \ 'i''' :0,
+      \ 'i]'  :1,
+      \ 'ib'  :1,
+      \ 'iB'  :1,
+      \ 'i,'  :0,
+      \ 'il'  :0,
+      \ 'al'  :0,
+      \ 'ip'  :0,
+      \ 'io'  :0,
+      \ }
+vmap v <Plug>(expand_region_expand)
+vmap V <Plug>(expand_region_shrink)
 
 ""}}}
 "" repeat plugin command "{{{
@@ -669,6 +705,11 @@ vnoremap < <gv
 vnoremap <C-a> <C-a>gv
 vnoremap <C-X> <C-X>gv
 "}}} 
+"" multi lines <-> single line "{{{
+NeoBundle "AndrewRadev/splitjoin.vim"
+" gS gJ
+"}}}
+""
 "}}} 
 " window & tab "{{{
 "" smooth scroll "{{{

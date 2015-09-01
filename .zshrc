@@ -1,4 +1,4 @@
-## prompt# {{{
+# prompt# {{{
 autoload -Uz colors; colors
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
@@ -188,11 +188,21 @@ function command_not_found_handler() {
 }
 
 # }}}
-
-## title bar# {{{
+# title bar# {{{
 echo -ne "\033]0;${USER}@${HOST%%.*}\007"
 # }}}
-## keybind# {{{
+# packages# {{{
+source ~/dotfiles/antigen.zsh
+
+# antigen-lib
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+antigen-bundle zsh-users/zaw
+antigen-bundle zsh-users/zsh-syntax-highlighting
+# antigen-theme robbyrussell
+antigen-apply
+# }}}
+# keybind# {{{
 bindkey -v
 bindkey -r '^X'
 export KEYTIMEOUT=1
@@ -270,8 +280,18 @@ function separate(){
     echo -n $reset_color
 }
 
+zstyle ':chpwd:*' recent-dirs-max 500 # cdrの履歴を保存する個数
+zstyle ':chpwd:*' recent-dirs-default yes
+zstyle ':completion:*' recent-dirs-insert both
+
+zstyle ':filter-select:highlight' selected fg=black,bg=white,standout
+zstyle ':filter-select' case-insensitive yes
+
+bindkey '^R' zaw-history
+bindkey '^O' zaw-cdr
+
 # }}}
-## action option# {{{
+# action option# {{{
 setopt auto_cd # ディレクトリ名だけでcd
 setopt auto_pushd # cdの時にpushd
 setopt pushd_ignore_dups # 同じディレクトリをpushしない
@@ -317,6 +337,7 @@ alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
 alias a='./a.out'
+alias gpp='g++ -std=c++11'
 alias tmux='tmux -2'
 function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
 autoload -Uz zmv
@@ -338,47 +359,7 @@ alias -g U='| nkf -w'
 alias -g W='| wc'
 alias -g X='| xargs'
 # }}}
-## packages# {{{
-# パッケージ管理システムを読み込む。
-source ~/.zsh.d/package.zsh
-
-### auto-fu
-#package-install github hchbaw/auto-fu.zsh
-#source $(package-directory hchbaw/auto-fu.zsh)/auto-fu.zsh
-## auto-fuを初期化する。
-#zle-line-init() {
-#    auto-fu-init
-#}
-#zle -N zle-line-init
-#zle -N zle-keymap-select auto-fu-zle-keymap-select
-#
-## auto-fuをカスタマイズする。
-### Enterを押したときは自動補完された部分を利用しない。
-#afu+cancel-and-accept-line() {
-#    ((afu_in_p == 1)) && { afu_in_p=0; BUFFER="$buffer_cur" }
-#    zle afu+accept-line
-#}
-#zle -N afu+cancel-and-accept-line
-#bindkey -M afu "^M" afu+cancel-and-accept-line
-
-### z
-package-install github rupa/z
-source $(package-directory rupa/z)/z.sh
-precmd() {
-    _z --add "$(pwd -P)"
-}
-
-### syntax-highlighting
-package-install github zsh-users/zsh-syntax-highlighting
-source $(package-directory zsh-users/zsh-syntax-highlighting)/zsh-syntax-highlighting.zsh
-
-### history increment search
-package-install github zsh-users/zaw
-source $(package-directory zsh-users/zaw)/zaw.zsh
-bindkey '^R' zaw-history
-
-# }}}
-
+# path# {{{
 ## rbenv
 if [ -d ${HOME}/.rbenv  ] ; then
   export PATH=$HOME/.rbenv/bin:$PATH
@@ -403,5 +384,6 @@ export PATH="/usr/local/vim/bin/:$PATH"
 
 ## general
 export PATH="/home/vagrant/.bin/:$PATH"
+# }}}
 
 clear
