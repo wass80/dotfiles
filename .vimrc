@@ -581,7 +581,7 @@ NeoBundle 'kana/vim-operator-replace.git'
 map R  <Plug>(operator-replace)
 NeoBundle 'rhysd/vim-operator-surround'
 noremap gh gd
-map gy <Plug>(operator-surround-append)
+map gs <Plug>(operator-surround-append)
 map gd <Plug>(operator-surround-delete)
 map gc <Plug>(operator-surround-replace)
 NeoBundle 'thinca/vim-visualstar'
@@ -735,6 +735,9 @@ NeoBundle 'jiangmiao/simple-javascript-indenter' ,{
 \ 'autoload' : {'filetypes' : 'javascript' }}
 NeoBundle 'mattn/jscomplete-vim' ,{
 \ 'autoload' : {'filetypes' : 'javascript' }}
+"}}}
+"" hbs "{{{
+NeoBundle 'mustache/vim-mustache-handlebars'
 "}}}
 "" json "{{{
 NeoBundle 'vim-scripts/JSON.vim' ,{
