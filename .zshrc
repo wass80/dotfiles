@@ -196,8 +196,8 @@ source ~/dotfiles/antigen.zsh
 
 # antigen-lib
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
 antigen-bundle zsh-users/zaw
+add-zsh-hook chpwd chpwd_recent_dirs
 antigen-bundle zsh-users/zsh-syntax-highlighting
 # antigen-theme robbyrussell
 antigen-apply
