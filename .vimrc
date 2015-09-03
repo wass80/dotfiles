@@ -1,4 +1,5 @@
-﻿set nocompatible
+" vim:set foldmethod=marker:
+set nocompatible
 filetype off
 filetype plugin indent off
 " core "{{{
@@ -43,12 +44,14 @@ NeoBundle "vim-jp/vital.vim"
 ""}}}
 "}}}
 " apperance "{{{
-"" display number "{{{
+"" basic "{{{
 set number
+set display=lastline
 ""}}}
 "" colorscheme "{{{
 NeoBundle "w0ng/vim-hybrid"
 NeoBundle "chriskempson/vim-tomorrow-theme"
+NeoBundle "jpo/vim-railscasts-theme"
 
 autocmd ColorScheme * highlight SpellBad term=underline cterm=underline ctermfg=9 ctermbg=NONE
 autocmd ColorScheme * highlight LineNr ctermfg=247 guifg=#909090
@@ -290,6 +293,10 @@ noremap <space>V :<C-u>VimShellInteractive<space>
 "" browser{{{
 NeoBundle 'tyru/open-browser.vim'
 ""}}}
+"" formatter "{{{
+NeoBundle "Chiel92/vim-autoformat"
+let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=\"{BasedOnStyle: Google, AlignTrailingComments: true, '.(&textwidth ? 'ColumnLimit: '.&textwidth.', ' : '').(&expandtab ? 'UseTab: Never, IndentWidth: '.&shiftwidth : 'UseTab: Always').'}\"'"
+"}}}
 "}}}
 " view "{{{
 "" use ja help "{{{
@@ -420,7 +427,10 @@ NeoBundle "Shougo/neocomplete"
 NeoBundle "Shougo/neosnippet.vim"
 NeoBundle "wass80/neosnippet-snippets"
 
-let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippets/'
+" number of pop up items
+set pumheight=15
+
+let g:neosnippet#snippets_directory='~/.vim/bundle/**/*.snip'
 
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
@@ -492,13 +502,34 @@ if !exists('g:neocomplete#force_omni_input_patterns')
 endif
 let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 ""}}}
+"" cpp "{{{
+if executable("clang")
+  NeoBundleLazy 'osyo-manga/vim-marching', { 'autoload' : {
+  \ 'filetypes': ['cpp','c'],
+  \ }}
+
+  let g:marching_enable_neocomplete = 1
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
+  let g:neocomplete#force_omni_input_patterns.cpp =
+    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+endif
+""}}}
 "" rsense "{{{
-NeoBundleLazy 'marcus/rsense', { 'autoload' : {
+NeoBundleLazy 'NigoroJr/rsense', { 'autoload' : {
 \ 'filetypes': 'ruby',
 \ }}
 NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
 \ 'filetypes': 'ruby',
 \ }}
+""}}}
+"" js tern "{{{
+if executable("tern")
+  NeoBundleLazy 'marijnh/tern_for_vim', { 'autoload' : {
+  \ 'filetypes': 'javascript',
+  \ }}
+endif
 ""}}}
 "" completion "end" "{{{
 NeoBundle 'taichouchou2/vim-endwise.git'
@@ -585,9 +616,10 @@ noremap <Space>b %
 nnoremap <space>i i_<ESC>r
 " go normal mode with jj
 inoremap jj <Esc>
-
 " ignore Q
 nnoremap Q gq
+" Y <-> D
+nnoremap Y y$
 ""}}}
 "" textobj "{{{
 NeoBundle 'kana/vim-operator-user.git'
@@ -770,7 +802,7 @@ NeoBundle 'kchmck/vim-coffee-script' ,{
 \ 'autoload' : {'filetypes' : 'coffeescript' }}
 ""}}}
 "" js "{{{
-NeoBundle 'jelera/vim-javascript-syntax' ,{
+NeoBundle 'isRuslan/vim-es6' ,{
 \ 'autoload' : {'filetypes' : 'javascript' }}
 NeoBundle 'jiangmiao/simple-javascript-indenter' ,{
 \ 'autoload' : {'filetypes' : 'javascript' }}
@@ -779,6 +811,7 @@ NeoBundle 'mattn/jscomplete-vim' ,{
 "}}}
 "" hbs "{{{
 NeoBundle 'mustache/vim-mustache-handlebars'
+au BufNewFile,BufRead *.hbs setf handlebars
 "}}}
 "" json "{{{
 NeoBundle 'vim-scripts/JSON.vim' ,{
@@ -862,4 +895,3 @@ call submode#map('winsize', 'n', '', '-', '<C-w>+')
 "}}}
 NeoBundleCheck
 filetype plugin indent on
-
