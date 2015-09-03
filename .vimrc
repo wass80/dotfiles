@@ -50,6 +50,7 @@ set number
 NeoBundle "w0ng/vim-hybrid"
 NeoBundle "chriskempson/vim-tomorrow-theme"
 
+autocmd ColorScheme * highlight SpellBad term=underline cterm=underline ctermfg=9 ctermbg=NONE
 autocmd ColorScheme * highlight LineNr ctermfg=247 guifg=#909090
 autocmd ColorScheme * highlight SpecialKey ctermfg=247 guifg=#606060
 autocmd ColorScheme * highlight NonText ctermfg=247 guifg=#606060
@@ -268,7 +269,7 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 ""}}}
 "" syntax check "{{{
 NeoBundle "osyo-manga/vim-watchdogs"
-NeoBundle "jceb/vim-hier"
+NeoBundle "cohama/vim-hier"
 NeoBundle "dannyob/quickfixstatus"
 NeoBundle "tomtom/quickfixsigns_vim"
 let s:config = {
@@ -709,7 +710,6 @@ vnoremap <C-X> <C-X>gv
 NeoBundle "AndrewRadev/splitjoin.vim"
 " gS gJ
 "}}}
-""
 "}}} 
 " window & tab "{{{
 "" smooth scroll "{{{
