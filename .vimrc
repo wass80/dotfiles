@@ -321,9 +321,9 @@ if executable("ag")
     nnoremap <space>f :<C-u>Unite file_rec/async:
     let g:unite_source_find_command = 'ag'
     let g:unite_source_rec_async_command =
-                \ 'ag --follow --nocolor --nogroup --hidden -g ""'
+                \ 'ag --follow --nocolor --nogroup --hidden -g "" -S'
     let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_default_opts = '-S --column --nogroup --nocolor'
     let g:unite_source_grep_recursive_opt = ''
 else
     nnoremap <space>f :<C-u>Unite file_rec:
@@ -392,6 +392,10 @@ set directory=~/.vim/tmp
 set backupdir=~/.vim/tmp
 set viminfo+=n~/.vim/tmp/viminfo.txt
 set undodir=~/.vim/tmp
+augroup vimrc-undofile
+  autocmd!
+  autocmd BufReadPre ~/* setlocal undofile
+augroup END
 ""}}}
 "" fugitive "{{{
 NeoBundle "tpope/vim-fugitive"
@@ -763,7 +767,9 @@ NeoBundleLazy 'vim-jp/cpp-vim', {
 \ 'autoload' : {'filetypes' : 'cpp'}}
 ""}}}
 "" ruby "{{{
-
+" this plugin has a bag on editing a new ruby file.
+" NeoBundleLazy 'todesking/ruby_hl_lvar.vim', {
+" \ 'autoload' : {'filetypes' : 'ruby'}}
 ""}}}
 "" slim "{{{
 NeoBundleLazy 'slim-template/vim-slim',{
@@ -811,7 +817,7 @@ NeoBundle 'mattn/jscomplete-vim' ,{
 "}}}
 "" hbs "{{{
 NeoBundle 'mustache/vim-mustache-handlebars'
-au BufNewFile,BufRead *.hbs setf handlebars
+au BufNewFile,BufRead *.hbs setf html.handlebars
 "}}}
 "" json "{{{
 NeoBundle 'vim-scripts/JSON.vim' ,{
