@@ -336,6 +336,11 @@ alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
+alias ga='git add'
+alias gap='git add -p'
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gcpm='git commit -p -m'
 alias a='./a.out'
 alias gpp='g++ -std=c++11'
 alias tmux='tmux -2'
