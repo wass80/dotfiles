@@ -628,6 +628,9 @@ map co <Plug>(operator-comment)
 map cO <Plug>(operator-uncomment)
 NeoBundle 'tommcdo/vim-exchange'
 " cx, cxx, X(in visual), cxc(reset)
+map cd cx
+map cdd cxx
+map cdc cxc
 NeoBundle 'kana/vim-operator-replace.git'
 map R  <Plug>(operator-replace)
 NeoBundle 'rhysd/vim-operator-surround'
