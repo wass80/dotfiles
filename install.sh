@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ~
+git clone https://github.com/wass80/dotfiles
 cd dotfiles
 ln -s .vimrc ~/.vimrc
 ln -s .zshrc ~/.zshrc
