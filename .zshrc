@@ -313,7 +313,8 @@ setopt nolistbeep # beepを鳴らさない
 setopt long_list_jobs # jobsの時にプロセスidも知る
 setopt noflowcontrol # 画面更新停止(ctrl-S)させない
 
-# alias
+# }}}
+# alias# {{{
 if builtin command -v trash.sh > /dev/null; then
 	alias rm='trash.sh -i'
 	export TRASHLIST=~/.trashlist # Where trash list is written
