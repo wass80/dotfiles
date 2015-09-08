@@ -313,7 +313,8 @@ setopt nolistbeep # beepを鳴らさない
 setopt long_list_jobs # jobsの時にプロセスidも知る
 setopt noflowcontrol # 画面更新停止(ctrl-S)させない
 
-# alias
+# }}}
+# alias# {{{
 if builtin command -v trash.sh > /dev/null; then
 	alias rm='trash.sh -i'
 	export TRASHLIST=~/.trashlist # Where trash list is written
@@ -336,6 +337,11 @@ alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias vi='vim'
 alias g='git'
+alias ga='git add'
+alias gap='git add -p'
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gcpm='git commit -p -m'
 alias a='./a.out'
 alias gpp='g++ -std=c++11'
 alias tmux='tmux -2'
