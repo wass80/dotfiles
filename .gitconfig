@@ -39,3 +39,5 @@
 	ff = false
 [pull]
 	rebase = true
+[push]
+	default = simple
