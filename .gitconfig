@@ -29,6 +29,7 @@
     sh = show
     so = remote show origin
     st = status
+    p = !git push origin `git rev-parse --abbrev-ref HEAD`
 [help]
 	autocorrect = 1
 [core]

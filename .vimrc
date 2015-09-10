@@ -420,6 +420,9 @@ let g:gista#token_directory = g:gista#directory . 'tokens/'
 "" vimcoder"{{{
 NeoBundle "vim-scripts/VimCoder.jar"
 "}}}
+"" vimcoder"{{{
+NeoBundle "editorconfig/editorconfig-vim"
+"}}}
 "}}}
 " completion "{{{
 "" command completion "{{{

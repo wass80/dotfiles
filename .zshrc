@@ -323,6 +323,10 @@ if builtin command -v trash.sh > /dev/null; then
 	export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
 fi
 
+if builtin command -v hub > /dev/null; then
+  function git(){hub "$@"}
+fi
+
 alias po='popd'
 alias cp='cp -i'
 alias mv='mv -i'
