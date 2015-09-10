@@ -336,6 +336,7 @@ alias ll='ls -l'                              # long list
 alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias vi='vim'
+alias v='vim'
 alias g='git'
 alias ga='git add'
 alias gap='git add -p'
@@ -345,6 +346,7 @@ alias gcpm='git commit -p -m'
 alias a='./a.out'
 alias gpp='g++ -std=c++11'
 alias tmux='tmux -2'
+alias t='tmux -2'
 function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
 autoload -Uz zmv
 
