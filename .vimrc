@@ -318,37 +318,41 @@ let g:unite_enable_smart_case = 1
 noremap <space>b :<C-u>Unite buffer<CR>
 ""file list
 if executable("ag")
-    nnoremap <space>f :<C-u>Unite file_rec/async:
+    nnoremap <space>f :<C-u>Unite -default-action=tabswitch file_rec/async:
     let g:unite_source_find_command = 'ag'
     let g:unite_source_rec_async_command =
-                \ 'ag --follow --nocolor --nogroup --hidden -g "" -S'
+                \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
     let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '-S --column --nogroup --nocolor'
+    let g:unite_source_grep_default_opts = '--column --nogroup --nocolor'
     let g:unite_source_grep_recursive_opt = ''
 else
-    nnoremap <space>f :<C-u>Unite file_rec:
+    nnoremap <space>f :<C-u>Unite -default-action=tabswitch file_rec: 
 endif
-nnoremap <space>d :<C-u>Unite directory_rec:
+nnoremap <space>d :<C-u>Unite -default-action=tabswitch directory_rec:
 "" grep
-nnoremap <space>e  :<C-u>Unite grep -buffer-name=search-buffer<CR>
+nnoremap <space>e  :<C-u>Unite -default-action=tabswitch grep -buffer-name=search-buffer<CR>
 ""recently files list
-noremap <space>z :<C-u>Unite file_mru<CR>
+noremap <space>z :<C-u>Unite -default-action=tabswitch buffer file_mru<CR>
 nnoremap <space>y :<C-u>Unite directory_mru -default-action=cd<CR>
 "" show outline
 noremap <space>o :<C-u>Unite outline<CR>
-"" shoe regster
-noremap <space>r :<C-u>Unite register<CR>
+"" show regster
+let g:unite_source_history_yank_enable = 1
+noremap <space>r :<C-u>Unite register history/yank<CR>
 "" unite source
 noremap <space>u :<C-u>Unite source<CR>
 "" gist
 noremap <space>t :<C-u>Unite gista<CR>
 "" mapping
-noremap <space>\ :<C-u>Unite mapping<CR>
+noremap <space>\ :<C-u>Unite output:map\|map!\|lmap<CR>
+"" lines
+nnoremap <space>? :<C-u>Unite -buffer-name=search line -start-insert -no-quit<CR>
 "" resume
 noremap <space>0 :<C-u>UniteResume<CR>
 ""twice esc quit
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+au FileType unite inoremap <silent> <buffer> jj <BS><BS><ESC>:q<CR>
 ""}}}
 "" reference K:search" {{{
 NeoBundle "thinca/vim-ref"
@@ -444,7 +448,7 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-" Define keyword.
+" vim keyword.
 if !exists('g:neocomplete#keyword_patterns')
     let g:neocomplete#keyword_patterns = {}
 endif
@@ -561,7 +565,7 @@ let g:EasyMotion_grouping = 1
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_skipfoldedline = 0
-let g:EasyMotion_startofline=0
+let g:EasyMotion_startofline = 0
 let g:EasyMotion_enter_jump_first = 1
 if(has('migemo'))
     let g:EasyMotion_use_migemo = 1
@@ -572,9 +576,7 @@ map s <Plug>(easymotion-s2)
 nmap <Space>/ <Plug>(easymotion-sn)
 xmap <Space>/ <Plug>(easymotion-sn)
 omap <Space>/ <Plug>(easymotion-tn)
-let g:EasyMotion_startofline=0
-map <Space>j <Plug>(easymotion-j)
-map <Space>k <Plug>(easymotion-k)
+let g:EasyMotion_startofline = 0
 map <Space>w <Plug>(easymotion-bd-wl)
 map <Space>W <Plug>(easymotion-bd-el)
 " continue f
@@ -587,7 +589,12 @@ NeoBundle "terryma/vim-multiple-cursors"
 "}}}
 "" switch "{{{
 NeoBundle "AndrewRadev/switch.vim"
+let g:switch_mapping = ""
 nnoremap <Space>n  :<C-u>Switch<CR>
+let g:switch_custom_definitions =
+    \ [
+    \   ['pick', 'squash', 'fixup', 'edit']
+    \ ]
 "}}}
 "}}}
 " operation "{{{
@@ -651,6 +658,10 @@ map *  <Plug>(operator-*)
 map g*  <Plug>(operator-g*)
 map #  <Plug>(operator-#)
 map g#  <Plug>(operator-g#)
+NeoBundle 'osyo-manga/vim-operator-jump_side'
+map <Space>j <Plug>(operator-jump-tail-out)
+map <Space>k <Plug>(operator-jump-head-out)
+map ; <Plug>(operator-jump-toggle)
 
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-line'
@@ -768,6 +779,21 @@ nnoremap <M-j> <C-w>j
 nnoremap <M-k> <C-w>k
 nnoremap <M-l> <C-w>l
 ""}}}
+"" shortcut "{{{
+nnoremap ,1 1gt
+nnoremap ,2 2gt
+nnoremap ,3 3gt
+nnoremap ,4 4gt
+nnoremap ,5 5gt
+nnoremap ,6 6gt
+nnoremap ,7 7gt
+nnoremap ,8 8gt
+nnoremap ,9 9gt
+nnoremap ,0 :<C-u>Unite -default-action=tabswitch tab buffer<CR>
+nnoremap ,t :<C-u>tab ba<CR>
+nnoremap ,, <C-w><C-w>
+nnoremap ,w :w<CR>
+nnoremap ,q :q<CR>
 "}}}
 " language "{{{
 "" cpp "{{{
