@@ -314,14 +314,12 @@ NeoBundle "yuku-t/vim-ref-ri"
 let g:unite_enable_start_insert=1
 let g:unite_enable_ignore_case = 1
 let g:unite_enable_smart_case = 1
-""buffer list
-noremap <space>b :<C-u>Unite buffer<CR>
 ""file list
 if executable("ag")
     nnoremap <space>f :<C-u>Unite -default-action=tabswitch file_rec/async:
     let g:unite_source_find_command = 'ag'
     let g:unite_source_rec_async_command =
-                \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
+                \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-S', '-g', '']
     let g:unite_source_grep_command = 'ag'
     let g:unite_source_grep_default_opts = '--column --nogroup --nocolor'
     let g:unite_source_grep_recursive_opt = ''
@@ -334,10 +332,10 @@ nnoremap <space>e  :<C-u>Unite -default-action=tabswitch grep -buffer-name=searc
 ""recently files list
 noremap <space>z :<C-u>Unite -hide-source-names -default-action=tabswitch buffer file_mru<CR>
 nnoremap <space>y :<C-u>Unite directory_mru -default-action=cd<CR>
-command! UniteStartup Unite -no-split -default-action=tabswitch file file_mru
+command! UniteStartup Unite -no-split file file_mru file/new directory/new
 augroup startup
   autocmd!
-  autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | UniteStartup | endif
+  autocmd VimEnter * nested if (@% == '' && s:GetBufByte() == 0) | call s:Startup() | endif
   function! s:GetBufByte()
     let byte = line2byte(line('$') + 1)
     if byte == -1
@@ -345,6 +343,9 @@ augroup startup
     else
       return byte - 1
     endif
+  endfunction
+  function! s:Startup()
+    UniteStartup
   endfunction
 augroup END
 "" show outline
