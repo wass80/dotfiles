@@ -334,10 +334,18 @@ nnoremap <space>e  :<C-u>Unite -default-action=tabswitch grep -buffer-name=searc
 ""recently files list
 noremap <space>z :<C-u>Unite -hide-source-names -default-action=tabswitch buffer file_mru<CR>
 nnoremap <space>y :<C-u>Unite directory_mru -default-action=cd<CR>
-command! UniteStartup Unite -hide-source-names -no-split -default-action=tabswitch buffer file_mru
+command! UniteStartup Unite -no-split -default-action=tabswitch file file_mru
 augroup startup
   autocmd!
-  autocmd VimEnter * nested :UniteStartup
+  autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | UniteStartup | endif
+  function! s:GetBufByte()
+    let byte = line2byte(line('$') + 1)
+    if byte == -1
+      return 0
+    else
+      return byte - 1
+    endif
+  endfunction
 augroup END
 "" show outline
 noremap <space>o :<C-u>Unite outline<CR>
