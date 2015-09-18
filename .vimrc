@@ -332,8 +332,13 @@ nnoremap <space>d :<C-u>Unite -default-action=tabswitch directory_rec:
 "" grep
 nnoremap <space>e  :<C-u>Unite -default-action=tabswitch grep -buffer-name=search-buffer<CR>
 ""recently files list
-noremap <space>z :<C-u>Unite -default-action=tabswitch buffer file_mru<CR>
+noremap <space>z :<C-u>Unite -hide-source-names -default-action=tabswitch buffer file_mru<CR>
 nnoremap <space>y :<C-u>Unite directory_mru -default-action=cd<CR>
+command! UniteStartup Unite -hide-source-names -no-split -default-action=tabswitch buffer file_mru
+augroup startup
+  autocmd!
+  autocmd VimEnter * nested :UniteStartup
+augroup END
 "" show outline
 noremap <space>o :<C-u>Unite outline<CR>
 "" show regster
@@ -352,7 +357,7 @@ noremap <space>0 :<C-u>UniteResume<CR>
 ""twice esc quit
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-au FileType unite inoremap <silent> <buffer> jj <BS><BS><ESC>:q<CR>
+au FileType unite inoremap <silent> <buffer> jj <ESC><CR>
 ""}}}
 "" reference K:search" {{{
 NeoBundle "thinca/vim-ref"
