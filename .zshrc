@@ -326,6 +326,10 @@ fi
 if builtin command -v hub > /dev/null; then
   function git(){hub "$@"}
 fi
+#sudo pip install thefuck
+if builtin command -v thefuck > /dev/null; then
+  eval "$(thefuck --alias f)"
+fi
 
 alias po='popd'
 alias cp='cp -i'
