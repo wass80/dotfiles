@@ -33,7 +33,7 @@ NeoBundle 'Shougo/vimproc', {
 end
 ""}}}
 "" submode "{{{
-NeoBundle "kana/vim-submode"
+NeoBundle "wass80/vim-submode"
 let g:submode_keep_leaving_key=1
 let g:submode_always_show_submode=1
 let g:submode_timeout=0
