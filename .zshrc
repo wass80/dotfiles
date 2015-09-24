@@ -376,6 +376,10 @@ alias -g W='| wc'
 alias -g X='| xargs'
 # }}}
 # path# {{{
+if builtin command -v direnv > /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
 ## rbenv
 if [ -d ${HOME}/.rbenv  ] ; then
   export PATH=$HOME/.rbenv/bin:$PATH
