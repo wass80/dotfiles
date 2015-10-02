@@ -327,7 +327,7 @@ if builtin command -v hub > /dev/null; then
   function git(){hub "$@"}
 fi
 #sudo pip install thefuck
-if builtin command -v thefuck > /dev/null; then
+if builtin command -v fuck > /dev/null; then
   eval "$(thefuck --alias f)"
 fi
 
@@ -384,6 +384,11 @@ fi
 if [ -d ${HOME}/.rbenv  ] ; then
   export PATH=$HOME/.rbenv/bin:$PATH
   eval "$(rbenv init - zsh)"
+fi
+
+## opam
+if [ -d ${HOME}/.opam/opam-init/init.zsh ] ; then
+  . ${HOME}/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 fi
 
 ## rsense

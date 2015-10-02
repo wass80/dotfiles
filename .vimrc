@@ -57,6 +57,7 @@ autocmd ColorScheme * highlight SpellBad term=underline cterm=underline ctermfg=
 autocmd ColorScheme * highlight LineNr ctermfg=247 guifg=#909090
 autocmd ColorScheme * highlight SpecialKey ctermfg=247 guifg=#606060
 autocmd ColorScheme * highlight NonText ctermfg=247 guifg=#606060
+autocmd FileType coq highlight SentToCoq ctermbg=17 guibg=#000080
 " autocmd ColorScheme * highlight VertSplit ctermfg=246 ctermbg=239
 set t_Co=256
 syntax on
@@ -559,6 +560,22 @@ endif
 "" completion "end" "{{{
 NeoBundle 'taichouchou2/vim-endwise.git'
 let g:endwise_no_mappings=1
+inoremap ( ()<left>
+inoremap (<Enter> ()<Left><CR><ESC><S-o>
+inoremap <expr> ) ClosePair(')')
+inoremap { {}<left>
+inoremap {<Enter> {}<Left><CR><ESC><S-o>
+inoremap <expr> } ClosePair('}')
+inoremap [ []<left>
+inoremap [<Enter> []<Left><CR><ESC><S-o>
+inoremap <expr> ] ClosePair(']')
+function ClosePair(char)
+  if getline('.')[col('.') - 1] == a:char
+    return "\<Right>"
+  else
+    return a:char
+  endif
+endfunction
 ""}}}
 "}}}
 " cursor & search "{{{
@@ -621,6 +638,14 @@ set backspace=indent,eol,start
 set scrolloff=5
 " c type indent
 set cindent
+function! IndentWithI()
+  if len(getline('.')) == 0
+    return "cc"
+  else
+    return "i"
+  endif
+endfunction
+nnoremap <expr> i IndentWithI()
 " tab into space
 set smarttab
 set tabstop=2
@@ -872,6 +897,13 @@ NeoBundle 'vim-scripts/JSON.vim' ,{
 \ 'autoload' : {'filetypes' : 'json' }}
 
 au BufRead,BufNewFile *.json set filetype=json
+""}}}
+"" coq "{{{
+NeoBundle 'jvoorhis/coq.vim'
+NeoBundle 'def-lkb/vimbufsync'
+NeoBundleLazy 'the-lambda-church/coquille', {
+      \ 'autoload' : { 'filetypes' : 'coq' }}
+au FileType coq call coquille#FNMapping()
 ""}}}
 "}}}
 call neobundle#end()
