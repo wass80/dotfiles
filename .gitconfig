@@ -44,3 +44,9 @@
 	rebase = true
 [push]
 	default = simple
+[credential]
+	helper = store
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
