@@ -55,6 +55,7 @@ NeoBundle "jpo/vim-railscasts-theme"
 
 autocmd ColorScheme * highlight SpellBad term=underline cterm=underline ctermfg=9 ctermbg=NONE
 autocmd ColorScheme * highlight LineNr ctermfg=247 guifg=#909090
+autocmd ColorScheme * highlight Comment ctermfg=252 guifg=#969896
 autocmd ColorScheme * highlight SpecialKey ctermfg=247 guifg=#606060
 autocmd ColorScheme * highlight NonText ctermfg=247 guifg=#606060
 autocmd FileType coq highlight SentToCoq ctermbg=17 guibg=#000080
@@ -120,7 +121,7 @@ let g:lightline = {
 \     ],
 \     'right': [
 \       ['lineinfo'],
-\       ['filetype'],
+\       ['currentdir', 'filetype'],
 \       ['charcode', 'fileformat', 'fileencoding'],
 \     ]
 \   },
@@ -130,6 +131,7 @@ let g:lightline = {
 \     'filename': 'MyFilename',
 \     'fugitive': 'MyFugitive',
 \     'lineinfo': 'MyLineinfo',
+\     'currentdir': 'MyCurrentdir',
 \     'fileformat': 'MyFileformat',
 \     'filetype': 'MyFiletype',
 \     'fileencoding': 'MyFileencoding',
@@ -157,6 +159,10 @@ function! MyFilename()
                 \  &ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
                 \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
                 \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyCurrentdir()
+    return getcwd()
 endfunction
 
 function! MyFugitive()
@@ -298,6 +304,9 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle "Chiel92/vim-autoformat"
 let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=\"{BasedOnStyle: Google, AlignTrailingComments: true, '.(&textwidth ? 'ColumnLimit: '.&textwidth.', ' : '').(&expandtab ? 'UseTab: Never, IndentWidth: '.&shiftwidth : 'UseTab: Always').'}\"'"
 "}}}
+"" procon g++ "{{{
+:command! PP :!g++ -std=c++11 %:r.cpp && echo "%:r.cpp.out < %:r" && ./a.out < %:r
+"}}}
 "}}}
 " view "{{{
 "" use ja help "{{{
@@ -310,6 +319,7 @@ NeoBundle "ujihisa/unite-colorscheme"
 NeoBundle "Shougo/neomru.vim"
 NeoBundle "tsukkee/unite-help"
 NeoBundle "Shougo/unite-outline"
+NeoBundle "thinca/vim-unite-history"
 NeoBundle "osyo-manga/unite-fold"
 NeoBundle "yuku-t/vim-ref-ri"
 let g:unite_enable_start_insert=1
@@ -360,6 +370,10 @@ noremap <space>u :<C-u>Unite source<CR>
 noremap <space>t :<C-u>Unite gista<CR>
 "" mapping
 noremap <space>\ :<C-u>Unite output:map\|map!\|lmap<CR>
+"" changes
+nnoremap <space>; :<C-u>Unite change<CR>
+"" history
+nnoremap <space>: :<C-u>Unite history/command<CR>
 "" lines
 nnoremap <space>? :<C-u>Unite -buffer-name=search line -start-insert -no-quit<CR>
 "" resume
@@ -469,7 +483,6 @@ if !exists('g:neocomplete#keyword_patterns')
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-inoremap <expr><C-g>     neocomplete#undo_completion()
 inoremap <expr><C-l>     neocomplete#complete_common_string()
 
 " <CR>: close popup and save indent.
@@ -479,8 +492,7 @@ function! s:my_cr_function()
   " For no inserting <CR> key.
   "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
 endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
 " SuperTab like snippets behavior.
 imap <expr><TAB> pumvisible() ? "\<C-n>"
 \: neosnippet#expandable_or_jumpable() ?
@@ -492,8 +504,8 @@ smap <expr><TAB> neosnippet#jumpable() ?
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
+inoremap <expr><C-y>  neocomplete#cancel_popup()."\<C-y>"
+inoremap <expr><C-e>  neocomplete#cancel_popup()."\<C-e>"
 
 " Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -527,6 +539,7 @@ if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
 let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.typescript = '\h\w*\|[^. \t]\.\w*'
 ""}}}
 "" cpp "{{{
 if executable("clang")
@@ -560,22 +573,6 @@ endif
 "" completion "end" "{{{
 NeoBundle 'taichouchou2/vim-endwise.git'
 let g:endwise_no_mappings=1
-inoremap ( ()<left>
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
-inoremap <expr> ) ClosePair(')')
-inoremap { {}<left>
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap <expr> } ClosePair('}')
-inoremap [ []<left>
-inoremap [<Enter> []<Left><CR><ESC><S-o>
-inoremap <expr> ] ClosePair(']')
-function ClosePair(char)
-  if getline('.')[col('.') - 1] == a:char
-    return "\<Right>"
-  else
-    return a:char
-  endif
-endfunction
 ""}}}
 "}}}
 " cursor & search "{{{
@@ -638,14 +635,6 @@ set backspace=indent,eol,start
 set scrolloff=5
 " c type indent
 set cindent
-function! IndentWithI()
-  if len(getline('.')) == 0
-    return "cc"
-  else
-    return "i"
-  endif
-endfunction
-nnoremap <expr> i IndentWithI()
 " tab into space
 set smarttab
 set tabstop=2
@@ -788,6 +777,9 @@ NeoBundle "osyo-manga/vim-over"
 nnoremap <silent> <Space>s :OverCommandLine <CR>
 vnoremap <silent> <Space>s :OverCommandLine '<,'>s/<CR>
 ""}}}
+"" case-sensitive substitute "{{{
+NeoBundle "tpope/vim-abolish"
+""}}}
 "" disable F1 "{{{
 map <F1> <nop>
 cmap <F1> <nop>
@@ -887,6 +879,10 @@ NeoBundle 'jiangmiao/simple-javascript-indenter' ,{
 \ 'autoload' : {'filetypes' : 'javascript' }}
 NeoBundle 'mattn/jscomplete-vim' ,{
 \ 'autoload' : {'filetypes' : 'javascript' }}
+NeoBundleLazy 'clausreinke/typescript-tools', {
+\ 'build' : 'npm install -g',
+\ 'autoload' : {'filetypes' : 'typescript' }
+\}
 "}}}
 "" hbs "{{{
 NeoBundle 'mustache/vim-mustache-handlebars'
