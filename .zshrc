@@ -200,7 +200,6 @@ antigen-bundle zsh-users/zaw
 add-zsh-hook chpwd chpwd_recent_dirs
 antigen-bundle zsh-users/zsh-syntax-highlighting
 # antigen-theme robbyrussell
-antigen-apply
 # }}}
 # keybind# {{{
 bindkey -v
@@ -313,6 +312,13 @@ setopt nolistbeep # beepを鳴らさない
 setopt long_list_jobs # jobsの時にプロセスidも知る
 setopt noflowcontrol # 画面更新停止(ctrl-S)させない
 
+## ウィンドウの名前をカレントディレクトリに
+show-current-dir-as-window-name() {
+    tmux set-window-option window-status-format " #I ${PWD:t} " > /dev/null
+}
+
+show-current-dir-as-window-name
+add-zsh-hook chpwd show-current-dir-as-window-name
 # }}}
 # alias# {{{
 if builtin command -v trash.sh > /dev/null; then
@@ -407,8 +413,17 @@ export PATH="/usr/local/luajit/bin/:$PATH"
 ## vim
 export PATH="/usr/local/vim/bin/:$PATH"
 
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# go
+export GOPATH=$HOME/.go
+export PATH="$GOPATH/bin/:$PATH"
+
 ## general
 export PATH="/home/vagrant/.bin/:$PATH"
 # }}}
 
 clear
+
