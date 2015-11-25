@@ -1,3 +1,8 @@
+# precompile# {{{
+if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
+  zcompile ~/.zshrc
+fi
+#}}}
 # prompt# {{{
 autoload -Uz colors; colors
 autoload -Uz vcs_info
