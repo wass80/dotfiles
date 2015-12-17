@@ -252,6 +252,30 @@ function! MyCharCode()
     return "'". char ."' ". nr
 endfunction
 ""}}}
+"" fast scroll {{{
+" Use vsplit mode
+if has("vim_starting") && !has('gui_running') && has('vertsplit')
+  function! g:EnableVsplitMode()
+    " enable origin mode and left/right margins
+    let &t_CS = "y"
+    let &t_ti = &t_ti . "\e[?6;69h"
+    let &t_te = "\e[?6;69l\e[999H" . &t_te
+    let &t_CV = "\e[%i%p1%d;%p2%ds"
+    call writefile([ "\e[?6;69h" ], "/dev/tty", "a")
+  endfunction
+
+  " old vim does not ignore CPR
+  map <special> <Esc>[3;9R <Nop>
+
+  " new vim can't handle CPR with direct mapping
+  " map <expr> ^[[3;3R  g:EnableVsplitMode()
+  set t_F9=[3;3R
+  map <expr> <t_F9> g:EnableVsplitMode()
+  let &t_RV .= "\e[?6;69h\e[1;3s\e[3;9H\e[6n\e[0;0s\e[?6;69l"
+endif
+set lazyredraw
+set ttyfast
+""}}}
 "}}}
 " exec "{{{
 "" quickrun&fix "{{{
@@ -382,6 +406,28 @@ noremap <space>0 :<C-u>UniteResume<CR>
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 au FileType unite inoremap <silent> <buffer> jj <ESC><CR>
+
+
+"""{{{
+" let s:unite_source = {
+"       \   'name': 'coqdef',
+"       \ }
+" function! s:unite_source.gather_candidates(args, context)
+"     let path = expand('#:p')
+"     " /^\(Theorem\|Lemma\|Definition\) \zs\_.\{-}\zeProof
+"     let lines = getbufline('#', 1, '$')
+"     let format = '%' . strlen(len(lines)) . 'd: %s'
+"         return map(lines, '{
+"           \   "word": printf(format, v:key + 1, v:val),
+"           \   "source": "lines",
+"           \   "kind": "jump_list",
+"           \   "action__path": path,
+"           \   "action__line": v:key + 1,
+"           \ }')
+" endfunction
+" call unite#define_source(s:unite_source)
+" unlet s:unite_source
+"""}}}
 ""}}}
 "" reference K:search" {{{
 NeoBundle "thinca/vim-ref"
@@ -454,7 +500,9 @@ let g:gista#token_directory = g:gista#directory . 'tokens/'
 NeoBundle "vim-scripts/VimCoder.jar"
 "}}}
 "" vimcoder"{{{
-NeoBundle "editorconfig/editorconfig-vim"
+if !has('win32')
+  NeoBundle "editorconfig/editorconfig-vim"
+end
 "}}}
 "}}}
 " completion "{{{
@@ -610,7 +658,8 @@ map <Space>W <Plug>(easymotion-bd-el)
 " continue f
 NeoBundle 'rhysd/clever-f.vim'
 let g:clever_f_use_migemo=1
-let g:clever_f_chars_match_any_signs=1
+" let g:clever_f_chars_match_any_signs=1 " has bug on 't/T'
+let g:clever_f_fix_key_direction=1
 ""}}}
 "" multple cursors "{{{
 NeoBundle "terryma/vim-multiple-cursors"
@@ -621,7 +670,8 @@ let g:switch_mapping = ""
 nnoremap <Space>n  :<C-u>Switch<CR>
 let g:switch_custom_definitions =
     \ [
-    \   ['pick', 'squash', 'fixup', 'edit']
+    \   ['pick', 'squash', 'fixup', 'edit'],
+    \   ['->', '<-']
     \ ]
 "}}}
 "}}}
@@ -883,6 +933,13 @@ NeoBundleLazy 'clausreinke/typescript-tools', {
 \ 'build' : 'npm install -g',
 \ 'autoload' : {'filetypes' : 'typescript' }
 \}
+NeoBundleLazy 'clausreinke/typescript-tools', {
+\ 'autoload' : {'filetypes' : 'typescript' }
+\}
+augroup TypeScript
+    autocmd!
+    autocmd BufWinEnter,BufNewFile *.ts set filetype=typescript
+augroup END
 "}}}
 "" hbs "{{{
 NeoBundle 'mustache/vim-mustache-handlebars'
@@ -899,11 +956,17 @@ NeoBundle 'jvoorhis/coq.vim'
 NeoBundle 'def-lkb/vimbufsync'
 NeoBundleLazy 'the-lambda-church/coquille', {
       \ 'autoload' : { 'filetypes' : 'coq' }}
+augroup Coq
+    autocmd!
+    autocmd BufWinEnter,BufNewFile *.v set filetype=coq
+    autocmd FileType coq imap . .<C-o>:CoqToCursor<CR>
+augroup END
 au FileType coq call coquille#FNMapping()
 ""}}}
 "}}}
-call neobundle#end()
+"}}}
 " after "{{{
+call neobundle#end()
 "" vital
 let s:V = vital#of('vital')
 "" colorscheme
