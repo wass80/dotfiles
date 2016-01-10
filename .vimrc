@@ -329,7 +329,11 @@ NeoBundle "Chiel92/vim-autoformat"
 let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=\"{BasedOnStyle: Google, AlignTrailingComments: true, '.(&textwidth ? 'ColumnLimit: '.&textwidth.', ' : '').(&expandtab ? 'UseTab: Never, IndentWidth: '.&shiftwidth : 'UseTab: Always').'}\"'"
 "}}}
 "" procon g++ "{{{
-:command! PP :!g++ -std=c++11 %:r.cpp && echo "%:r.cpp.out < %:r" && ./a.out < %:r
+:command! PS :15vsplit %:r
+:command! PP :!echo -n "%:r.cpp.out < %:r ... " && g++ -std=c++11 -Winit-self -Wfloat-equal -Wno-sign-compare -Wunsafe-loop-optimizations -Wshadow -Wall -Wextra %:r.cpp && echo "done\!" && ./a.out < %:r
+nmap ,p :wa \| :PP<CR>
+inoremap <, <Space><<","<<<Space>
+inoremap <; <Space><< endl;
 "}}}
 "}}}
 " view "{{{
