@@ -522,7 +522,7 @@ NeoBundle "wass80/neosnippet-snippets"
 " number of pop up items
 set pumheight=15
 
-let g:neosnippet#snippets_directory='~/.vim/bundle/**/*.snip'
+let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippets/'
 
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
