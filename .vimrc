@@ -724,6 +724,11 @@ inoremap jj <Esc>
 nnoremap Q gq
 " Y <-> D
 nnoremap Y y$
+" switch window
+nnoremap ,h <C-w>h
+nnoremap ,l <C-w>j
+nnoremap ,k <C-w>k
+nnoremap ,l <C-w>l
 ""}}}
 "" textobj "{{{
 NeoBundle 'kana/vim-operator-user.git'
@@ -817,9 +822,6 @@ NeoBundle "tpope/vim-repeat"
 "" undo tree "{{{
 NeoBundle "sjl/gundo.vim"
 ""}}}
-"" packing x "{{{
-NeoBundle 'kana/vim-submode'
-"}}}
 "" aline text "{{{
 NeoBundle "junegunn/vim-easy-align"
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
