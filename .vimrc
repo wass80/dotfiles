@@ -678,6 +678,14 @@ let g:switch_custom_definitions =
     \   ['->', '<-']
     \ ]
 "}}}
+"" ime "{{{
+if !has('gui_running')
+  set t_SI+=[<r
+  set t_EI+=[<s[<0t
+  set t_te+=[<0t[<s
+  set ttimeoutlen=100
+end
+""}}}
 "}}}
 " operation "{{{
 "" basic "{{{
