@@ -7,24 +7,22 @@
     a = add
     aa = add -A
     ap = add -p
-    br = branch
-    c = commit
-    ca = commit -a
+    c = commit -v
+    ca = commit -a -v
     cam = commit -a --amend
     cm = commit -m
     co = checkout
     cpm = commit -pm
-    d = diff
+    d = diff --word-diff
     df = diff
-    dff = diff --word-diff
-    dh = diff HEAD^
-    dm = diff master
-    ds = diff --staged
+    dh = diff HEAD^ --word-diff
+    dm = diff master --word-diff
+    ds = diff --staged --word-diff
     f = fetch
     fp = fetch --prune
     ignore = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >> .gitignore
-    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    lga = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(white)%s%C(reset) %C(ul white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(bold green)(%ar)%C(reset)' --all
+    lgs = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(white)%s%C(reset) %C(ul white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(bold green)(%ar)%C(reset)'
     s = status --short --branch
     sh = show
     so = remote show origin
