@@ -36,6 +36,8 @@
 	editor = vim
 	pager = LESS=-R less
 	filemode = false
+	attributesfile = /home/vagrant/.gitattributes_global
+	excludesfile = /home/vagrant/.gitignore_global
 [merge]
 	ff = false
 [pull]
