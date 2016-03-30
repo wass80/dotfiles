@@ -368,7 +368,7 @@ alias go='git checkout'
 alias gf='git fetch'
 alias gl='git lg'
 alias a='./a.out'
-alias gpp='g++ -std=c++11 -Winit-self -Wfloat-equal -Wno-sign-compare -Wunsafe-loop-optimizations -Wshadow -Wall -Wextra'
+alias gpp='g++ -std=c++11 -Winit-self -Wfloat-equal -Wno-sign-compare -Wunsafe-loop-optimizations -Wshadow -Wall -Wextra -D_GLIBCXX_DEBUG'
 alias tmux='tmux -2'
 alias t='tmux -2'
 function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
@@ -380,6 +380,8 @@ alias youdl="~/cw/python/youtube-dl/youtube_dl/__main__.py"
 function addnicolist() {
     /bin/ruby ~/cw/ruby/getmylistids.rb $1 | tee -a ~/cw/db/Temp/nicofab.txt
 }
+
+export LESS='-j10 --no-init --quit-if-one-screen' 
 
 ### global alias
 alias -g G='| grep'
@@ -396,10 +398,14 @@ if builtin command -v direnv > /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
-## rbenv
-if [ -d ${HOME}/.rbenv  ] ; then
-  export PATH=$HOME/.rbenv/bin:$PATH
-  eval "$(rbenv init - zsh)"
+# anyenv
+if [ -d $HOME/.anyenv ] ; then
+    export PATH="$HOME/.anyenv/bin:$PATH"
+    eval "$(anyenv init -)"
+    for D in `ls $HOME/.anyenv/envs`
+    do
+      export PATH="$HOME/.anyenv/envs/$D/shims:$PATH"
+    done
 fi
 
 ## opam
@@ -423,17 +429,17 @@ export PATH="/usr/local/luajit/bin/:$PATH"
 ## vim
 export PATH="/usr/local/vim/bin/:$PATH"
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
 # go
 export GOPATH=$HOME/.go
 export PATH="$GOPATH/bin/:$PATH"
 
 ## general
 export PATH="/home/vagrant/.bin/:$PATH"
+
 # }}}
 
 clear
 
+
+# added by travis gem
+[ -f /home/vagrant/.travis/travis.sh ] && source /home/vagrant/.travis/travis.sh

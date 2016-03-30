@@ -3,6 +3,18 @@ set nocompatible
 filetype off
 filetype plugin indent off
 " core "{{{
+"" disable default plugins "{{{
+let g:loaded_gzip              = 1
+let g:loaded_tar               = 1
+let g:loaded_tarPlugin         = 1
+let g:loaded_zip               = 1
+let g:loaded_zipPlugin         = 1
+let g:loaded_rrhelper          = 1
+let g:loaded_vimball           = 1
+let g:loaded_vimballPlugin     = 1
+let g:loaded_getscript         = 1
+let g:loaded_getscriptPlugin   = 1
+""}}}
 "" NeoBundle "{{{ 
 if has('vim_starting')
   if !isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
@@ -294,8 +306,8 @@ let g:quickrun_config = {
 \       "hook/turret/redraw" : 1,
 \   },
 \   "cpp" : {
-\       "command": "g++",
-\       "cmdopt": "-std=c++0x",
+\       "command": "clang++",
+\       "cmdopt": "-std=c++0x -Wall",
 \   },
 \}
 nmap <Space>q <Plug>(quickrun)
@@ -330,7 +342,8 @@ let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline
 "}}}
 "" procon g++ "{{{
 :command! PS :15vsplit %:r
-:command! PP :!echo -n "%:r.cpp.out < %:r ... " && g++ -std=c++11 -Winit-self -Wfloat-equal -Wno-sign-compare -Wunsafe-loop-optimizations -Wshadow -Wall -Wextra %:r.cpp && echo "done\!" && ./a.out < %:r
+:command! PR :normal <C-w>v | ! ./a.out < %:r
+:command! PP :!echo -n "%:r.cpp.out < %:r ... " && g++ -std=c++11 -Winit-self -Wfloat-equal -Wno-sign-compare -Wunsafe-loop-optimizations -Wshadow -Wall -Wextra -D_GLIBCXX_DEBUG %:r.cpp && echo "done\!" && ./a.out < %:r
 nmap ,p :wa \| :PP<CR>
 inoremap <, <Space><<","<<<Space>
 inoremap <; <Space><< endl;
@@ -418,7 +431,7 @@ au FileType unite inoremap <silent> <buffer> jj <ESC><CR>
 "       \ }
 " function! s:unite_source.gather_candidates(args, context)
 "     let path = expand('#:p')
-"     " /^\(Theorem\|Lemma\|Definition\) \zs\_.\{-}\zeProof
+"     " /^\(Theorem\|Lemma\) \zs\_.\{-}\zeProof
 "     let lines = getbufline('#', 1, '$')
 "     let format = '%' . strlen(len(lines)) . 'd: %s'
 "         return map(lines, '{
@@ -594,18 +607,18 @@ let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.typescript = '\h\w*\|[^. \t]\.\w*'
 ""}}}
 "" cpp "{{{
-if executable("clang")
-  NeoBundleLazy 'osyo-manga/vim-marching', { 'autoload' : {
-  \ 'filetypes': ['cpp','c'],
-  \ }}
-
-  let g:marching_enable_neocomplete = 1
-  if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-  endif
-  let g:neocomplete#force_omni_input_patterns.cpp =
-    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-endif
+" if executable("clang")
+"   NeoBundleLazy 'osyo-manga/vim-marching', { 'autoload' : {
+"   \ 'filetypes': ['cpp','c'],
+"   \ }}
+"  
+"   let g:marching_enable_neocomplete = 1
+"   if !exists('g:neocomplete#force_omni_input_patterns')
+"     let g:neocomplete#force_omni_input_patterns = {}
+"   endif
+"   let g:neocomplete#force_omni_input_patterns.cpp =
+"     \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+" endif
 ""}}}
 "" rsense "{{{
 NeoBundleLazy 'NigoroJr/rsense', { 'autoload' : {
@@ -868,6 +881,9 @@ NeoBundle "yonchu/accelerated-smooth-scroll"
 "" edit many buffer "{{{
 set hidden
 ""}}}
+"" sudo write "{{
+cabbr w!! w !sudo tee > /dev/null %
+""}}
 "" window position "{{{
 nnoremap <M-h> <C-w>h
 nnoremap <M-j> <C-w>j
@@ -923,7 +939,7 @@ NeoBundleLazy 'joker1007/vim-markdown-quote-syntax',{
 \ 'autoload' : {'filetypes' : 'markdown' }}
 ""}}}
 "" html "{{{
-NeoBundleLazy 'taichouchou2/html5.vim' ,{
+NeoBundleLazy 'othree/html5.vim' ,{
 \ 'autoload' : {'filetypes' : 'html'}}
 NeoBundleLazy 'mattn/emmet-vim' ,{
 \ 'autoload' : {'filetypes' : ['html','css']}}
