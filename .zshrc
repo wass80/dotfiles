@@ -328,6 +328,8 @@ setopt numeric_glob_sort # 数値順
 setopt nolistbeep # beepを鳴らさない
 setopt long_list_jobs # jobsの時にプロセスidも知る
 setopt noflowcontrol # 画面更新停止(ctrl-S)させない
+setopt interactive_comments # コメントを書けるように
+setopt magic_equal_subst # =後ろの補完
 
 ## ウィンドウの名前をカレントディレクトリに
 show-current-dir-as-window-name() {
