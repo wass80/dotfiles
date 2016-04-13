@@ -197,14 +197,25 @@ function command_not_found_handler() {
 echo -ne "\033]0;${USER}@${HOST%%.*}\007"
 # }}}
 # packages# {{{
-source ~/dotfiles/antigen.zsh
+if [ ! -e ~/.zplug/zplug ]; then
+  curl -fLo ~/.zplug/zplug --create-dirs git.io/zplug
+fi
+
+source ~/.zplug/zplug
 
 # antigen-lib
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-antigen-bundle zsh-users/zaw
-add-zsh-hook chpwd chpwd_recent_dirs
-antigen-bundle zsh-users/zsh-syntax-highlighting
-# antigen-theme robbyrussell
+zplug "zsh-users/zaw"
+zplug "zsh-users/zsh-syntax-highlighting"
+
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
+fi
+
+zplug load # --verbose
 # }}}
 # keybind# {{{
 bindkey -v
@@ -293,6 +304,7 @@ zstyle ':filter-select' case-insensitive yes
 
 bindkey '^R' zaw-history
 bindkey '^O' zaw-cdr
+bindkey '^Y' zaw-process
 
 # }}}
 # action option# {{{
