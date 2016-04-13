@@ -328,13 +328,13 @@ let s:config = {
 NeoBundle "rhysd/wandbox-vim"
 ""}}}
 "" shell "{{{
-NeoBundle "Shougo/vimshell"
-let g:vimshell_split_command = "split"
-noremap <space>v :<C-u>VimShellPop<CR>
-noremap <space>V :<C-u>VimShellInteractive<space>
+" NeoBundle "Shougo/vimshell"
+" let g:vimshell_split_command = "split"
+" noremap <space>v :<C-u>VimShellPop<CR>
+" noremap <space>V :<C-u>VimShellInteractive<space>
 ""}}}
 "" browser{{{
-NeoBundle 'tyru/open-browser.vim'
+" NeoBundle 'tyru/open-browser.vim'
 ""}}}
 "" formatter "{{{
 NeoBundle "Chiel92/vim-autoformat"
@@ -343,7 +343,7 @@ let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline
 "" procon g++ "{{{
 :command! PS :15vsplit %:r
 :command! PR :normal <C-w>v | ! ./a.out < %:r
-:command! PP :!echo -n "%:r.cpp.out < %:r ... " && g++ -std=c++11 -Winit-self -Wfloat-equal -Wno-sign-compare -Wunsafe-loop-optimizations -Wshadow -Wall -Wextra -D_GLIBCXX_DEBUG %:r.cpp && echo "done\!" && ./a.out < %:r
+:command! PP :!echo -n "%:r.cpp.out < %:r ... " && gpp %:r.cpp && echo "done\!" && ptest ./a.out < %:r
 nmap ,p :wa \| :PP<CR>
 inoremap <, <Space><<","<<<Space>
 inoremap <; <Space><< endl;
