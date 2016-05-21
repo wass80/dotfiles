@@ -64,10 +64,11 @@ set display=lastline
 NeoBundle "w0ng/vim-hybrid"
 NeoBundle "chriskempson/vim-tomorrow-theme"
 NeoBundle "jpo/vim-railscasts-theme"
+set synmaxcol =200
 
 autocmd ColorScheme * highlight SpellBad term=underline cterm=underline ctermfg=9 ctermbg=NONE
 autocmd ColorScheme * highlight LineNr ctermfg=247 guifg=#909090
-autocmd ColorScheme * highlight Comment ctermfg=252 guifg=#969896
+autocmd ColorScheme * highlight Comment ctermfg=252 guifg=#969896 cterm=BOLD gui=BOLD
 autocmd ColorScheme * highlight SpecialKey ctermfg=247 guifg=#606060
 autocmd ColorScheme * highlight NonText ctermfg=247 guifg=#606060
 autocmd FileType coq highlight SentToCoq ctermbg=17 guibg=#000080
@@ -266,25 +267,25 @@ endfunction
 ""}}}
 "" fast scroll {{{
 " Use vsplit mode
-if has("vim_starting") && !has('gui_running') && has('vertsplit')
-  function! g:EnableVsplitMode()
-    " enable origin mode and left/right margins
-    let &t_CS = "y"
-    let &t_ti = &t_ti . "\e[?6;69h"
-    let &t_te = "\e[?6;69l\e[999H" . &t_te
-    let &t_CV = "\e[%i%p1%d;%p2%ds"
-    call writefile([ "\e[?6;69h" ], "/dev/tty", "a")
-  endfunction
-
-  " old vim does not ignore CPR
-  map <special> <Esc>[3;9R <Nop>
-
-  " new vim can't handle CPR with direct mapping
-  " map <expr> ^[[3;3R  g:EnableVsplitMode()
-  set t_F9=[3;3R
-  map <expr> <t_F9> g:EnableVsplitMode()
-  let &t_RV .= "\e[?6;69h\e[1;3s\e[3;9H\e[6n\e[0;0s\e[?6;69l"
-endif
+" if has("vim_starting") && !has('gui_running') && has('vertsplit')
+"   function! g:EnableVsplitMode()
+"     " enable origin mode and left/right margins
+"     let &t_CS = "y"
+"     let &t_ti = &t_ti . "\e[?6;69h"
+"     let &t_te = "\e[?6;69l\e[999H" . &t_te
+"     let &t_CV = "\e[%i%p1%d;%p2%ds"
+"     call writefile([ "\e[?6;69h" ], "/dev/tty", "a")
+"   endfunction
+"
+"   " old vim does not ignore CPR
+"   map <special> <Esc>[3;9R <Nop>
+"
+"   " new vim can't handle CPR with direct mapping
+"   " map <expr> ^[[3;3R  g:EnableVsplitMode()
+"   set t_F9=[3;3R
+"   map <expr> <t_F9> g:EnableVsplitMode()
+"   let &t_RV .= "\e[?6;69h\e[1;3s\e[3;9H\e[6n\e[0;0s\e[?6;69l"
+" endif
 set lazyredraw
 set ttyfast
 ""}}}
@@ -484,6 +485,7 @@ endif
 "}}}
 " manager "{{{
 "" backup directory "{{{
+set backup
 set directory=~/.vim/tmp
 set backupdir=~/.vim/tmp
 set viminfo+=n~/.vim/tmp/viminfo.txt
@@ -645,6 +647,7 @@ let g:endwise_no_mappings=1
 " change search in UpperCase
 set ignorecase
 set smartcase
+set report=0
 "}}}
 "" addtional pair % "{{{
 if !exists('loaded_matchit')
@@ -716,6 +719,7 @@ set tabstop=2
 set softtabstop=2
 set expandtab
 set shiftwidth=2
+set shiftround
 " no using octed
 set nrformats-=octal
 " no comment at new line
@@ -809,6 +813,8 @@ NeoBundle 'kana/vim-textobj-syntax'
 " ay / iy
 NeoBundle 'rhysd/vim-textobj-word-column'
 " av, aV
+NeoBundle 'gilligan/textobj-lastpaste'
+" ip
 
 NeoBundle 'terryma/vim-expand-region'
 let g:expand_region_text_objects = {
@@ -873,6 +879,9 @@ vnoremap <C-X> <C-X>gv
 NeoBundle "AndrewRadev/splitjoin.vim"
 " gS gJ
 "}}}
+"" macro edit "{{{
+nnoremap <space>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+"}}}
 "}}} 
 " window & tab "{{{
 "" smooth scroll "{{{
@@ -905,6 +914,7 @@ nnoremap ,t :<C-u>tab ba<CR>
 nnoremap ,, <C-w><C-w>
 nnoremap ,w :w<CR>
 nnoremap ,q :q<CR>
+nnoremap ,e :tabe
 "}}}
 " language "{{{
 "" cpp "{{{
