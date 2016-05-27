@@ -626,9 +626,9 @@ let g:neocomplete#sources#omni#input_patterns.typescript = '\h\w*\|[^. \t]\.\w*'
 NeoBundleLazy 'NigoroJr/rsense', { 'autoload' : {
 \ 'filetypes': 'ruby',
 \ }}
-NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
-\ 'filetypes': 'ruby',
-\ }}
+" NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
+" \ 'filetypes': 'ruby',
+" \ }}
 ""}}}
 "" js tern "{{{
 if executable("tern")
@@ -713,6 +713,7 @@ set backspace=indent,eol,start
 set scrolloff=5
 " c type indent
 set cindent
+set cino=(0,W2,m1
 " tab into space
 set smarttab
 set tabstop=2
