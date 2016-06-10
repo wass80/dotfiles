@@ -59,6 +59,9 @@ alias -g S='| sort'
 alias -g U='| nkf -w'
 alias -g W='| wc'
 alias -g X='| xargs'
+
+alias -g ND='*(/om[1])' # newest directory
+alias -g NF='*(.om[1])' # newest file
 # }}}
 # path# {{{
 if builtin command -v direnv > /dev/null; then
