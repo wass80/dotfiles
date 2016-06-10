@@ -197,13 +197,12 @@ function command_not_found_handler() {
 echo -ne "\033]0;${USER}@${HOST%%.*}\007"
 # }}}
 # packages# {{{
-if [ ! -e ~/.zplug/zplug ]; then
-  curl -fLo ~/.zplug/zplug --create-dirs git.io/zplug
+if [ ! -e ~/.zplug ]; then
+  curl -sL get.zplug.sh | zsh
 fi
 
 source ~/.zplug/zplug
 
-# antigen-lib
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 zplug "zsh-users/zaw"
 zplug "zsh-users/zsh-syntax-highlighting"
@@ -311,8 +310,8 @@ bindkey '^Y' zaw-process
 setopt auto_cd # ディレクトリ名だけでcd
 setopt auto_pushd # cdの時にpushd
 setopt pushd_ignore_dups # 同じディレクトリをpushしない
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=1000000
+SAVEHIST=1000000
 HISTFILE=~/.zsh_history # 保存先
 setopt share_history # コマンド履歴を共有
 setopt hist_ignore_all_dups # 履歴重複削除
@@ -339,22 +338,6 @@ show-current-dir-as-window-name() {
 show-current-dir-as-window-name
 add-zsh-hook chpwd show-current-dir-as-window-name
 # }}}
-# alias# {{{
-if builtin command -v trash.sh > /dev/null; then
-	alias rm='trash.sh -i'
-	export TRASHLIST=~/.trashlist # Where trash list is written
-	export TRASHBOX=~/.Trash # Where trash will be moved in
-	export MAXTRASHBOXSIZE=1024
-	export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
-fi
 
-if builtin command -v hub > /dev/null; then
-  function git(){hub "$@"}
-fi
-#sudo pip install thefuck
-if builtin command -v fuck > /dev/null; then
-  eval "$(thefuck --alias f)"
-fi
-
-# added by travis gem
-[ -f /home/vagrant/.travis/travis.sh ] && source /home/vagrant/.travis/travis.sh
+export NVM_DIR="/home/wass80/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

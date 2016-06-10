@@ -1,4 +1,23 @@
-# ailas# {{{
+# ailas
+if builtin command -v trash.sh > /dev/null; then
+	alias rm='trash.sh -i'
+	export TRASHLIST=~/.trashlist # Where trash list is written
+	export TRASHBOX=~/.Trash # Where trash will be moved in
+	export MAXTRASHBOXSIZE=1024
+	export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
+fi
+
+if builtin command -v hub > /dev/null; then
+  function git(){hub "$@"}
+fi
+#sudo pip install thefuck
+if builtin command -v fuck > /dev/null; then
+  eval "$(thefuck --alias f)"
+fi
+
+# added by travis gem
+[ -f /home/vagrant/.travis/travis.sh ] && source /home/vagrant/.travis/travis.sh
+
 alias gpp='g++ -std=c++11 -Winit-self -Wfloat-equal -Wno-sign-compare -Wunsafe-loop-optimizations -Wshadow -Wall -Wextra -D_GLIBCXX_DEBUG'
 alias tmux='tmux -2'
 alias t='tmux -2'
@@ -53,16 +72,18 @@ alias mail='sed -e '"'"'1!b;s/^/To: wasss80@gmail.com\nSubject: FromOhtan\n\n/'"
 ### global alias
 alias -g G='| grep'
 alias -g L='| less -N'
-alias -g H='| head'
+alias -g H='| head -n'
 alias -g T='| tail'
 alias -g S='| sort'
-alias -g U='| nkf -w'
 alias -g W='| wc'
 alias -g X='| xargs'
+alias -g R='| ruby -e'
+alias -g U='--help | less'
+alias -g V="| vim -R -"
 
 alias -g ND='*(/om[1])' # newest directory
 alias -g NF='*(.om[1])' # newest file
-# }}}
+
 # path# {{{
 if builtin command -v direnv > /dev/null; then
   eval "$(direnv hook zsh)"
@@ -104,7 +125,7 @@ export GOPATH=$HOME/.go
 export PATH="$GOPATH/bin/:$PATH"
 
 ## general
-export PATH="/home/vagrant/.bin/:$PATH"
+export PATH="~/.bin/:$PATH"
 
 # }}}
 
