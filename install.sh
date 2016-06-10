@@ -2,9 +2,9 @@
 
 cd ~
 git clone https://github.com/wass80/dotfiles
-cd dotfiles
-ln -s .vimrc ~/.vimrc
-ln -s .zshenv ~/.zshenv
-ln -s .zshrc ~/.zshrc
-ln -s .tmux.conf ~/.tmux.conf
-ln -s .gitconfig ~/.gitconfig
+
+ln -s dotfiles/.vimrc
+ln -s dotfiles/.zshenv
+ln -s dotfiles/.zshrc
+ln -s dotfiles/.tmux.conf
+ln -s dotfiles/.gitconfig
