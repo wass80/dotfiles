@@ -47,7 +47,7 @@ alias a='./a.out'
 alias ac='git add . && git commit '
 
 
-alias mail='sed '"'"'1!b;s/^/To: wasss80@gmail.com\nSubject: Ohtan\n\n/\'"'"' | sendmail -t'
+alias mail='sed -e '"'"'1!b;s/^/To: wasss80@gmail.com\nSubject: FromOhtan\n\n/'"'"'| sendmail -t'
 
 
 ### global alias
