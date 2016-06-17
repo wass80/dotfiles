@@ -224,6 +224,7 @@ zplug load # --verbose
 # }}}
 # keybind# {{{
 bindkey -v
+bindkey -v '^?' backward-delete-char
 bindkey -r '^X'
 export KEYTIMEOUT=1
 autoload -Uz select-word-style
@@ -231,7 +232,6 @@ select-word-style default
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style
 bindkey "^P" up-line-or-history
-
 bindkey "^N" down-line-or-history
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
