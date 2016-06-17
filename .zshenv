@@ -79,9 +79,9 @@ alias -g T='| tail'
 alias -g S='| sort'
 alias -g W='| wc'
 alias -g X='| xargs'
-alias -g R='| ruby -e'
+alias -g B='| ruby -e'
 alias -g U='--help 2>&1 | less'
-alias -g V="| vim -R -"
+alias -g V='| vim -R -'
 
 alias -g ND='*(/om[1])' # newest directory
 alias -g NF='*(.om[1])' # newest file
@@ -130,4 +130,3 @@ export PATH="$GOPATH/bin/:$PATH"
 export PATH="~/.bin/:$PATH"
 
 # }}}
-
