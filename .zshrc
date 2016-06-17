@@ -197,15 +197,21 @@ function command_not_found_handler() {
 echo -ne "\033]0;${USER}@${HOST%%.*}\007"
 # }}}
 # packages# {{{
-if [ ! -e ~/.zplug ]; then
+if [ ! -e ~/.zplug/zplug ]; then
   curl -sL get.zplug.sh | zsh
 fi
+source ~/.zplug/init.zsh
 
-source ~/.zplug/zplug
-
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 zplug "zsh-users/zaw"
 zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zplug/zplug"
+
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':chpwd:*' recent-dirs-max 5000
+zstyle ':chpwd:*' recent-dirs-default yes
+zstyle ':completion:*' recent-dirs-insert both
+zstyle ':filter-select' case-insensitive yes 
 
 if ! zplug check --verbose; then
   printf "Install? [y/N]: "
