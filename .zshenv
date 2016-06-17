@@ -61,7 +61,7 @@ alias go='git checkout'
 alias gf='git fetch'
 alias gl='git lg'
 alias gd='git d'
-alias gds'git ds'
+alias gds='git ds'
 
 alias a='./a.out'
 
