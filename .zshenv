@@ -60,6 +60,8 @@ alias gb='git checkout -b'
 alias go='git checkout'
 alias gf='git fetch'
 alias gl='git lg'
+alias gd='git d'
+alias gds'git ds'
 
 alias a='./a.out'
 
@@ -78,7 +80,7 @@ alias -g S='| sort'
 alias -g W='| wc'
 alias -g X='| xargs'
 alias -g R='| ruby -e'
-alias -g U='--help | less'
+alias -g U='--help 2>&1 | less'
 alias -g V="| vim -R -"
 
 alias -g ND='*(/om[1])' # newest directory
