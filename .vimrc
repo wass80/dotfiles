@@ -891,6 +891,9 @@ NeoBundle "yonchu/accelerated-smooth-scroll"
 "" edit many buffer "{{{
 set hidden
 ""}}}
+"" shortcut "{{{
+nnoremap ,o :tabe<space>
+""}}}
 "" sudo write "{{
 cabbr w!! w !sudo tee > /dev/null %
 ""}}
