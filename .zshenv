@@ -45,6 +45,7 @@ alias vdir='ls --color=auto --format=long'
 alias ll='ls -l'                              # long list
 alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
+alias tree='tree -FC'
 
 alias vi='vim'
 alias v='vim'
