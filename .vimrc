@@ -1003,7 +1003,17 @@ NeoBundleLazy 'the-lambda-church/coquille', {
 augroup Coq
     autocmd!
     autocmd BufWinEnter,BufNewFile *.v set filetype=coq
-    autocmd FileType coq imap . .<C-o>:CoqToCursor<CR>
+    autocmd FileType coq imap <buffer> . .<C-o>:CoqUndo<CR><C-o>:CoqToCursor<CR>
+    autocmd FileType coq imap <buffer> @i intros<space>
+    autocmd FileType coq imap <buffer> @a apply<space>
+    autocmd FileType coq imap <buffer> @s simpl
+    autocmd FileType coq imap <buffer> @f reflexivity.
+    autocmd FileType coq imap <buffer> @r rewrite<space>
+    autocmd FileType coq imap <buffer> @b rewrite <-<space>
+    autocmd FileType coq imap <buffer> @v inversion<space>
+    autocmd FileType coq imap <buffer> @d destruct<space>
+    autocmd FileType coq imap <buffer> @u induction<space>
+    autocmd FileType coq imap <buffer> @g generalize dependent<space>
 augroup END
 au FileType coq call coquille#FNMapping()
 ""}}}
