@@ -198,7 +198,7 @@ echo -ne "\033]0;${USER}@${HOST%%.*}\007"
 # }}}
 # packages# {{{
 if [ ! -e ~/.zplug/zplug ]; then
-  curl -sL get.zplug.sh | zsh
+  curl -sL https://zplug.sh/installer | zsh
 fi
 source ~/.zplug/init.zsh
 
