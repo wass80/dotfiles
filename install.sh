@@ -3,4 +3,5 @@
 cd ~
 git clone https://github.com/wass80/dotfiles
 
-find . -regex ".\\+" -exec ln -s {} \;
+find dotfiles -regex ".*\/\..*" -prune ! -name ".git" -exec ln -s {} \;
+
