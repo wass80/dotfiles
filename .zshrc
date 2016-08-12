@@ -235,6 +235,7 @@ bindkey "^P" up-line-or-history
 bindkey "^N" down-line-or-history
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
+bindkey "^Xg" list-expand
 function chpwd() {
     ls_abbrev
 }
