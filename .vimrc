@@ -966,6 +966,16 @@ NeoBundleLazy 'hail2u/vim-css3-syntax' ,{
 NeoBundle 'kchmck/vim-coffee-script' ,{
 \ 'autoload' : {'filetypes' : 'coffeescript' }}
 ""}}}
+"" rust "{{{
+NeoBundle 'rust-lang/rust.vim' ,{
+\ 'autoload' : {'filetypes' : 'rust' }}
+" require rustfmt
+let g:rustfmt_command = $HOME . '/.cargo/bin/rustfmt'
+augroup Rust
+    autocmd!
+    autocmd BufWinEnter,BufNewFile *.rs set filetype=rust
+augroup END
+"}}}
 "" js "{{{
 NeoBundle 'isRuslan/vim-es6' ,{
 \ 'autoload' : {'filetypes' : 'javascript' }}
