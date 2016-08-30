@@ -21,6 +21,7 @@ fi
 alias gpp='g++ -std=c++11 -Winit-self -Wfloat-equal -Wno-sign-compare -Wunsafe-loop-optimizations -Wshadow -Wall -Wextra -D_GLIBCXX_DEBUG'
 alias tmux='tmux -2'
 alias t='tmux -2'
+alias time='/usr/bin/time'
 function take () { mkdir -p "$@" && eval cd "\"\$$#\"";}
 autoload -Uz zmv
 
@@ -29,6 +30,17 @@ alias mmv='noglob zmv -W'
 alias youdl="~/cw/python/youtube-dl/youtube_dl/__main__.py"
 function addnicolist() {
     /bin/ruby ~/cw/ruby/getmylistids.rb $1 | tee -a ~/cw/db/Temp/nicofab.txt
+}
+
+function sendstatus() {
+  if time --output=~/.output_time $@
+  then
+    (echo "$@ was succesed"; cat ~/.output_time) | tee >(mail)
+    true
+  else
+    (echo "$@ was failed"; cat ~/.output_time) | tee >(mail)
+    false
+  fi
 }
 
 export LESS='-j10 --no-init --quit-if-one-screen' 
@@ -144,4 +156,14 @@ export PATH="$GOPATH/bin/:$PATH"
 ## general
 export PATH="~/.bin/:$PATH"
 
+## anaconda3
+if [ -d ${HOME}/anaconda3  ] ; then
+  export PATH=$HOME/anaconda3/bin:$PATH
+fi
+
 # }}}
+# local {{{
+if [ -f $HOME/dotfiles/.zshlocal ] ; then
+  source $HOME/dotfiles/.zshlocal
+fi
+#}}}
