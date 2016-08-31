@@ -236,6 +236,14 @@ bindkey "^N" down-line-or-history
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
 bindkey "^Xg" list-expand
+show_buffer_stack() {
+  POSTDISPLAY="
+  stack: $LBUFFER"
+  zle push-line-or-edit
+}
+zle -N show_buffer_stack
+setopt noflowcontrol
+bindkey '^Q' show_buffer_stack
 function chpwd() {
     ls_abbrev
 }
