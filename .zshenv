@@ -74,9 +74,9 @@ alias g='git'
 alias ga='git add'
 alias gap='git add -p'
 alias gc='git commit -v'
-alias gcm='git commit -m'
+c(){git commit -m "$*"}
 alias gcp='git commit -p -v'
-alias gcpm='git commit -p -m'
+gcpm(){git commit -p -m "$*"}
 alias gb='git checkout -b'
 alias go='git checkout'
 alias gf='git fetch'
