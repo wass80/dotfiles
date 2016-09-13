@@ -172,6 +172,9 @@ if [ -d ${HOME}/anaconda3  ] ; then
   export PATH=$HOME/anaconda3/bin:$PATH
 fi
 
+## neovim
+export XDG_CONFIG_HOME=$HOME/.config
+
 # }}}
 # local {{{
 if [ -f $HOME/dotfiles/.zshlocal ] ; then
