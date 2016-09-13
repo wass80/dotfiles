@@ -164,7 +164,7 @@ export GOPATH=$HOME/.go
 export PATH="$GOPATH/bin/:$PATH"
 
 ## general
-export PATH="~/.bin/:$PATH"
+export PATH="$HOME/.bin/:$PATH"
 
 ## anaconda3
 if [ -d ${HOME}/anaconda3  ] ; then
