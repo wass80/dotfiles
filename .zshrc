@@ -192,6 +192,7 @@ function command_not_found_handler() {
     echo "$fg[cyan](;-＿-)< $0 というコマンドは見当たりませんが${reset_color}"
 }
 
+REPORTTIME=3
 # }}}
 # title bar# {{{
 echo -ne "\033]0;${USER}@${HOST%%.*}\007"
