@@ -86,7 +86,7 @@ alias gl='git lg'
 alias gd='git d'
 alias gds='git ds'
 
-
+alias j='cd `git rev-parse --show-toplevel`'
 alias ac='git add . && git commit '
 
 
