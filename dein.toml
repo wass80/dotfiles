@@ -190,6 +190,8 @@ let g:switch_custom_definitions =
     \   ['->', '<-']
     \ ]
 '''
+
+# Operator & Text object
 [[plugins]]
 repo =  'kana/vim-operator-user.git'
 [[plugins]] # co, cO
@@ -239,6 +241,12 @@ map *  <Plug>(operator-*)
 map g* <Plug>(operator-g*)
 map #  <Plug>(operator-#)
 map g# <Plug>(operator-g#)
+'''
+[[plugins]]
+repo = 'tek/vim-operator-assign'
+on_map = ["<Plug>(operator-assign)"]
+hook_add = '''
+map ga <Plug>(operator-assign)
 '''
 [[plugins]]
 repo = 'osyo-manga/vim-operator-jump_side'
@@ -340,11 +348,9 @@ vmap V <Plug>(expand_region_shrink)
 repo =  "tpope/vim-repeat"
 [[plugins]] # Align text
 repo =  "junegunn/vim-easy-align"
-on_map = [
-"<Plug>(EasyAlign)"]
+on_map = ["<Plug>(EasyAlign)"]
 hook_add = """
 vmap <Enter> <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
 """
 [[plugins]] # Visual text moving
 repo =  "t9md/vim-textmanip"
