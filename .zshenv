@@ -33,12 +33,16 @@ function addnicolist() {
 }
 
 function sendstatus() {
-  if time --output=~/.output_time $@
+
+  time --output=~/.output_time zsh -c "$*" 2>&1 | tee >(tail -n 20 > ~/.last_output)
+  if [[ $pipestatus[0] == 0 ]]
   then
-    (echo "$@ was succesed"; cat ~/.output_time) | tee >(mail)
+    (echo "OK: $*"; cat ~/.output_time;
+    echo "---"; cat ~/.last_output) | tee >(mail)
     true
   else
-    (echo "$@ was failed"; cat ~/.output_time) | tee >(mail)
+    (echo "Fail: $*"; cat ~/.output_time;
+    echo "---"; cat  ~/.last_output) | tee >(mail)
     false
   fi
 }
