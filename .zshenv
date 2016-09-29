@@ -34,7 +34,7 @@ function addnicolist() {
 
 function sendstatus() {
 
-  time --output=~/.output_time zsh -c "$*" 2>&1 | tee >(tail -n 20 > ~/.last_output)
+  time --output=~/.output_time $@ 2>&1 | tee >(tail -n 20 > ~/.last_output)
   if [[ $pipestatus[0] == 0 ]]
   then
     (echo "OK: $*"; cat ~/.output_time;
