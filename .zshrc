@@ -198,7 +198,7 @@ REPORTTIME=3
 echo -ne "\033]0;${USER}@${HOST%%.*}\007"
 # }}}
 # packages# {{{
-if [ ! -e ~/.zplug/zplug ]; then
+if [ ! -e ~/.zplug ]; then
   curl -sL https://zplug.sh/installer | zsh
 fi
 source ~/.zplug/init.zsh
