@@ -74,6 +74,8 @@ alias htree='tree -hDF'
 alias vi='vim'
 alias v='vim'
 
+alias s='less'
+
 alias g='git'
 alias ga='git add'
 a(){git add "$@"}
