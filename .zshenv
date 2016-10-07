@@ -35,7 +35,7 @@ function addnicolist() {
 function sendstatus() {
 
   time --output=~/.output_time $@ 2>&1 | tee >(tail -n 20 > ~/.last_output)
-  if [[ $pipestatus[0] == 0 ]]
+  if [[ $pipestatus[1] == 0 ]]
   then
     (echo "OK: $*"; cat ~/.output_time;
     echo "---"; cat ~/.last_output) | tee >(mail)
