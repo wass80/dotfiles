@@ -127,9 +127,10 @@ man() {
     man "$@"
 }
 
-# path# {{{
+# path {{{
 setopt no_global_rcs
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
+OLD_PATH=$PATH
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 if builtin command -v direnv > /dev/null; then
   eval "$(direnv hook zsh)"
