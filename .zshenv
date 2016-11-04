@@ -70,6 +70,7 @@ alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias tree='tree -CF'
 alias htree='tree -hDF'
+alias filelist='tree --charset unicode -nF'
 
 alias vi='vim'
 alias v='vim'
@@ -78,7 +79,7 @@ alias s='less'
 
 alias g='git'
 alias ga='git add'
-a(){git add "$@"}
+alias a='git add'
 alias gap='git add -p'
 alias gc='git commit -v'
 alias gcm='git commit -m'
