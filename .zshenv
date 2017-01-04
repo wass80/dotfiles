@@ -132,6 +132,11 @@ man() {
     man "$@"
 }
 
+# history option
+HISTSIZE=1000000
+SAVEHIST=1000000
+HISTFILE=~/.zsh_history # 保存先
+
 # path {{{
 setopt no_global_rcs
 OLD_PATH=$PATH
