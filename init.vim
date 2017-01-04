@@ -266,6 +266,8 @@ set shiftwidth=2
 set shiftround
 " no using octed
 set nrformats-=octal
+" move anywhere
+set virtualedit+=block
 " no comment at new line
 augroup nocr
     autocmd!
