@@ -1,4 +1,5 @@
 # ailas
+alias rm='rm -i'
 if builtin command -v trash.sh > /dev/null; then
 	alias rm='trash.sh -i'
 	export TRASHLIST=~/.trashlist # Where trash list is written
@@ -6,6 +7,7 @@ if builtin command -v trash.sh > /dev/null; then
 	export MAXTRASHBOXSIZE=1024
 	export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
 fi
+
 
 if builtin command -v hub > /dev/null; then
   function git(){hub "$@"}
@@ -47,7 +49,7 @@ function sendstatus() {
   fi
 }
 
-export LESS='-j10 --no-init --quit-if-one-screen' 
+export LESS='-j10 --no-init --quit-if-one-screen -i -M -R -W -z-4 -x4'
 
 alias po='popd'
 alias cp='cp -i'
@@ -70,12 +72,14 @@ alias la='ls -A'                              # all but . and ..
 alias l='ls -CF'                              #
 alias tree='tree -CF'
 alias htree='tree -hDF'
-alias filelist='tree --charset unicode -nF'
+alias filelist='/usr/bin/tree --charset unicode -nF'
 
 alias vi='vim'
 alias v='vim'
 
 alias s='less'
+
+alias lns='ln -s'
 
 alias g='git'
 alias ga='git add'
