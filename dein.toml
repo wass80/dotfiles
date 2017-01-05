@@ -109,8 +109,7 @@ let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline
 repo = "wass80/neosnippet-snippets"
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
-on_i = 1
-hook_source = '''
+hook_add = '''
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<C-n>" :
 \ neosnippet#expandable_or_jumpable() ?
@@ -118,16 +117,14 @@ inoremap <expr><tab> pumvisible() ? "\<C-n>" :
 '''
 [[plugins]]
 repo = 'Shougo/neosnippet'
-on_i  = 1
-on_ft = ['snippet']
-depends = ['neosnippet-snippets']
-hook_source = '''
+hook_add = '''
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
+set cole=0
 '''
 
 # View
@@ -283,16 +280,11 @@ vmap aF <Plug>(textobj-function-a)
 '''
 [[plugins]]
 repo = 'kana/vim-textobj-entire'
-on_map = [
-"<Plug>(textobj-entire-a)",
-"<Plug>(textobj-entire-a)",
-"<Plug>(textobj-entire-i)",
-"<Plug>(textobj-entire-i)"]
 hook_add = '''
 let g:textobj_entire_no_default_key_mappings=1
 omap ao <Plug>(textobj-entire-a)
-omap ao <Plug>(textobj-entire-a)
-vmap io <Plug>(textobj-entire-i)
+omap io <Plug>(textobj-entire-i)
+vmap ao <Plug>(textobj-entire-a)
 vmap io <Plug>(textobj-entire-i)
 '''
 [[plugins]]
@@ -472,10 +464,11 @@ on_ft = 'json'
 # Coq
 [[plugins]]
 repo =  'jvoorhis/coq.vim'
-on_ft = 'coq'
 [[plugins]]
-repo =  'def-lkb/vimbufsync'
-on_ft = 'coq'
-[[plugins]]
-repo =  'the-lambda-church/coquille'
-on_ft = 'coq'
+repo =  'eagletmt/coqtop-vim'
+# [[plugins]]
+# repo =  'vim-scripts/CoqIDE'
+# [[plugins]]
+# repo =  'def-lkb/vimbufsync'
+# [[plugins]]
+# repo =  'the-lambda-church/coquille'
