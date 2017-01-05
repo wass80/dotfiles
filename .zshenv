@@ -103,6 +103,7 @@ alias ac='git add . && git commit '
 
 alias mail='sed -e '"'"'1!b;s/^/To: wasss80@gmail.com\nSubject: FromOhtan\n\n/'"'"'| sendmail -t'
 
+alias rl='rlwrap -pYellow -ic'
 
 ### global alias
 alias -g G='| grep'
@@ -158,6 +159,7 @@ fi
 
 ## opam
 if [ -d ${HOME}/.opam/opam-init/init.zsh ] ; then
+  eval `opam config env`
   . ${HOME}/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 fi
 
@@ -199,3 +201,9 @@ if [ -f $HOME/dotfiles/.zshlocal ] ; then
   source $HOME/dotfiles/.zshlocal
 fi
 #}}}
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/admin/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/admin/google-cloud-sdk/completion.zsh.inc'
