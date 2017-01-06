@@ -202,8 +202,3 @@ if [ -f $HOME/dotfiles/.zshlocal ] ; then
 fi
 #}}}
 
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/admin/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/admin/google-cloud-sdk/completion.zsh.inc'
