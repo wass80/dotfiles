@@ -236,6 +236,7 @@ augroup END
 " Completion {{{
 set wildmode=longest:full,full
 set pumheight=15
+set isfname-==
 " TODO neocomplete
 "}}}
 " Cursor and Search {{{
