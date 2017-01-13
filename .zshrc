@@ -181,15 +181,15 @@ setopt prompt_subst
 function zle-line-init zle-keymap-select {
 PROMPT="
 %{${fg[yellow]}%}%h:%~%{${reset_color}%}
-%(?.%{$fg[green]%}.%{$fg[cyan]%})(%(!.#.)%(?!-＿-) !;＿;%) )${${KEYMAP/vicmd/|}/(main|viins)/<}%{${reset_color}%} "
+%(?.%{$fg[green]%}.%{$fg[cyan]%})(%(!.#.)%(?!-__-) !;__;%) )${${KEYMAP/vicmd/|}/(main|viins)/<}%{${reset_color}%} "
 zle reset-prompt
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
-SPROMPT="%{$fg[cyan]%}%{$suggest%}(-＿-)?< %B%r%b %{$fg[cyan]%}でしょうか? [(y)es,(n)o,(a)bort,(e)dit]:${reset_color} "
+SPROMPT="%{$fg[cyan]%}%{$suggest%}(-__-)?< %B%r%b %{$fg[cyan]%}でしょうか? [(y)es,(n)o,(a)bort,(e)dit]:${reset_color} "
 
 function command_not_found_handler() {
-    echo "$fg[cyan](;-＿-)< $0 というコマンドは見当たりませんが${reset_color}"
+    echo "$fg[cyan](;-__-)< $0 というコマンドは見当たりませんが${reset_color}"
 }
 
 REPORTTIME=3
